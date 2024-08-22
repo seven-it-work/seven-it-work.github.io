@@ -1,0 +1,37 @@
+.every-dat-animation {
+  color: #fff;
+  animation: aa 1s;
+  text-shadow: 0 0 10px #000;
+}
+
+#every-dat-text {
+  padding: 20px;
+  font-weight: bold;
+  background: #fff -webkit-radial-gradient(
+    circle,
+    #1d694b,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  ) no-repeat -280px -94px;
+  -webkit-background-clip: text;
+  -webkit-background-size: 388px;
+  color: rgba(255, 255, 255, 0.1);
+  -webkit-animation: everyDayLight 6s linear infinite;
+}
+@keyframes everyDayLight {
+  from {
+    background-position: -280px -94px;
+  }
+  to {
+    background-position: 150% -94px;
+  }
+}
+
+@keyframes aa {
+  0% {
+    opacity: 0
+  }
+  100% {
+    opacity: 1
+  }
+}

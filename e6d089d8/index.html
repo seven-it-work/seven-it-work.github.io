@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_qpxy7j8c7ec.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="使用React、Vite、AntDesign搭建环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React+Vite+AntD环境搭建">
+<meta property="og:url" content="https://seven-it-work.github.io/e6d089d8/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="使用React、Vite、AntDesign搭建环境">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://vitejs.dev/logo-with-shadow.png">
+<meta property="og:image" content="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg">
+<meta property="og:image" content="https://repository-images.githubusercontent.com/37153337/9d0a6780-394a-11eb-9fd1-6296a684b124">
+<meta property="article:published_time" content="2023-10-05T03:28:56.000Z">
+<meta property="article:modified_time" content="2024-03-10T04:07:40.001Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Vite">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://vitejs.dev/logo-with-shadow.png">
+
+<link rel="canonical" href="https://seven-it-work.github.io/e6d089d8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>React+Vite+AntD环境搭建 | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/e6d089d8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React+Vite+AntD环境搭建
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-10-05 11:28:56" itemprop="dateCreated datePublished" datetime="2023-10-05T11:28:56+08:00">2023-10-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-10 12:07:40" itemprop="dateModified" datetime="2024-03-10T12:07:40+08:00">2024-03-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description">使用React、Vite、AntDesign搭建环境</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery" style="">
+            <img src="https://vitejs.dev/logo-with-shadow.png" itemprop="contentUrl">
+            <img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" itemprop="contentUrl">
+            <img src="https://repository-images.githubusercontent.com/37153337/9d0a6780-394a-11eb-9fd1-6296a684b124" itemprop="contentUrl">
+        </div>
+        <h1 id="初始化Vite"><a href="#初始化Vite" class="headerlink" title="初始化Vite"></a>初始化Vite</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init vite@latest</span><br></pre></td></tr></table></figure>
+<p>按照提示进行初始，我这里项目名称叫：web-vite  选择React TypeScript 进行搭建演示<br>√ Project name: … web-vite<br>√ Select a framework: » React<br>√ Select a variant: » TypeScript</p>
+<h1 id="安装AntD"><a href="#安装AntD" class="headerlink" title="安装AntD"></a>安装AntD</h1><pre><code>AntD官网介绍：https://ant.design/docs/react/i18n-cn
+</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install antd --save</span><br></pre></td></tr></table></figure>
+
+<h1 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h1><p>进入你的项目（我的是 web-vite）<br>安装依赖<br>启动项目</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> web-vite</span><br><span class="line">npm install</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+<p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005113525.png" alt="image.png"></p>
+<h1 id="AntD国际化配置"><a href="#AntD国际化配置" class="headerlink" title="AntD国际化配置"></a>AntD国际化配置</h1><p>在main.tsx中加入国际化代码</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zhCN <span class="keyword">from</span> <span class="string">&#x27;antd/locale/zh_CN&#x27;</span>;  </span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ConfigProvider</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">ConfigProvider</span> locale=&#123;zhCN&#125;&gt;  </span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">ConfigProvider</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005114718.png" alt="image.png"><br>引入一个时间选择组件查看效果<br><span class="exturl" data-url="aHR0cHM6Ly9hbnQuZGVzaWduL2NvbXBvbmVudHMvZGF0ZS1waWNrZXItY24jY29tcG9uZW50cy1kYXRlLXBpY2tlci1kZW1vLWJhc2lj">https://ant.design/components/date-picker-cn#components-date-picker-demo-basic<i class="fa fa-external-link-alt"></i></span></p>
+<p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005114756.png" alt="image.png"><br>复制官网的组件代码到App1中，然后在主App中引入组件<br><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005114910.png" alt="image.png"></p>
+<h1 id="路由安装"><a href="#路由安装" class="headerlink" title="路由安装"></a>路由安装</h1><h2 id="一、安裝react-router-dom"><a href="#一、安裝react-router-dom" class="headerlink" title="一、安裝react-router-dom"></a>一、安裝react-router-dom</h2><pre><code>react-router-dom官网：https://reactrouter.com/en/main
+中文文档：https://react-guide.github.io/react-router-cn/docs/Introduction.html
+</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i react-router-dom</span><br></pre></td></tr></table></figure>
+<h2 id="二、修改main-tsx全局设定路由"><a href="#二、修改main-tsx全局设定路由" class="headerlink" title="二、修改main.tsx全局设定路由"></a>二、修改main.tsx全局设定路由</h2><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ReactDOM</span> <span class="keyword">from</span> <span class="string">&#x27;react-dom/client&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.tsx&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./index.css&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> zhCN <span class="keyword">from</span> <span class="string">&#x27;antd/locale/zh_CN&#x27;</span>;  </span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ConfigProvider</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;  </span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">BrowserRouter</span>&#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">createRoot</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>)!).<span class="title function_">render</span>(  </span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">React.StrictMode</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ConfigProvider</span> <span class="attr">locale</span>=<span class="string">&#123;zhCN&#125;</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">BrowserRouter</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">App</span> /&gt;</span>  </span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;/<span class="name">BrowserRouter</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">ConfigProvider</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">React.StrictMode</span>&gt;</span></span>,  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005154840.png" alt="image.png"></p>
+<h2 id="三、定义路由"><a href="#三、定义路由" class="headerlink" title="三、定义路由"></a>三、定义路由</h2><p>创建文件router&#x2F;index.tsx</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">Route</span>, <span class="title class_">Routes</span>&#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;  </span><br><span class="line"><span class="comment">// 定义的页面1</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Home</span> <span class="keyword">from</span> <span class="string">&quot;../views/Home&quot;</span>;  </span><br><span class="line"><span class="comment">// 定义的页面2</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App1</span> <span class="keyword">from</span> <span class="string">&quot;../apps/App1&quot;</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 定义路由  </span></span><br><span class="line"><span class="keyword">const</span> routeList = [  </span><br><span class="line">    &#123;<span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>, <span class="attr">title</span>: <span class="string">&#x27;/&#x27;</span>, <span class="attr">element</span>: <span class="title class_">Home</span>&#125;,  </span><br><span class="line">    &#123;<span class="attr">path</span>: <span class="string">&#x27;/view1&#x27;</span>, <span class="attr">title</span>: <span class="string">&#x27;page2&#x27;</span>, <span class="attr">element</span>: <span class="title class_">App1</span>&#125;,  </span><br><span class="line">]  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Router</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">return</span> (  </span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Routes</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">                &#123;  </span></span><br><span class="line"><span class="language-xml">                    routeList.map((item, index) =&gt; (  </span></span><br><span class="line"><span class="language-xml">                        <span class="tag">&lt;<span class="name">Route</span> <span class="attr">key</span>=<span class="string">&#123;index&#125;</span> <span class="attr">path</span>=<span class="string">&#123;item.path&#125;</span> <span class="attr">element</span>=<span class="string">&#123;</span>&lt;<span class="attr">item.element</span>/&gt;</span>&#125;/&gt;  </span></span><br><span class="line"><span class="language-xml">                    ))  </span></span><br><span class="line"><span class="language-xml">                &#125;  </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">Routes</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>  </span><br><span class="line">    )  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005155026.png" alt="image.png"></p>
+<h2 id="四、引用路由"><a href="#四、引用路由" class="headerlink" title="四、引用路由"></a>四、引用路由</h2><p>在App.tsx中引用刚刚定义的路由，并简单添加路由跳转的导航</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123;useState&#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./App.css&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">Link</span>&#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;  </span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Router</span> <span class="keyword">from</span> <span class="string">&quot;./router/index&quot;</span>;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">return</span> (  </span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;&gt;</span>  </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&quot;/&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">h4</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">h4</span>&gt;</span><span class="tag">&lt;/<span class="name">Link</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&quot;/view1&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">h4</span>&gt;</span>View1<span class="tag">&lt;/<span class="name">h4</span>&gt;</span><span class="tag">&lt;/<span class="name">Link</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Router</span>/&gt;</span>  </span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/&gt;</span></span>  </span><br><span class="line">    )  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005155147.png" alt="image.png"></p>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a>五、效果展示</h2><p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005155330.png" alt="image.png"></p>
+<h1 id="使用AntD的路由"><a href="#使用AntD的路由" class="headerlink" title="使用AntD的路由"></a>使用AntD的路由</h1><h2 id="一、优化router文件"><a href="#一、优化router文件" class="headerlink" title="一、优化router文件"></a>一、优化router文件</h2><p>采用定义的方式</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Home</span> <span class="keyword">from</span> <span class="string">&quot;../views/Home&quot;</span>;  </span><br><span class="line"><span class="keyword">import</span> <span class="title class_">PersonalInformation</span> <span class="keyword">from</span> <span class="string">&quot;../views/PersonalInformation&quot;</span>;  </span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> routes = [  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,  </span><br><span class="line">        <span class="attr">children</span>: [  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,  </span><br><span class="line">                <span class="attr">element</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">Home</span>/&gt;</span></span>,  </span><br><span class="line">            &#125;,  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="attr">path</span>: <span class="string">&#x27;mail&#x27;</span>,  </span><br><span class="line">                <span class="attr">element</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">PersonalInformation</span>/&gt;</span></span>,  </span><br><span class="line">            &#125;,  </span><br><span class="line">        ]  </span><br><span class="line">    &#125;,  </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="二、定义AntD的路由"><a href="#二、定义AntD的路由" class="headerlink" title="二、定义AntD的路由"></a>二、定义AntD的路由</h2><p>直接将官网的路由代码复制出来<br><span class="exturl" data-url="aHR0cHM6Ly9hbnQuZGVzaWduL2NvbXBvbmVudHMvbWVudS1jbg==">https://ant.design/components/menu-cn<i class="fa fa-external-link-alt"></i></span></p>
+<p>我这里抽成了一个组件<br><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005214439.png" alt="image.png"></p>
+<p>修改key，key就是路径，和路由的path一致</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    <span class="attr">label</span>: <span class="string">&#x27;Navigation One&#x27;</span>,  </span><br><span class="line">    <span class="attr">key</span>: <span class="string">&#x27;/&#x27;</span>,  </span><br><span class="line">    <span class="attr">icon</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">MailOutlined</span>/&gt;</span></span>,  </span><br><span class="line">&#125;,  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="attr">label</span>: <span class="string">&#x27;Navigation Two&#x27;</span>,  </span><br><span class="line">    <span class="attr">key</span>: <span class="string">&#x27;/mail&#x27;</span>,  </span><br><span class="line">    <span class="attr">icon</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">AppstoreOutlined</span>/&gt;</span></span>,</span><br></pre></td></tr></table></figure>
+<p>修改方法onClick，当点击路由时，进行路由切换</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">NavComponent</span>: <span class="title class_">React</span>.<span class="property">FC</span> = <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">const</span> [current, setCurrent] = <span class="title function_">useState</span>(<span class="string">&#x27;mail&#x27;</span>);  </span><br><span class="line">    <span class="keyword">const</span> navigate = <span class="title function_">useNavigate</span>();  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">const</span> <span class="attr">onClick</span>: <span class="title class_">MenuProps</span>[<span class="string">&#x27;onClick&#x27;</span>] = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;  </span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;click &#x27;</span>, e);  </span><br><span class="line">        <span class="title function_">navigate</span>(e.<span class="property">key</span>)  </span><br><span class="line">        <span class="title function_">setCurrent</span>(e.<span class="property">key</span>);  </span><br><span class="line">    &#125;;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Menu</span> <span class="attr">onClick</span>=<span class="string">&#123;onClick&#125;</span> <span class="attr">selectedKeys</span>=<span class="string">&#123;[current]&#125;</span> <span class="attr">mode</span>=<span class="string">&quot;horizontal&quot;</span> <span class="attr">items</span>=<span class="string">&#123;items&#125;/</span>&gt;</span></span>;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>调整后的代码</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123;useState&#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;  </span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">AppstoreOutlined</span>, <span class="title class_">MailOutlined</span>, <span class="title class_">SettingOutlined</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;@ant-design/icons&#x27;</span>;  </span><br><span class="line"><span class="keyword">import</span> <span class="keyword">type</span> &#123;<span class="title class_">MenuProps</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;  </span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">Menu</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;  </span><br><span class="line"><span class="keyword">import</span> &#123;useNavigate&#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 进入router去定义与key相同的路由  </span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">items</span>: <span class="title class_">MenuProps</span>[<span class="string">&#x27;items&#x27;</span>] = [  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="attr">label</span>: <span class="string">&#x27;Navigation One&#x27;</span>,  </span><br><span class="line">        <span class="attr">key</span>: <span class="string">&#x27;/&#x27;</span>,  </span><br><span class="line">        <span class="attr">icon</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">MailOutlined</span>/&gt;</span></span>,  </span><br><span class="line">    &#125;,  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="attr">label</span>: <span class="string">&#x27;Navigation Two&#x27;</span>,  </span><br><span class="line">        <span class="attr">key</span>: <span class="string">&#x27;/mail&#x27;</span>,  </span><br><span class="line">        <span class="attr">icon</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">AppstoreOutlined</span>/&gt;</span></span>,  </span><br><span class="line">    &#125;,  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="attr">label</span>: <span class="string">&#x27;Navigation Three - Submenu&#x27;</span>,  </span><br><span class="line">        <span class="attr">key</span>: <span class="string">&#x27;SubMenu&#x27;</span>,  </span><br><span class="line">        <span class="attr">icon</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">SettingOutlined</span>/&gt;</span></span>,  </span><br><span class="line">        <span class="attr">children</span>: [  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="attr">type</span>: <span class="string">&#x27;group&#x27;</span>,  </span><br><span class="line">                <span class="attr">label</span>: <span class="string">&#x27;Item 1&#x27;</span>,  </span><br><span class="line">                <span class="attr">children</span>: [  </span><br><span class="line">                    &#123;  </span><br><span class="line">                        <span class="attr">label</span>: <span class="string">&#x27;Option 1&#x27;</span>,  </span><br><span class="line">                        <span class="attr">key</span>: <span class="string">&#x27;setting:1&#x27;</span>,  </span><br><span class="line">                    &#125;,  </span><br><span class="line">                    &#123;  </span><br><span class="line">                        <span class="attr">label</span>: <span class="string">&#x27;Option 2&#x27;</span>,  </span><br><span class="line">                        <span class="attr">key</span>: <span class="string">&#x27;setting:2&#x27;</span>,  </span><br><span class="line">                    &#125;,  </span><br><span class="line">                ],  </span><br><span class="line">            &#125;,  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="attr">type</span>: <span class="string">&#x27;group&#x27;</span>,  </span><br><span class="line">                <span class="attr">label</span>: <span class="string">&#x27;Item 2&#x27;</span>,  </span><br><span class="line">                <span class="attr">children</span>: [  </span><br><span class="line">                    &#123;  </span><br><span class="line">                        <span class="attr">label</span>: <span class="string">&#x27;Option 3&#x27;</span>,  </span><br><span class="line">                        <span class="attr">key</span>: <span class="string">&#x27;setting:3&#x27;</span>,  </span><br><span class="line">                    &#125;,  </span><br><span class="line">                    &#123;  </span><br><span class="line">                        <span class="attr">label</span>: <span class="string">&#x27;Option 4&#x27;</span>,  </span><br><span class="line">                        <span class="attr">key</span>: <span class="string">&#x27;setting:4&#x27;</span>,  </span><br><span class="line">                    &#125;,  </span><br><span class="line">                ],  </span><br><span class="line">            &#125;,  </span><br><span class="line">        ],  </span><br><span class="line">    &#125;,  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="attr">label</span>: (  </span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://ant.design&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;noopener noreferrer&quot;</span>&gt;</span>  </span></span><br><span class="line"><span class="language-xml">                Navigation Four - Link  </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span>  </span><br><span class="line">        ),  </span><br><span class="line">        <span class="attr">key</span>: <span class="string">&#x27;alipay&#x27;</span>,  </span><br><span class="line">    &#125;,  </span><br><span class="line">];  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">const</span> <span class="title class_">NavComponent</span>: <span class="title class_">React</span>.<span class="property">FC</span> = <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">const</span> [current, setCurrent] = <span class="title function_">useState</span>(<span class="string">&#x27;mail&#x27;</span>);  </span><br><span class="line">    <span class="keyword">const</span> navigate = <span class="title function_">useNavigate</span>();  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">const</span> <span class="attr">onClick</span>: <span class="title class_">MenuProps</span>[<span class="string">&#x27;onClick&#x27;</span>] = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;  </span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;click &#x27;</span>, e);  </span><br><span class="line">        <span class="title function_">navigate</span>(e.<span class="property">key</span>)  </span><br><span class="line">        <span class="title function_">setCurrent</span>(e.<span class="property">key</span>);  </span><br><span class="line">    &#125;;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Menu</span> <span class="attr">onClick</span>=<span class="string">&#123;onClick&#125;</span> <span class="attr">selectedKeys</span>=<span class="string">&#123;[current]&#125;</span> <span class="attr">mode</span>=<span class="string">&quot;horizontal&quot;</span> <span class="attr">items</span>=<span class="string">&#123;items&#125;/</span>&gt;</span></span>;  </span><br><span class="line">&#125;;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">NavComponent</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、修改App-tsx"><a href="#三、修改App-tsx" class="headerlink" title="三、修改App.tsx"></a>三、修改App.tsx</h2><p>引入AntD导航组件<br>引入路由</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123;useState&#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./App.css&#x27;</span>  </span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">Route</span>, <span class="title class_">Router</span>, <span class="title class_">Routes</span>, useRoutes&#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;  </span><br><span class="line"><span class="keyword">import</span> <span class="title class_">NavComponent</span> <span class="keyword">from</span> <span class="string">&quot;./components/NavComponent&quot;</span>;  </span><br><span class="line"><span class="keyword">import</span> &#123;routes&#125; <span class="keyword">from</span> <span class="string">&quot;./router/index&quot;</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">const</span> element = <span class="title function_">useRoutes</span>(routes);  </span><br><span class="line">    <span class="keyword">return</span> (  </span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;&gt;</span>  </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">NavComponent</span>/&gt;</span>            &#123;element&#125;  </span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/&gt;</span></span>  </span><br><span class="line">    )  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span></span><br></pre></td></tr></table></figure>
+<h2 id="四、效果展示"><a href="#四、效果展示" class="headerlink" title="四、效果展示"></a>四、效果展示</h2><p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005214733.png" alt="image.png"><br><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20231005214739.png" alt="image.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Vite/" rel="tag"># Vite</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/54d29936/" rel="prev" title="obsidian安装">
+      <i class="fa fa-chevron-left"></i> obsidian安装
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/94b7fda7/" rel="next" title="修仙游戏开发记录（一）">
+      修仙游戏开发记录（一） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96Vite"><span class="nav-number">1.</span> <span class="nav-text">初始化Vite</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85AntD"><span class="nav-number">2.</span> <span class="nav-text">安装AntD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.</span> <span class="nav-text">运行项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AntD%E5%9B%BD%E9%99%85%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">AntD国际化配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%AE%89%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">路由安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%9Dreact-router-dom"><span class="nav-number">5.1.</span> <span class="nav-text">一、安裝react-router-dom</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BF%AE%E6%94%B9main-tsx%E5%85%A8%E5%B1%80%E8%AE%BE%E5%AE%9A%E8%B7%AF%E7%94%B1"><span class="nav-number">5.2.</span> <span class="nav-text">二、修改main.tsx全局设定路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%9A%E4%B9%89%E8%B7%AF%E7%94%B1"><span class="nav-number">5.3.</span> <span class="nav-text">三、定义路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%BC%95%E7%94%A8%E8%B7%AF%E7%94%B1"><span class="nav-number">5.4.</span> <span class="nav-text">四、引用路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">5.5.</span> <span class="nav-text">五、效果展示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8AntD%E7%9A%84%E8%B7%AF%E7%94%B1"><span class="nav-number">6.</span> <span class="nav-text">使用AntD的路由</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BC%98%E5%8C%96router%E6%96%87%E4%BB%B6"><span class="nav-number">6.1.</span> <span class="nav-text">一、优化router文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%9A%E4%B9%89AntD%E7%9A%84%E8%B7%AF%E7%94%B1"><span class="nav-number">6.2.</span> <span class="nav-text">二、定义AntD的路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BF%AE%E6%94%B9App-tsx"><span class="nav-number">6.3.</span> <span class="nav-text">三、修改App.tsx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">6.4.</span> <span class="nav-text">四、效果展示</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9ndGVhbV9zZXZlbi5naXRlZS5pby9uYXZpZ2F0aW9uLyMv" title="个人导航 → https:&#x2F;&#x2F;gteam_seven.gitee.io&#x2F;navigation&#x2F;#&#x2F;"><i class="iconfont icon-gerenwangzhan fa-fw"></i>个人导航</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">22k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">20 分钟</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>
