@@ -15,6 +15,15 @@
       </tags>
   </entry>
   <entry>
+    <title>修仙游戏开发记录（一）</title>
+    <url>/94b7fda7/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>开发</category>
+        <category>游戏</category>
+      </categories>
+  </entry>
+  <entry>
     <title>网站收集</title>
     <url>/c2512eae/</url>
     <content><![CDATA[<p>1.AI做网站：dora。有官网<span class="exturl" data-url="aHR0cHM6Ly93d3cuZG9yYS5ydW4vYWk=">https://www.dora.run/ai<i class="fa fa-external-link-alt"></i></span><br>2.AI做logo：logodiffusion。有官网logodiffusion.com<br>3.AI视频带货：视频带货宝。在小程序里搜名字就有<br>4.AI做视频解说：gptv-app。有官网gptv-app.vercel.app<br>5.AI做包装设计：pacdora，有官网<span class="exturl" data-url="aHR0cDovL3d3dy5wYWNkb3JhLmMuLw==">www.pacdora.c。<i class="fa fa-external-link-alt"></i></span></p>
@@ -23,15 +32,6 @@
 <p>1.【codeformer】<span class="exturl" data-url="aHR0cHM6Ly9yZXBsaWNhdGUuY29tL3NjemhvdS9jb2RlZm9ybWVyJUVGJUJDJTg4JUU1JTlDJUE4JUU3JUJBJUJGJUU3JTg5JTg4JUVGJUJDJTg5JUVGJUJDJTlCaHR0cHM6Ly9wYW4uYmFpZHUuY29tL3MvMUw5bTZZUzl3M29PYXl3alVuY2FOeXc/cHdkPWl3OGYlRUYlQkMlODglRTYlOUMlQUMlRTUlOUMlQjAlRTclODklODglRUYlQkMlOEM0JUU0JUI4JUFBRyVFRiVCQyU4OQ==">https://replicate.com/sczhou/codeformer（在线版）；https://pan.baidu.com/s/1L9m6YS9w3oOaywjUncaNyw?pwd=iw8f（本地版，4个G）<i class="fa fa-external-link-alt"></i></span><br>2.【Magisto】：<span class="exturl" data-url="aHR0cHM6Ly92aW1lby5jb20vdmlkZW8tZWRpdG9yP3V0bV9zb3VyY2U9bWFnaXN0byZ1dG1fbWVkaXVtPXJlZGlyZWN0JnV0bV9jYW1wYWlnbj1taWdyYXRpb24=">https://vimeo.com/video-editor?utm_source=magisto&amp;utm_medium=redirect&amp;utm_campaign=migration<i class="fa fa-external-link-alt"></i></span><br>3.【runway】：<span class="exturl" data-url="aHR0cHM6Ly9ydW53YXltbC5jb20v">https://runwayml.com/<i class="fa fa-external-link-alt"></i></span><br>4.【Animate Anyone】：<span class="exturl" data-url="aHR0cHM6Ly9odW1hbmFpZ2MuZ2l0aHViLmlvL2FuaW1hdGUtYW55b25lLw==">https://humanaigc.github.io/animate-anyone/<i class="fa fa-external-link-alt"></i></span><br>5.【genmo】：<span class="exturl" data-url="aHR0cHM6Ly93d3cuZ2VubW8uYWkv">https://www.genmo.ai/<i class="fa fa-external-link-alt"></i></span><br>6.【AI VoiceOver】：gptv-app.vercel.app<br>7.【4K4D】：<span class="exturl" data-url="aHR0cHM6Ly96anUzZHYuZ2l0aHViLmlvLzRrNGQv">https://zju3dv.github.io/4k4d/<i class="fa fa-external-link-alt"></i></span><br>8.【新片场素材】：<span class="exturl" data-url="aHR0cHM6Ly9zdG9jay54aW5waWFuY2hhbmcuY29tLw==">https://stock.xinpianchang.com<i class="fa fa-external-link-alt"></i></span><br>9.【magic edit】：<span class="exturl" data-url="aHR0cHM6Ly9tYWdpYy1lZGl0LmdpdGh1Yi5pby8=">https://magic-edit.github.io/<i class="fa fa-external-link-alt"></i></span><br>10.【tinywow】：<span class="exturl" data-url="aHR0cHM6Ly90aW55d293LmNvbS8=">https://tinywow.com<i class="fa fa-external-link-alt"></i></span></p>
 <p>1.【Animate Anyone】<span class="exturl" data-url="aHR0cHM6Ly9odW1hbmFpZ2MuZ2l0aHViLmlvL2FuaW1hdGUtYW55b25lLw==">https://humanaigc.github.io/animate-anyone/<i class="fa fa-external-link-alt"></i></span><br>2.【Screenshot to Code】<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FiaS9zY3JlZW5zaG90LXRvLWNvZGU=">https://github.com/abi/screenshot-to-code<i class="fa fa-external-link-alt"></i></span><br>3.【pika】<span class="exturl" data-url="aHR0cHM6Ly9waWthLmFydC9sb2dpbg==">https://pika.art/login<i class="fa fa-external-link-alt"></i></span><br>4.【clipdrop】<span class="exturl" data-url="aHR0cHM6Ly9jbGlwZHJvcC5jby9zdGFibGUtZGlmZnVzaW9uLXR1cmJv">https://clipdrop.co/stable-diffusion-turbo<i class="fa fa-external-link-alt"></i></span><br>5.【pixels dance】<span class="exturl" data-url="aHR0cHM6Ly9tYWtlcGl4ZWxzZGFuY2UuZ2l0aHViLmlvLw==">https://makepixelsdance.github.io/<i class="fa fa-external-link-alt"></i></span><br>6.【AI VoiceOver】gptv-app.vercel.app<br>7.【Claude】<span class="exturl" data-url="aHR0cHM6Ly93d3cuYW50aHJvcGljLmNvbS9pbmRleC9jbGF1ZGUtMi0x">https://www.anthropic.com/index/claude-2-1<i class="fa fa-external-link-alt"></i></span><br>8.【musicfy AI】<span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGUubXVzaWNmeS5sb2wv">https://create.musicfy.lol/<i class="fa fa-external-link-alt"></i></span><br>9.【draw-A-UI】<span class="exturl" data-url="aHR0cHM6Ly93d3cuZHJhdy1hLXVpLmNvbS8=">https://www.draw-a-ui.com/<i class="fa fa-external-link-alt"></i></span><br>10.【Magnific】<span class="exturl" data-url="aHR0cHM6Ly9tYWduaWZpYy5haS8=">https://magnific.ai/<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>修仙游戏开发记录（一）</title>
-    <url>/94b7fda7/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>开发</category>
-        <category>游戏</category>
-      </categories>
   </entry>
   <entry>
     <title>重命名神器Bulk Rename Utility</title>
@@ -64,6 +64,27 @@
       </categories>
       <tags>
         <tag>效率工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java版本管理</title>
+    <url>/90b6346a/</url>
+    <content><![CDATA[<h1 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h1><p>gitHub官网：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3lzdHlsZS9qdm1z">https://github.com/ystyle/jvms<i class="fa fa-external-link-alt"></i></span><br>gitHub下载地址：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3lzdHlsZS9qdm1zL3JlbGVhc2VzL2Rvd25sb2FkL3YyLjEuNi9qdm1zX3YyLjEuNl8zODYuemlw">https://github.com/ystyle/jvms/releases/download/v2.1.6/jvms_v2.1.6_386.zip<i class="fa fa-external-link-alt"></i></span></p>
+<p>gitee：<span class="exturl" data-url="aHR0cHM6Ly9naXRlZS5jb20veXN0eWxlL2p2bXM/X2Zyb209Z2l0ZWVfc2VhcmNo">https://gitee.com/ystyle/jvms?_from=gitee_search<i class="fa fa-external-link-alt"></i></span></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><blockquote>
+<p>参考的官网</p>
+</blockquote>
+<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><p>将解压的jvms.exe放入你自己的文件夹</p>
+<h2 id="创建java版本集合"><a href="#创建java版本集合" class="headerlink" title="创建java版本集合"></a>创建java版本集合</h2><p>在jvms.exe同目录下，创建store文件夹</p>
+<h2 id="java版本加入"><a href="#java版本加入" class="headerlink" title="java版本加入"></a>java版本加入</h2><p>将你已经下载好的java版本复制到 store里面</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>执行命令：jvms.exe init </p>
+<h2 id="版本切换"><a href="#版本切换" class="headerlink" title="版本切换"></a>版本切换</h2><p>查看版本cmd运行命令：jvms list<br>切换版本cmd运行命令：jvms s 版本名称</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>开发必备</tag>
       </tags>
   </entry>
   <entry>
@@ -100,27 +121,6 @@
       </categories>
       <tags>
         <tag>效率工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java版本管理</title>
-    <url>/90b6346a/</url>
-    <content><![CDATA[<h1 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h1><p>gitHub官网：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3lzdHlsZS9qdm1z">https://github.com/ystyle/jvms<i class="fa fa-external-link-alt"></i></span><br>gitHub下载地址：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3lzdHlsZS9qdm1zL3JlbGVhc2VzL2Rvd25sb2FkL3YyLjEuNi9qdm1zX3YyLjEuNl8zODYuemlw">https://github.com/ystyle/jvms/releases/download/v2.1.6/jvms_v2.1.6_386.zip<i class="fa fa-external-link-alt"></i></span></p>
-<p>gitee：<span class="exturl" data-url="aHR0cHM6Ly9naXRlZS5jb20veXN0eWxlL2p2bXM/X2Zyb209Z2l0ZWVfc2VhcmNo">https://gitee.com/ystyle/jvms?_from=gitee_search<i class="fa fa-external-link-alt"></i></span></p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><blockquote>
-<p>参考的官网</p>
-</blockquote>
-<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><p>将解压的jvms.exe放入你自己的文件夹</p>
-<h2 id="创建java版本集合"><a href="#创建java版本集合" class="headerlink" title="创建java版本集合"></a>创建java版本集合</h2><p>在jvms.exe同目录下，创建store文件夹</p>
-<h2 id="java版本加入"><a href="#java版本加入" class="headerlink" title="java版本加入"></a>java版本加入</h2><p>将你已经下载好的java版本复制到 store里面</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>执行命令：jvms.exe init </p>
-<h2 id="版本切换"><a href="#版本切换" class="headerlink" title="版本切换"></a>版本切换</h2><p>查看版本cmd运行命令：jvms list<br>切换版本cmd运行命令：jvms s 版本名称</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>开发必备</tag>
       </tags>
   </entry>
   <entry>
@@ -232,21 +232,6 @@
       </tags>
   </entry>
   <entry>
-    <title>obsidian安装</title>
-    <url>/54d29936/</url>
-    <content><![CDATA[<p>待完善…</p>
-]]></content>
-      <categories>
-        <category>win软件</category>
-        <category>Obsidian</category>
-      </categories>
-      <tags>
-        <tag>开发必备</tag>
-        <tag>Markdown</tag>
-        <tag>Obsidian</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>obsidian插件（一）模板使用</title>
     <url>/54bdaaa/</url>
     <content><![CDATA[<h1 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h1><p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20230923113519.png" alt="image.png"><br><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/20230923113602.png" alt="image.png"></p>
@@ -274,6 +259,21 @@
       </categories>
       <tags>
         <tag>Obsidian插件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>obsidian安装</title>
+    <url>/54d29936/</url>
+    <content><![CDATA[<p>待完善…</p>
+]]></content>
+      <categories>
+        <category>win软件</category>
+        <category>Obsidian</category>
+      </categories>
+      <tags>
+        <tag>开发必备</tag>
+        <tag>Markdown</tag>
+        <tag>Obsidian</tag>
       </tags>
   </entry>
   <entry>
