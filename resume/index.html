@@ -34,15 +34,15 @@ var ROOT_URL="/"
     var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="@import url(&#39;https:&#x2F;&#x2F;fonts.googleapis.com&#x2F;css?family&#x3D;Open+Sans:400,600,700,800&#39;);           .resume h1, h2, h3, h4 {             -webkit-margin-before: 0px;             -webkit-margin-after: 0.5em;">
+  <meta name="description" content="#resumeContainer {         margin-left: auto;         margin-right: auto;         margin-bottom: 1rem;         max-width: 48rem;         text-align: left;     }     #resumeContainer a {">
 <meta property="og:type" content="website">
-<meta property="og:title" content="resume">
+<meta property="og:title" content="个人简历">
 <meta property="og:url" content="https://seven-it-work.github.io/resume/index.html">
 <meta property="og:site_name" content="技术博客">
-<meta property="og:description" content="@import url(&#39;https:&#x2F;&#x2F;fonts.googleapis.com&#x2F;css?family&#x3D;Open+Sans:400,600,700,800&#39;);           .resume h1, h2, h3, h4 {             -webkit-margin-before: 0px;             -webkit-margin-after: 0.5em;">
+<meta property="og:description" content="#resumeContainer {         margin-left: auto;         margin-right: auto;         margin-bottom: 1rem;         max-width: 48rem;         text-align: left;     }     #resumeContainer a {">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-29T05:49:24.000Z">
-<meta property="article:modified_time" content="2024-03-10T04:07:40.011Z">
+<meta property="article:modified_time" content="2024-09-04T11:58:49.078Z">
 <meta property="article:author" content="Seven">
 <meta property="article:tag" content="Java,JavaScipt,TypeScript,Python">
 <meta name="twitter:card" content="summary">
@@ -67,7 +67,7 @@ var ROOT_URL="/"
   <script src="/js/live2d-widge/autoload.js"></script>
   <!-- 加载宠物看板 -->
 
-  <title>resume | 技术博客
+  <title>个人简历 | 技术博客
 </title>
   
 
@@ -386,6 +386,10 @@ var ROOT_URL="/"
       <a href="/leetCode/" rel="section"><i class="fa fa-archive fa-fw"></i>LeetCode</a>
 
   </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa fa-calendar fa-fw"></i>个人简历</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -459,7 +463,7 @@ var ROOT_URL="/"
     <div class="post-block" lang="zh-CN">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">resume
+<h1 class="post-title" itemprop="name headline">个人简历
 </h1>
 
 <div class="post-meta">
@@ -473,203 +477,344 @@ var ROOT_URL="/"
       
       
       <div class="post-body">
-          <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+          
+
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
+    #resumeContainer {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+        max-width: 48rem;
+        text-align: left;
+    }
+    #resumeContainer a {
+        text-decoration: none;
+        color: inherit;
+    }
+    #resumeContainer a:hover {
+        text-decoration: underline;
+    }
+    #resumeContainer #header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 0.1rem solid #adb5bd;
+        padding-top: 2.2rem;
+        padding-bottom: 2.2rem;
+    }
+    #resumeContainer .name-wrapper {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    #resumeContainer .title {
+        font-size: 2.2rem;
+    }
+    #resumeContainer .sub-title {
+        font-size: 1.2rem;
+        margin-top: .8rem;
+    }
 
+    #resumeContainer .contact {
+        font-size: 1rem;
+        padding-top: 1rem;
+    }
 
-        .resume h1, h2, h3, h4 {
-            -webkit-margin-before: 0px;
-            -webkit-margin-after: 0.5em;
-            -webkit-margin-start: 0px;
-            -webkit-margin-end: 0px;
+    #resumeContainer .contact-item {
+        margin-top: .4rem;
+    }
 
-            border-bottom: 3px solid #E32636;
-            display: inline-block;
-            color: #333333;
-            font-weight: 600;
-            text-transform: uppercase;
+    #resumeContainer .contact-item:nth-child(1) {
+        margin-top: 0;
+    }
+
+    #resumeContainer .contact-item:a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    #resumeContainer @media screen and (max-width: 48rem) {
+        #header {
+            display: block;
+            padding-bottom: 1rem;
         }
 
-        .resume ul {
-            -webkit-margin-before: 0px;
-            -webkit-margin-after: 0px;
-            -webkit-margin-start: 0px;
-            -webkit-margin-end: 0px;
-            -webkit-padding-start: 0px;
-
-            list-style: none;
+        .name-wrapper {
+            text-align: center;
+            padding-bottom: 2rem;
         }
 
-        .resume {
-            position: relative;
+        .contact {
+            padding-top: 1rem;
+            border-top: 0.1rem solid #adb5bd;
         }
 
-        .resume .row {
-            padding-bottom: 15px;
-            padding-left: 20px;
+        .contact-item {
+            padding-top: .2rem;
+            padding-left: .4rem;
+        }
+    }
+
+    #resumeContainer section {
+        display: flex;
+        padding-top: 2.4rem;
+        padding-bottom: 2.4rem;
+        padding-left: .2rem;
+        border-bottom: 0.1rem solid #adb5bd;
+        hyphens: auto;
+    }
+
+    #resumeContainer .section-title {
+        font-size: 1.6rem;
+        text-align: left;
+        min-width: 10rem;
+    }
+
+    #resumeContainer .section-flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #resumeContainer .block {
+        margin-bottom: 2rem;
+    }
+
+    #resumeContainer .block:last-child {
+        margin-bottom: 0;
+    }
+
+    #resumeContainer .block-square {
+        width: 18rem;
+    }
+
+    #resumeContainer .block-square:nth-last-child(2) {
+        margin-bottom: 0;
+    }
+
+    #resumeContainer .block-title {
+        font-size: 1.2rem;
+        margin-bottom: .4rem;
+        font-weight: bold;
+    }
+
+    #resumeContainer .block-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #adb5bd;
+    }
+
+    #resumeContainer .block-content {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    #resumeContainer  @media screen and (max-width: 48rem) {
+        section {
+            display: block;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
 
-        .resume header {
-            display: inline-block;
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        .resume header h1 {
-            font-size: 40pt;
+        .section-flex {
+            display: block;
         }
 
-
-        .resume header ul li {
-            height: 25px;
+        .block-square:nth-last-child(2) {
+            margin-bottom: 2rem;
         }
-
-        .resume header ul li i {
-            color: #E32636;
-            padding-right: 5px;
-            padding-left: 5px;
-            font-size: 18px;
-        }
-
-        .resume article {
-            margin-top: 20px;
-        }
-
-        .resume article h2 {
-            font-size: 20pt;
-        }
-
-        .resume article .header {
-            color: #E32636;
-            font-weight: 600;
-        }
-
-        .resume article .header span {
-            font-size: 10pt;
-            font-style: italic;
-        }
-
-        .resume article .right {
-            float: right;
-            width: 10%;
-            font-weight: 600;
-
-        }
-
-        .resume article .description {
-            font-style: italic;
-            font-size: 9pt;
-        }
-
-        .resume article .exp-list .fa {
-            color: #E32636;
-            padding-right: 5px;
-            font-size: 12px;
-        }
-
-        .resume article ul li {
-            min-height: 25px;
-            max-width: 80%;
-        }
-
-        .resume article .reference {
-            width: 40%;
-            display: inline-block;
-        }
-
-        .resume article .reference ul li {
-            max-width: 100%;
-        }
-
-        .resume article .spacer {
-            height: 15px;
-        }
-
-        .resume article .tech ul li {
-            max-width: 100% !important;
-        }
-
-        .resume article .tech span {
-            font-weight: 600;
-            color: #E32636;
-        }
-    </style>
-
-<div class="resume">
-    <header>
-        <h1>姓名</h1>
-
-        <div class="row">
-            <ul>
-                <li class="address"><i class="fa fa-home fa-1x"></i>地址</li>
-                <li class="phone">
-                    <span><i class="fa fa-phone fa-1x"></i>电话1</span>
-                    <span><i class="fa fa-mobile fa-1x"></i>电话2</span>
-                </li>
-                <li class="email"><i class="fa fa-envelope fa-1x"></i>邮箱</li>
-            </ul>
+    }
+</style>
+<div id="resumeContainer">
+    <div id="header">
+        <div class="name-wrapper">
+            <div id="fullname" class="title">
+                易佳骆
+            </div>
+            <div id="jobtitle" class="sub-title">
+                全栈开发工程师
+            </div>
         </div>
-    </header>
-
-    <article>
-        <h2>技能</h2>
-
-        <div class="row tech">
-            <ul>
-                <li><span>Languages</span>: Java, PHP, SQL, HTML, CSS, LESS, JSON</li>
-                <li><span>Exposure</span>: C, C++, C#, Objective-C, XML, UNIX Shell, JavaScript, Assembly</li>
-                <li><span>SDKs</span>: Android, iOS</li>
-                <li><span>IDE</span>: Eclipse, Aptana, Visual Studio, PhpStorm, Notepad++, Xcode</li>
-                <li><span>Tools</span>: Photoshop, C Shell, GCC, SSH, FTP, MySQL, WAMP, LAMP stack, CodeIgniter, Drupal,
-                    Concrete5, Bootstrap
-                </li>
-                <li><span>Version Control</span>: Git, SVN</li>
-                <li><span>Operating Systems</span>: Windows XP, Windows Vista, Windows 7, Windows 8, Ubuntu, Linux</li>
-            </ul>
+        <div id="contact" class="contact">
+            <div class="contact-item">
+                <i class="fa fa-envelope aria-hidden=" true=""></i> sevenyjl@gmail.com
+            </div>
+            <div class="contact-item">
+                <i class="fa fa-phone-square aria-hidden=" true=""></i> 15114072042
+            </div>
+            <div class="contact-item">
+                <a href="https://seven-it-work.github.io/" target="_blank" rel="noopener"
+                   one-link-mark="yes">
+                    <i class="fa fa-globe aria-hidden=" true=""></i> https://seven-it-work.github.io/
+                </a>
+            </div>
+            <div class="contact-item">
+                <a href="https://github.com/seven-it-work" target="_blank" rel="noopener" one-link-mark="yes">
+                    <i class="fa fa-github aria-hidden=" true=""></i> seven-it-work
+                </a>
+            </div>
         </div>
-    </article>
-
-    <article>
-        <h2>教育</h2>
-        <div class="row">
-            <ul>
-                <li class="right">
-                    <ul>
-                        <li>2020~2016</li>
-                    </ul>
-                </li>
-                <li class="header">xxx大学</li>
-<!--                <li>University of SomeCity, SomeCity, United Kingdom</li>-->
-<!--                <li class="description">Concentration in Object Oriented Programming, Web Development, and Mathematics-->
-                </li>
-            </ul>
+    </div>
+    <section id="skills">
+        <div class="section-title">
+            专业技能
         </div>
-    </article>
-
-    <article>
-        <h2>工作经验</h2>
-        <div class="row exp-list">
-            <ul>
-                <li class="right">
-                    <ul>
-                        <li>2021-09~今天</li>
-                    </ul>
-                </li>
-                <li class="header">xxx公司</li>
-                <li><i class="fa fa-caret-right fa-1x"></i>Assisted instructors by providing additional aid to students
-                    during their practical sessions
-                </li>
-                <li><i class="fa fa-caret-right fa-1x"></i>Reviewed materials prior to scheduled practical session to
-                    provide accurate answers to questions
-                </li>
-            </ul>
+        <div class="section-content">
+            <div class="block">
+                <div class="block-title">
+                    语言
+                </div>
+                <div class="block-content">
+                    <br>1、Java基础扎实、掌握多线程、集合、并发编程、设计模式、常用数据结构和算法。
+                    <br>2、熟悉TypeScript、JavaScript能够编写核心页面以及交互逻辑
+                    <br>3、深入理解java线程池原理。
+                    <br>4、了解JVM内存模型及作用、分配策略、垃圾回收原理、参数配置、性能调优。
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-title">
+                    框架
+                </div>
+                <div class="block-content">
+                    <br>1、深入理解Spring、Mybatis等开源框架设计原理。
+                    <br>2、熟悉vue、React、Angular等前端主流开发框架
+                    <br>3、熟练掌握Redis数据结构及底层实现、集群高可用架构搭建、分布式锁实现原理、缓存一致性问题解决。
+                    <br>4、熟练掌握Mysql、PostgreSQL等数据库，能够分析并优化慢SQL语句
+                    <br>5、了解Django，并能使用python开发。
+                    <br>6、了解stable diffusion，能够搭建sd环境，并能训练模型
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-title">
+                    运维能力
+                </div>
+                <div class="block-content">
+                    <br>1、掌握容器化技术Docker和Kubernetes；基于KubeSphere搭建一站式云平台；GitLab+Jenkins实现持续集成/持续部署。
+                    <br>2、掌握SkyWalking实现服务链路追踪系统；ELK+FileBeat构建日志收集系统；Prometheus+Grafana搭建自动化监控系统。
+                    <br>3、熟悉常用Linux命令，以及分析java堆栈命令
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-title">
+                    测试能力
+                </div>
+                <div class="block-content">
+                    熟练使用测试工具jmeter、掌握单元测试编写、掌握Selenium自动测试框架
+                </div>
+            </div>
         </div>
-    </article>
-<!--    <article>-->
-<!--        <h2>References</h2>-->
-
-<!--        <div class="row">References Available Upon Request</div>-->
-<!--    </article>-->
+    </section>
+    <section id="experience">
+        <div class="section-title">
+            工作经历
+        </div>
+        <div class="section-content">
+            <div class="block">
+                <div class="block-title">
+                    华为科技有限公司
+                </div>
+                <div class="block-subtitle">
+                    2021.09 - 至今
+                </div>
+                <div class="block-content">
+                    <br>1、使用Angular+SpringBoot开发和维护缺陷管理系统。
+                    <br>2、使用vue+Jalor框架开发以及维护原始需求系统
+                    <br>3、支撑生产问题定位与恢复，慢sql排查以及优化。编写docker的cpu飙升、数据库cpu飙升、内存溢出、过载接口访问、数据库锁阻塞等定位手册以及应急预案
+                    <br>4、构建系统韧性能力，构建服务异地容灾双活、数据库主备倒换等容灾能力
+                    <br>5、支撑系统安全工作，管理秘钥以及进行轮转。排查并修复：xss注入、sql注入、CSRF注入等安全漏洞
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-title">
+                    北京国双科技有限公司
+                </div>
+                <div class="block-subtitle">
+                    2019.12 - 2021.09
+                </div>
+                <div class="block-content">
+                    <br>1、通过vue+springBoot+pg+neo4j开发知识图谱平台，维护知识图谱作业平台。
+                    <br>2、使用Rancher+k8s搭建云原生环境，使用Prometheus+Grafana搭建自动化监控系统，使用SkyWalking实现服务链路追踪系统。构建云原生环境底座
+                    <br>3、设计与开发灵活的权限控制系统，通过可视化配置方式配置用户角色权限，精细到按钮菜单级
+                    <br>4、熟练掌握开源组件dolphinScheduler并构建多个工作流，包括数据清洗、数据处理等工作
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects">
+        <div class="section-title">
+            项目经验
+        </div>
+        <div class="section-content">
+            <div class="block">
+                <div class="block-title">
+                    原始需求系统
+                </div>
+                <div class="block-subtitle">
+                    全栈开发工程师
+                </div>
+                <div class="block-content">
+                    <br>开发并维护日活3万+的需求管理系统，通过对pg数据库分表分库来承载百万级庞大数据。
+                    <br>优化系统线程池，解决一次5w+的数据量导出处理时长问题，并避免了内存溢出。提升系统导出性能，极大的改善用户体验。
+                    <br>维护生产环境，在3分钟内响应生产故障，10分钟内进行生产系统恢复，并在恢复后进行快速定位分析问题所在。并总结了cpu飙升、内存溢出、数据库锁阻塞等应急预案。
+                    <br>构建环境接口过载能力，并对系统300+个接口进行jmeter压力测试，通过压力测试确定限流阈值。当过载恶意流量方式时，极大的保障了系统的稳定性，防止恶意流量攻击服务。
+                    <br>支撑系统安全工作，有效的管理30+秘钥，秘钥全都有计划轮转，防止秘钥泄露。排查并修复系统中：xss注入50+、sql注入5+、水平越权问题等安全问题，并实时的关注业界组件更新组件版本。
+                    <br>构建系统韧性能力，构建异地容灾双活环境，保证区域故障后服务仍然可用。
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-title">
+                    缺陷管理系统
+                </div>
+                <div class="block-subtitle">
+                    全栈开发工程师
+                </div>
+                <div class="block-content">
+                    <br>缺陷管理系统采用前后端分类架构。前端采用Angular+DevUi+TypeScript进行开发维护。后端采用SpringBoot开发，通过状态、责任链等设计模式进行设计开发代码，极大的降低对缺陷的扭转、管理以及后期维护开发成本。
+                </div>
+            </div>
+        </div>
+        <div class="section-content">
+        </div>
+    </section>
+    <section id="languages">
+        <div class="section-title">
+            掌握语言
+        </div>
+        <div class="section-content section-flex">
+            <div class="block block-square">
+                <div class="block-title">
+                    英文（CET4）
+                </div>
+                <div class="block-content">
+                    读写能力良好（能够日常沟通）
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="education">
+        <div class="section-title">
+            教育经历
+        </div>
+        <div class="section-content">
+            <div class="block">
+                <div class="block-title">
+                    沈阳化工大学
+                </div>
+                <div class="block-subtitle">
+                    2016.09 - 2020.06 | 全日制本科
+                </div>
+                <div class="block-content">
+                    金属材料工程
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+
 
       </div>
       
@@ -731,7 +876,6 @@ var ROOT_URL="/"
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">姓名</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">教育</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">工作经验</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -747,20 +891,20 @@ var ROOT_URL="/"
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -884,13 +1028,13 @@ var ROOT_URL="/"
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">22k</span>
+    <span title="站点总字数">103k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">20 分钟</span>
+    <span title="站点阅读时长">1:34</span>
 </div>
 
       

@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_qpxy7j8c7ec.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一位老师正在出一场由 n 道判断题构成的考试，每道题的答案为 true ...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2024. 考试的最大困扰度">
+<meta property="og:url" content="https://seven-it-work.github.io/5cb76bfc/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="一位老师正在出一场由 n 道判断题构成的考试，每道题的答案为 true ...">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-02T06:47:30.000Z">
+<meta property="article:modified_time" content="2024-09-02T06:47:30.000Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="算法练习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://seven-it-work.github.io/5cb76bfc/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>2024. 考试的最大困扰度 | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode" id="LeetCode">
+      <a href="/leetCode/" rel="section"><i class="fa fa-archive fa-fw"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa fa-calendar fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/5cb76bfc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2024. 考试的最大困扰度
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-02 14:47:30" itemprop="dateCreated datePublished" datetime="2024-09-02T14:47:30+08:00">2024-09-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>48k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>44 分钟</span>
+            </span>
+            <div class="post-description">一位老师正在出一场由 n 道判断题构成的考试，每道题的答案为 true ...</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly9sZWV0Y29kZS5jbi9wcm9ibGVtcy9tYXhpbWl6ZS10aGUtY29uZnVzaW9uLW9mLWFuLWV4YW0vZGVzY3JpcHRpb24v">https://leetcode.cn/problems/maximize-the-confusion-of-an-exam/description/<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>一位老师正在出一场由 n 道判断题构成的考试，每道题的答案为 true （用 ‘T’ 表示）或者 false （用 ‘F’ 表示）。老师想增加学生对自己做出答案的不确定性，方法是 最大化 有 连续相同 结果的题数。（也就是连续出现 true 或者连续出现 false）。</p>
+<p>给你一个字符串 answerKey ，其中 answerKey[i] 是第 i 个问题的正确结果。除此以外，还给你一个整数 k ，表示你能进行以下操作的最多次数：</p>
+<p>每次操作中，将问题的正确答案改为 ‘T’ 或者 ‘F’ （也就是将 answerKey[i] 改为 ‘T’ 或者 ‘F’ ）。<br>请你返回在不超过 k 次操作的情况下，最大 连续 ‘T’ 或者 ‘F’ 的数目。</p>
+<p>示例 1：</p>
+<p>输入：answerKey &#x3D; “TTFF”, k &#x3D; 2<br>输出：4<br>解释：我们可以将两个 ‘F’ 都变为 ‘T’ ，得到 answerKey &#x3D; “TTTT” 。<br>总共有四个连续的 ‘T’ 。<br>示例 2：</p>
+<p>输入：answerKey &#x3D; “TFFT”, k &#x3D; 1<br>输出：3<br>解释：我们可以将最前面的 ‘T’ 换成 ‘F’ ，得到 answerKey &#x3D; “FFFT” 。<br>或者，我们可以将第二个 ‘T’ 换成 ‘F’ ，得到 answerKey &#x3D; “TFFF” 。<br>两种情况下，都有三个连续的 ‘F’ 。<br>示例 3：</p>
+<p>输入：answerKey &#x3D; “TTFTTFTT”, k &#x3D; 1<br>输出：5<br>解释：我们可以将第一个 ‘F’ 换成 ‘T’ ，得到 answerKey &#x3D; “TTTTTFTT” 。<br>或者我们可以将第二个 ‘F’ 换成 ‘T’ ，得到 answerKey &#x3D; “TTFTTTTT” 。<br>两种情况下，都有五个连续的 ‘T’ 。</p>
+<p>提示：</p>
+<p>n &#x3D;&#x3D; answerKey.length<br>1 &lt;&#x3D; n &lt;&#x3D; 5 * 104<br>answerKey[i] 要么是 ‘T’ ，要么是 ‘F’<br>1 &lt;&#x3D; k &lt;&#x3D; n</p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>利用滑动窗口思路：假设全部都是能转换的 即窗口大小为 answerKey.length<br>如果 这个窗口中的转换次数大于&gt;k 则滑动，如果不能滑动则 窗口大小&#x3D;answerKey.length-1<br>直到能够转换为止</p>
+<p>整改数组为窗口时：[TTFTTFTT] k为1 但是f&#x3D;2故不满足</p>
+<p>窗口大小-1时：[TTFTTFT]T -滑动-&gt; T[TFTTFTT] 不满足</p>
+<p>窗口大小-2时：[TTFTTF]TT -滑动-&gt; T[TFTTFT]T -滑动-&gt; TT[FTTFTT] 不满足</p>
+<p>窗口大小-3时：[TTFTT]FTT(满足返回结果)</p>
+<p>这种情况只适合 k和answerKey.length都相对比较小的情况，如果answerKey.length过大可能就超时了</p>
+<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxConsecutiveAnswers</span><span class="token punctuation">(</span><span class="token class-name">String</span> answerKey<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> slidingWindowSize <span class="token operator">=</span> answerKey<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chars <span class="token operator">=</span> answerKey<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>slidingWindowSize <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">int</span> times <span class="token operator">=</span> <span class="token punctuation">(</span>answerKey<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> slidingWindowSize<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> times <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">int</span> f <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> t <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">boolean</span> isFind <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> slidingWindowSize<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>chars<span class="token punctuation">[</span>j <span class="token operator">+</span> i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token char">'F'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    f<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    t<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>f <span class="token operator">></span> k <span class="token operator">&amp;&amp;</span> t <span class="token operator">></span> k<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    isFind <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>isFind<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">return</span> slidingWindowSize<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// 整个数组滑动后都没有找到，则窗口大小-1</span>
+        slidingWindowSize<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h1><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Solution2024</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">maxConsecutiveAnswers</span><span class="token punctuation">(</span><span class="token string">"TTFTTFTT"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Solution2024</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">maxConsecutiveAnswers</span><span class="token punctuation">(</span><span class="token string">"TTFF"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Solution2024</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">maxConsecutiveAnswers</span><span class="token punctuation">(</span><span class="token string">"TTFF"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Solution2024</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">maxConsecutiveAnswers</span><span class="token punctuation">(</span><span class="token string">"TFFT"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Solution2024</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">maxConsecutiveAnswers</span><span class="token punctuation">(</span><span class="token string">"TTFTTTTTFT"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="额外补充"><a href="#额外补充" class="headerlink" title="额外补充"></a>额外补充</h1><script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+
+    <script
+            type="text/javascript"
+            src="https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.development.js"
+    ></script>
+    <div class="container">
+        <div id="5cb76bfc1"></div>
+    </div>
+    <script>
+        const App = () => {
+            // 隐藏没用的样式
+            setTimeout(()=>{
+                let elementsByClassName = document.getElementsByClassName("App-menu_top");
+                if (elementsByClassName && elementsByClassName[0]){
+                    elementsByClassName[0].style.display='none'
+                }
+                 elementsByClassName = document.getElementsByClassName("layer-ui__wrapper__footer-right");
+                if (elementsByClassName && elementsByClassName[0]){
+                    elementsByClassName[0].style.display='none'
+                }
+            },200)
+            return React.createElement(
+                React.Fragment,
+                null,
+                React.createElement(
+                    "div",
+                    {
+                        style: { height: "400px" },
+                    },
+                    React.createElement(ExcalidrawLib.Excalidraw,{
+                        viewModeEnabled:true,
+                        zenModeEnabled:false,
+                        gridModeEnabled:true,
+                        initialData: {"id":"5cb76bfc1","type":"excalidraw","version":2,"source":"https://github.com/zsviczian/obsidian-excalidraw-plugin/releases/tag/2.4.0","elements":[{"type":"rectangle","version":215,"versionNonce":863065994,"index":"Zz","isDeleted":false,"id":"begVrttJw55GS08_vCzVh","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-846.7438581156279,"y":506.7475721786384,"strokeColor":"#1e1e1e","backgroundColor":"#b2f2bb","width":1094.5454545454545,"height":895.2447552447555,"seed":1265114262,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[],"updated":1725352049317,"link":null,"locked":false},{"type":"rectangle","version":183,"versionNonce":1617785418,"index":"a0","isDeleted":false,"id":"TxjV-1TAmvVAO2WGPuoCo","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-755.6949070666768,"y":-233.11256768150156,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":1390.7692307692307,"height":715.3846153846152,"seed":315247178,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[],"updated":1725351201531,"link":null,"locked":false},{"type":"ellipse","version":63,"versionNonce":574291350,"index":"a1","isDeleted":false,"id":"7f6C1wEYRRUXjEc0S16gH","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-274,"y":-362.734375,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":91.99999999999997,"height":67,"seed":1532012950,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"1YBXJUpB"},{"id":"UXLQkNmVfheeAx427tIRX","type":"arrow"}],"updated":1725349283569,"link":null,"locked":false},{"type":"text","version":41,"versionNonce":4311882,"index":"a2","isDeleted":false,"id":"1YBXJUpB","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-254.69689484473744,"y":-341.92245216974936,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":53.3399658203125,"height":25,"seed":1751262410,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725348923515,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"start","rawText":"start","textAlign":"center","verticalAlign":"middle","containerId":"7f6C1wEYRRUXjEc0S16gH","originalText":"start","autoResize":true,"lineHeight":1.25},{"type":"diamond","version":178,"versionNonce":850706378,"index":"a3","isDeleted":false,"id":"KDvb14HiYYETTwomG5tmM","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-325,"y":-216.734375,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":205,"height":201,"seed":1871103690,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"JDd4UZbY"},{"id":"qpfqHlHkgG0EaMJ5qSvWB","type":"arrow"},{"id":"ReC9w_xm9fJ-8vh54PKKO","type":"arrow"},{"id":"UXLQkNmVfheeAx427tIRX","type":"arrow"},{"id":"QJPdtJiUZc9YnkGez08I-","type":"arrow"}],"updated":1725349720705,"link":null,"locked":false},{"type":"text","version":174,"versionNonce":471719370,"index":"a4","isDeleted":false,"id":"JDd4UZbY","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-268.34996795654297,"y":-153.484375,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":92.19993591308594,"height":75,"seed":291160086,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349757597,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"right <\nanswerKe\ny.length()","rawText":"right < answerKey.length()","textAlign":"center","verticalAlign":"middle","containerId":"KDvb14HiYYETTwomG5tmM","originalText":"right < answerKey.length()","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":369,"versionNonce":205420490,"index":"a5","isDeleted":false,"id":"qpfqHlHkgG0EaMJ5qSvWB","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-322.3065246125753,"y":-112.1929709081241,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":504.1356201649633,"height":4.384802565044083,"seed":1435185750,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"n4o2OES4"}],"updated":1725362239318,"link":null,"locked":false,"startBinding":{"elementId":"KDvb14HiYYETTwomG5tmM","focus":-0.031575327466401716,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"r3tO9uw1b399cnrGGimTE","focus":-0.15666246964723626,"gap":5.199344577268299,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-504.1356201649633,4.384802565044083]],"elbowed":false},{"type":"text","version":4,"versionNonce":1582837130,"index":"a5V","isDeleted":false,"id":"n4o2OES4","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-584.374334695057,"y":-122.50056962560205,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":20,"height":25,"seed":284700118,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349335800,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"否","rawText":"否","textAlign":"center","verticalAlign":"middle","containerId":"qpfqHlHkgG0EaMJ5qSvWB","originalText":"否","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":158,"versionNonce":2006301846,"index":"a6","isDeleted":false,"id":"r3tO9uw1b399cnrGGimTE","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-908.173076923077,"y":-137.79206730769232,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":77,"height":72,"seed":37209034,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"id":"qpfqHlHkgG0EaMJ5qSvWB","type":"arrow"},{"type":"text","id":"XRT5nGYf"}],"updated":1725351114074,"link":null,"locked":false},{"type":"text","version":140,"versionNonce":1444788694,"index":"a7","isDeleted":false,"id":"XRT5nGYf","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-886.5766730451459,"y":-114.24791143040804,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":33.35997009277344,"height":25,"seed":2058819158,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351114074,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"end","rawText":"end","textAlign":"center","verticalAlign":"middle","containerId":"r3tO9uw1b399cnrGGimTE","originalText":"end","autoResize":true,"lineHeight":1.25},{"type":"diamond","version":181,"versionNonce":641280982,"index":"a9","isDeleted":false,"id":"jriW_fO3d5B_xsP6mUP3d","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-343,"y":109.265625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":246,"height":170,"seed":349070486,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"WlKvL2P3"},{"id":"evW5dHwdBYSRCw4mdEk4x","type":"arrow"},{"id":"5oUZTObXVt7WlpyS1SDpQ","type":"arrow"},{"id":"ReC9w_xm9fJ-8vh54PKKO","type":"arrow"}],"updated":1725349280554,"link":null,"locked":false},{"type":"text","version":82,"versionNonce":1830100234,"index":"aA","isDeleted":false,"id":"WlKvL2P3","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-275.2699508666992,"y":156.765625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":110.53990173339844,"height":75,"seed":592983818,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349049725,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"answerKey.\ncharAt(righ\nt) == 'T'","rawText":"answerKey.charAt(right) == 'T'","textAlign":"center","verticalAlign":"middle","containerId":"jriW_fO3d5B_xsP6mUP3d","originalText":"answerKey.charAt(right) == 'T'","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":67,"versionNonce":1966396822,"index":"aB","isDeleted":false,"id":"q2oC6dfBInyoyRhC-WmlP","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-3,"y":143.265625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":215,"height":120,"seed":127664458,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"2rTUXvKJ"},{"id":"5oUZTObXVt7WlpyS1SDpQ","type":"arrow"},{"id":"DpuBj8Y8HN-1EMAW-UJBJ","type":"arrow"}],"updated":1725349276689,"link":null,"locked":false},{"type":"text","version":11,"versionNonce":1012070422,"index":"aBV","isDeleted":false,"id":"2rTUXvKJ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":58.22001647949219,"y":190.765625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":92.55996704101562,"height":25,"seed":15308374,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349065939,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"countT++","rawText":"countT++","textAlign":"center","verticalAlign":"middle","containerId":"q2oC6dfBInyoyRhC-WmlP","originalText":"countT++","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":116,"versionNonce":746680278,"index":"aD","isDeleted":false,"id":"egxgE75XDW2bQfQGpvpIL","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-671.5,"y":128.265625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":215,"height":120,"seed":326805462,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"eALblDLZ"},{"id":"evW5dHwdBYSRCw4mdEk4x","type":"arrow"},{"id":"6kkdbHD_H8M5AmjmNEXYR","type":"arrow"}],"updated":1725349273489,"link":null,"locked":false},{"type":"text","version":71,"versionNonce":222619082,"index":"aE","isDeleted":false,"id":"eALblDLZ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-608.9199752807617,"y":175.765625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":89.83995056152344,"height":25,"seed":1422081302,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349073489,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"countF++","rawText":"countF++","textAlign":"center","verticalAlign":"middle","containerId":"egxgE75XDW2bQfQGpvpIL","originalText":"countF++","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":68,"versionNonce":924358730,"index":"aG","isDeleted":false,"id":"evW5dHwdBYSRCw4mdEk4x","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-341.86485342682334,"y":192.265625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":113.63514657317666,"height":0,"seed":946436938,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"ldLt08YH"}],"updated":1725362239322,"link":null,"locked":false,"startBinding":{"elementId":"jriW_fO3d5B_xsP6mUP3d","focus":0.023529411764705882,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"egxgE75XDW2bQfQGpvpIL","focus":0.06666666666666667,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-113.63514657317666,0]],"elbowed":false},{"type":"text","version":4,"versionNonce":1557834134,"index":"aGV","isDeleted":false,"id":"ldLt08YH","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-408.6824267134117,"y":179.765625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":20,"height":25,"seed":1520421130,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349217675,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"否","rawText":"否","textAlign":"center","verticalAlign":"middle","containerId":"evW5dHwdBYSRCw4mdEk4x","originalText":"否","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":65,"versionNonce":1697071818,"index":"aH","isDeleted":false,"id":"5oUZTObXVt7WlpyS1SDpQ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-100.99999999999996,"y":198.265625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":96.99999999999994,"height":2.9393939393939377,"seed":365829782,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"zh4XlhAj"}],"updated":1725362239321,"link":null,"locked":false,"startBinding":{"elementId":"jriW_fO3d5B_xsP6mUP3d","focus":0.004634581105169341,"gap":1.0166371242085575,"fixedPoint":null},"endBinding":{"elementId":"q2oC6dfBInyoyRhC-WmlP","focus":-0.01940119760479042,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[96.99999999999994,2.9393939393939377]],"elbowed":false},{"type":"text","version":5,"versionNonce":1040457622,"index":"aHV","isDeleted":false,"id":"zh4XlhAj","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-63.499999999999986,"y":187.23532196969697,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":22,"height":25,"seed":134155338,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349210611,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"是","rawText":"是","textAlign":"center","verticalAlign":"middle","containerId":"5oUZTObXVt7WlpyS1SDpQ","originalText":"是","autoResize":true,"lineHeight":1.25},{"type":"diamond","version":186,"versionNonce":889030614,"index":"aI","isDeleted":false,"id":"oyG3XYZnd1ZPnoqjNphKT","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-330.25,"y":506.265625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":217,"height":220,"seed":195938838,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"assygEHD"},{"id":"hdMzZd6fcbZ1YGgo6KbMS","type":"arrow"},{"id":"TFlEvpmUoyG1GFBQz0vbG","type":"arrow"},{"id":"6kkdbHD_H8M5AmjmNEXYR","type":"arrow"},{"id":"DpuBj8Y8HN-1EMAW-UJBJ","type":"arrow"},{"id":"7r8li-zpReFzTSzalQEoT","type":"arrow"}],"updated":1725349298689,"link":null,"locked":false},{"type":"text","version":58,"versionNonce":1215742730,"index":"aJ","isDeleted":false,"id":"assygEHD","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-268.9399719238281,"y":566.265625,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":94.87994384765625,"height":100,"seed":967860118,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349122098,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"Math.min(\ncountT,\ncountF) >\nk","rawText":"Math.min(countT, countF) > k","textAlign":"center","verticalAlign":"middle","containerId":"oyG3XYZnd1ZPnoqjNphKT","originalText":"Math.min(countT, countF) > k","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":165,"versionNonce":353291722,"index":"aK","isDeleted":false,"id":"biTzavT_ZXYTcHutMBwav","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":269.6136477901183,"y":342.49177793203523,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":346.25,"height":107.5,"seed":132455702,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"7G17HWEG"},{"id":"hdMzZd6fcbZ1YGgo6KbMS","type":"arrow"},{"id":"OBg6kLAp8ls3ByS-_FTWT","type":"arrow"}],"updated":1725351104767,"link":null,"locked":false},{"type":"text","version":123,"versionNonce":440829066,"index":"aKV","isDeleted":false,"id":"7G17HWEG","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":280.36875948445424,"y":371.24177793203523,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":324.7397766113281,"height":50,"seed":1041428746,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351104767,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"maxLen = Math.max(maxLen, right\n- left + 1);","rawText":"maxLen = Math.max(maxLen, right - left + 1);","textAlign":"center","verticalAlign":"middle","containerId":"biTzavT_ZXYTcHutMBwav","originalText":"maxLen = Math.max(maxLen, right - left + 1);","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":148,"versionNonce":1506717578,"index":"aN","isDeleted":false,"id":"hdMzZd6fcbZ1YGgo6KbMS","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-139.56146283140532,"y":588.1663864395307,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":402.9251106215236,"height":140.10095734673757,"seed":1656750038,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"nksljwu4"}],"updated":1725362239324,"link":null,"locked":false,"startBinding":{"elementId":"oyG3XYZnd1ZPnoqjNphKT","focus":0.004350096328705688,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"biTzavT_ZXYTcHutMBwav","focus":0.09255837392911134,"gap":6.25,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[402.9251106215236,-140.10095734673757]],"elbowed":false},{"type":"text","version":10,"versionNonce":243504534,"index":"aNV","isDeleted":false,"id":"nksljwu4","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":51.90109247935652,"y":505.61590776616197,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":20,"height":25,"seed":705465482,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349206091,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"否","rawText":"否","textAlign":"center","verticalAlign":"middle","containerId":"hdMzZd6fcbZ1YGgo6KbMS","originalText":"否","autoResize":true,"lineHeight":1.25},{"type":"diamond","version":184,"versionNonce":1627649750,"index":"aP","isDeleted":false,"id":"LS7PdxIqKWyAoIzfb7YWt","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-349.8251633986928,"y":932.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":246,"height":170,"seed":1679877334,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"O40Ij7Zj"},{"id":"8bbaYTu2coEyNqlRGSV4Q","type":"arrow"},{"id":"K8F94coJ-6rlIESQNoAYo","type":"arrow"},{"id":"TFlEvpmUoyG1GFBQz0vbG","type":"arrow"}],"updated":1725349268777,"link":null,"locked":false},{"type":"text","version":87,"versionNonce":1767930378,"index":"aQ","isDeleted":false,"id":"O40Ij7Zj","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-282.23512128443497,"y":980.1316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":110.81991577148438,"height":75,"seed":261741078,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349237425,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"answerKey.\ncharAt(left\n) == 'T'","rawText":"answerKey.charAt(left) == 'T'","textAlign":"center","verticalAlign":"middle","containerId":"LS7PdxIqKWyAoIzfb7YWt","originalText":"answerKey.charAt(left) == 'T'","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":70,"versionNonce":1916042058,"index":"aR","isDeleted":false,"id":"OhrUpjsThroNempepJewp","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-9.82516339869278,"y":966.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":215,"height":120,"seed":1656891222,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"xxrT76vk"},{"id":"K8F94coJ-6rlIESQNoAYo","type":"arrow"},{"id":"PCABvj61LK7Od03LBrMxn","type":"arrow"}],"updated":1725349262298,"link":null,"locked":false},{"type":"text","version":19,"versionNonce":1829497558,"index":"aS","isDeleted":false,"id":"xxrT76vk","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":53.784860099842376,"y":1014.1316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":87.77995300292969,"height":25,"seed":1575931030,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349241259,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"countT--","rawText":"countT--","textAlign":"center","verticalAlign":"middle","containerId":"OhrUpjsThroNempepJewp","originalText":"countT--","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":119,"versionNonce":1851940246,"index":"aT","isDeleted":false,"id":"ZIWUis-dpJdJ0KromiTeN","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-678.3251633986929,"y":951.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":215,"height":120,"seed":785697238,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"NhCgwA8s"},{"id":"8bbaYTu2coEyNqlRGSV4Q","type":"arrow"},{"id":"CcYxVVtaW0DK0GLIANQWS","type":"arrow"}],"updated":1725349259088,"link":null,"locked":false},{"type":"text","version":79,"versionNonce":570366422,"index":"aU","isDeleted":false,"id":"NhCgwA8s","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-613.3551316604116,"y":999.1316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":85.0599365234375,"height":25,"seed":76095254,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349245923,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"countF--","rawText":"countF--","textAlign":"center","verticalAlign":"middle","containerId":"ZIWUis-dpJdJ0KromiTeN","originalText":"countF--","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":78,"versionNonce":702770890,"index":"aV","isDeleted":false,"id":"8bbaYTu2coEyNqlRGSV4Q","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-348.6900168255161,"y":1015.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":113.63514657317677,"height":0,"seed":1669385302,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"npBcZIXC"}],"updated":1725362239328,"link":null,"locked":false,"startBinding":{"elementId":"LS7PdxIqKWyAoIzfb7YWt","focus":0.023529411764705882,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"ZIWUis-dpJdJ0KromiTeN","focus":0.06666666666666667,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-113.63514657317677,0]],"elbowed":false},{"type":"text","version":8,"versionNonce":1345343690,"index":"aW","isDeleted":false,"id":"npBcZIXC","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-415.5075901121045,"y":1003.1316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":20,"height":25,"seed":2039533974,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349229330,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"否","rawText":"否","textAlign":"center","verticalAlign":"middle","containerId":"8bbaYTu2coEyNqlRGSV4Q","originalText":"否","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":74,"versionNonce":658356554,"index":"aX","isDeleted":false,"id":"K8F94coJ-6rlIESQNoAYo","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-107.82516339869268,"y":1021.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":96.99999999999989,"height":2.9393939393939945,"seed":1911434966,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"6FlHIL1p"}],"updated":1725362239327,"link":null,"locked":false,"startBinding":{"elementId":"LS7PdxIqKWyAoIzfb7YWt","focus":0.0046345811051685054,"gap":1.0166371242085717,"fixedPoint":null},"endBinding":{"elementId":"OhrUpjsThroNempepJewp","focus":-0.019401197604792298,"gap":1.0000000000000142,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[96.99999999999989,2.9393939393939945]],"elbowed":false},{"type":"text","version":8,"versionNonce":88941066,"index":"aY","isDeleted":false,"id":"6FlHIL1p","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-70.32516339869274,"y":1010.6013350415924,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":22,"height":25,"seed":1227744278,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349229330,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"是","rawText":"是","textAlign":"center","verticalAlign":"middle","containerId":"K8F94coJ-6rlIESQNoAYo","originalText":"是","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":40,"versionNonce":1096967510,"index":"aZ","isDeleted":false,"id":"5HrxZ6X_Tx2ULmslbFJIC","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-347.8251633986928,"y":1281.3816380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":210,"height":77.5,"seed":1031273482,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"JfH0eKUg"},{"id":"CcYxVVtaW0DK0GLIANQWS","type":"arrow"},{"id":"PCABvj61LK7Od03LBrMxn","type":"arrow"},{"id":"7r8li-zpReFzTSzalQEoT","type":"arrow"}],"updated":1725349298689,"link":null,"locked":false},{"type":"text","version":4,"versionNonce":1018495882,"index":"aa","isDeleted":false,"id":"JfH0eKUg","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-274.9251466140248,"y":1307.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":64.19996643066406,"height":25,"seed":138582154,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349255563,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"left++;","rawText":"left++;","textAlign":"center","verticalAlign":"middle","containerId":"5HrxZ6X_Tx2ULmslbFJIC","originalText":"left++;","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":66,"versionNonce":62506058,"index":"ab","isDeleted":false,"id":"CcYxVVtaW0DK0GLIANQWS","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-567.825163398693,"y":1072.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":328.7500000000001,"height":206.25,"seed":1765615882,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239329,"link":null,"locked":false,"startBinding":{"elementId":"ZIWUis-dpJdJ0KromiTeN","focus":0.4638770791377634,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"5HrxZ6X_Tx2ULmslbFJIC","focus":0.41675373642847413,"gap":2.5,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[328.7500000000001,206.25]],"elbowed":false},{"type":"arrow","version":62,"versionNonce":357477130,"index":"ac","isDeleted":false,"id":"PCABvj61LK7Od03LBrMxn","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":98.08247991340939,"y":1087.6316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":338.4076433121021,"height":192.5,"seed":1060364950,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239329,"link":null,"locked":false,"startBinding":{"elementId":"OhrUpjsThroNempepJewp","focus":-0.5054205607476636,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"5HrxZ6X_Tx2ULmslbFJIC","focus":-0.3917402501839588,"gap":1.25,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-338.4076433121021,192.5]],"elbowed":false},{"type":"arrow","version":68,"versionNonce":670931594,"index":"ad","isDeleted":false,"id":"TFlEvpmUoyG1GFBQz0vbG","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-221.69892003874662,"y":727.2643195667011,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":7.376637515942605,"height":201.62809210243097,"seed":1681884746,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"i1vMFweb"}],"updated":1725362239326,"link":null,"locked":false,"startBinding":{"elementId":"oyG3XYZnd1ZPnoqjNphKT","focus":-0.03789868950465081,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"LS7PdxIqKWyAoIzfb7YWt","focus":-0.044690660321237356,"gap":4.364182391750546,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-7.376637515942605,201.62809210243097]],"elbowed":false},{"type":"text","version":4,"versionNonce":467686986,"index":"adV","isDeleted":false,"id":"i1vMFweb","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-236.38723879671792,"y":815.5783656179167,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":22,"height":25,"seed":1968896278,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349326596,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"是","rawText":"是","textAlign":"center","verticalAlign":"middle","containerId":"TFlEvpmUoyG1GFBQz0vbG","originalText":"是","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":62,"versionNonce":1269637962,"index":"ae","isDeleted":false,"id":"6kkdbHD_H8M5AmjmNEXYR","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-551.5751633986927,"y":250.1316380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":330.59261324045616,"height":254.49393623038895,"seed":1041647690,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239323,"link":null,"locked":false,"startBinding":{"elementId":"egxgE75XDW2bQfQGpvpIL","focus":0.36637131370302956,"gap":1.8660130718953951,"fixedPoint":null},"endBinding":{"elementId":"oyG3XYZnd1ZPnoqjNphKT","focus":1.0202803843092416,"gap":1.8107306676312476,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[330.59261324045616,254.49393623038895]],"elbowed":false},{"type":"arrow","version":72,"versionNonce":1702767114,"index":"af","isDeleted":false,"id":"DpuBj8Y8HN-1EMAW-UJBJ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":99.67483660130728,"y":266.3816380718954,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":317.5000000000001,"height":237.5,"seed":1902785738,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239323,"link":null,"locked":false,"startBinding":{"elementId":"q2oC6dfBInyoyRhC-WmlP","focus":-0.42379605424112726,"gap":3.116013071895395,"fixedPoint":null},"endBinding":{"elementId":"oyG3XYZnd1ZPnoqjNphKT","focus":-0.9949825957584182,"gap":4.4683863226835285,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-317.5000000000001,237.5]],"elbowed":false},{"type":"arrow","version":67,"versionNonce":448418826,"index":"ag","isDeleted":false,"id":"ReC9w_xm9fJ-8vh54PKKO","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-217.8251633986928,"y":-18.61836192810459,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":2.842170943040401e-14,"height":128.1713736746991,"seed":1829395094,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"7rBAzGDC"}],"updated":1725362239320,"link":null,"locked":false,"startBinding":{"elementId":"KDvb14HiYYETTwomG5tmM","focus":-0.04560816196397289,"gap":1.2136039817500262,"fixedPoint":null},"endBinding":{"elementId":"jriW_fO3d5B_xsP6mUP3d","focus":0.017681598384611544,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[2.842170943040401e-14,128.1713736746991]],"elbowed":false},{"type":"text","version":4,"versionNonce":765897930,"index":"agV","isDeleted":false,"id":"7rBAzGDC","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-228.82516339869278,"y":32.967324909244965,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":22,"height":25,"seed":1210333846,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725349338489,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"是","rawText":"是","textAlign":"center","verticalAlign":"middle","containerId":"ReC9w_xm9fJ-8vh54PKKO","originalText":"是","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":46,"versionNonce":982975050,"index":"ah","isDeleted":false,"id":"UXLQkNmVfheeAx427tIRX","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-219.07523348083936,"y":-292.37270702119315,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":1.2500700821465784,"height":77.50434509308855,"seed":1886356298,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239317,"link":null,"locked":false,"startBinding":{"elementId":"7f6C1wEYRRUXjEc0S16gH","focus":-0.18107932344390343,"gap":3.964184261532253,"fixedPoint":null},"endBinding":{"elementId":"KDvb14HiYYETTwomG5tmM","focus":0.06112885227524033,"gap":1.9404767074118041,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[1.2500700821465784,77.50434509308855]],"elbowed":false},{"type":"arrow","version":261,"versionNonce":1494792650,"index":"ai","isDeleted":false,"id":"7r8li-zpReFzTSzalQEoT","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-355.03670186023135,"y":1315.0354842257414,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":487.51540742803013,"height":701.1656980215614,"seed":1508925398,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239329,"link":null,"locked":false,"startBinding":{"elementId":"5HrxZ6X_Tx2ULmslbFJIC","focus":-0.6547362031742512,"gap":7.21153846153851,"fixedPoint":null},"endBinding":{"elementId":"oyG3XYZnd1ZPnoqjNphKT","focus":0.798422002833768,"gap":3.506051078478407,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-465.28846153846143,-326.15384615384596],[22.226945889568697,-701.1656980215614]],"elbowed":false},{"type":"text","version":150,"versionNonce":1167030602,"index":"aj","isDeleted":false,"id":"OU1OMZRM","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":713.7136033900744,"y":-203.01789866587657,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":533.6998291015625,"height":125,"seed":922141142,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351122015,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"answerKey：T T F T T F T T\nk：1\n初始化：left =0 right=0 countT=0 countF=0 maxLen=0\n\n","rawText":"answerKey：T T F T T F T T\nk：1\n初始化：left =0 right=0 countT=0 countF=0 maxLen=0\n\n","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"answerKey：T T F T T F T T\nk：1\n初始化：left =0 right=0 countT=0 countF=0 maxLen=0\n\n","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":98,"versionNonce":169735562,"index":"ak","isDeleted":false,"id":"HyDJK5LRCegkrWhHkx0lY","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":312.2782864065164,"y":51.40907734014354,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":244,"height":82,"seed":850452886,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"NcuNLz5L"},{"id":"OBg6kLAp8ls3ByS-_FTWT","type":"arrow"},{"id":"QJPdtJiUZc9YnkGez08I-","type":"arrow"}],"updated":1725351106116,"link":null,"locked":false},{"type":"text","version":54,"versionNonce":983217226,"index":"akV","isDeleted":false,"id":"NcuNLz5L","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":399.7683071584695,"y":79.90907734014354,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":69.01995849609375,"height":25,"seed":451011530,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351106116,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"right++","rawText":"right++","textAlign":"center","verticalAlign":"middle","containerId":"HyDJK5LRCegkrWhHkx0lY","originalText":"right++","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":183,"versionNonce":506654858,"index":"an","isDeleted":false,"id":"OBg6kLAp8ls3ByS-_FTWT","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":435.92855401008734,"y":340.46502139608754,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":6.614857335313786,"height":200.05594405594402,"seed":1575921558,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239330,"link":null,"locked":false,"startBinding":{"elementId":"biTzavT_ZXYTcHutMBwav","focus":-0.0494810932818795,"gap":2.0267565359476976,"fixedPoint":null},"endBinding":{"elementId":"HyDJK5LRCegkrWhHkx0lY","focus":-0.07986861913233886,"gap":7,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[6.614857335313786,-200.05594405594402]],"elbowed":false},{"type":"arrow","version":177,"versionNonce":408440650,"index":"ao","isDeleted":false,"id":"QJPdtJiUZc9YnkGez08I-","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":428.9126704553008,"y":42.40907734014357,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":549.7322861466865,"height":163.8041958041959,"seed":1102346582,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725362239330,"link":null,"locked":false,"startBinding":{"elementId":"HyDJK5LRCegkrWhHkx0lY","focus":0.09783071033602722,"gap":9,"fixedPoint":null},"endBinding":{"elementId":"KDvb14HiYYETTwomG5tmM","focus":-0.07802955857204402,"gap":3.111152482210713,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-56.73228614668653,-150.80419580419587],[-549.7322861466865,-163.8041958041959]],"elbowed":false},{"type":"text","version":28,"versionNonce":157325974,"index":"ar","isDeleted":false,"id":"7dnyBS0u","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-775.8347672065371,"y":567.4468728779391,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":301.3599853515625,"height":50,"seed":1425622538,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725350391820,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"这一部分就是讲窗口不断滑动\n直到满足T、F的改变次数不超过k","rawText":"这一部分就是讲窗口不断滑动\n直到满足T、F的改变次数不超过k","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"这一部分就是讲窗口不断滑动\n直到满足T、F的改变次数不超过k","autoResize":true,"lineHeight":1.25},{"type":"text","version":232,"versionNonce":1539762314,"index":"as","isDeleted":false,"id":"Q7k8qwuC","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":722.042649494409,"y":-41.89084822448791,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":622.6599731445312,"height":125,"seed":1803329034,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351822033,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"countT=4 countF=1  result=T T F T T \n这个时候在进行红色区域循环时发现\ncountT=4 countF=2  result=T T F T T F\n这时转换的次数大于k了，需要进行滑动处理，直到转换次数小于等于k\n","rawText":"countT=4 countF=1  result=T T F T T \n这个时候在进行红色区域循环时发现\ncountT=4 countF=2  result=T T F T T F\n这时转换的次数大于k了，需要进行滑动处理，直到转换次数小于等于k\n","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"countT=4 countF=1  result=T T F T T \n这个时候在进行红色区域循环时发现\ncountT=4 countF=2  result=T T F T T F\n这时转换的次数大于k了，需要进行滑动处理，直到转换次数小于等于k\n","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":105,"versionNonce":818026442,"index":"at","isDeleted":false,"id":"jypVWnO-zJ_6yLJmgqNOT","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":726.4770386346803,"y":81.09557711487878,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":49.23076923076928,"height":49,"seed":122395914,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"WBvKjTwJ"}],"updated":1725351400995,"link":null,"locked":false},{"type":"text","version":56,"versionNonce":889228938,"index":"au","isDeleted":false,"id":"WBvKjTwJ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":741.6867178670115,"y":93.27146097580837,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":19,"height":25,"seed":140755914,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351400995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"T","rawText":"T","textAlign":"center","verticalAlign":"middle","containerId":"jypVWnO-zJ_6yLJmgqNOT","originalText":"T","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":199,"versionNonce":2143432010,"index":"av","isDeleted":false,"id":"o27WwPOS0z9Fr1f9_2eh0","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":854.7123327523277,"y":78.15440064429038,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":47.69230769230785,"height":49,"seed":1305397142,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"n2S79WPJ"}],"updated":1725351400995,"link":null,"locked":false},{"type":"text","version":149,"versionNonce":643953674,"index":"aw","isDeleted":false,"id":"n2S79WPJ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":871.6967095086485,"y":90.33028450521996,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":14,"height":25,"seed":922576086,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351400995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"F","rawText":"F","textAlign":"center","verticalAlign":"middle","containerId":"o27WwPOS0z9Fr1f9_2eh0","originalText":"F","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":136,"versionNonce":1524294346,"index":"ax","isDeleted":false,"id":"yxILZeiaNcC42OzjXFUt3","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":794.350341802101,"y":81.02996625515016,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":49.23076923076928,"height":49,"seed":1288078282,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"jXQ6CyzK"}],"updated":1725351400995,"link":null,"locked":false},{"type":"text","version":88,"versionNonce":1472723338,"index":"ay","isDeleted":false,"id":"jXQ6CyzK","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":809.5600210344321,"y":93.20585011607974,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":19,"height":25,"seed":764902026,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351400995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"T","rawText":"T","textAlign":"center","verticalAlign":"middle","containerId":"yxILZeiaNcC42OzjXFUt3","originalText":"T","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":192,"versionNonce":1281636426,"index":"b01","isDeleted":false,"id":"aVfZ1s3GDsR7WHjb-UOLR","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":913.1738712138656,"y":77.5005544904443,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":49.23076923076928,"height":49,"seed":1588332246,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"zlsrGQ2R"}],"updated":1725351400995,"link":null,"locked":false},{"type":"text","version":146,"versionNonce":1217044234,"index":"b02","isDeleted":false,"id":"zlsrGQ2R","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":928.3835504461968,"y":89.67643835137389,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":19,"height":25,"seed":275823638,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351400995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"T","rawText":"T","textAlign":"center","verticalAlign":"middle","containerId":"aVfZ1s3GDsR7WHjb-UOLR","originalText":"T","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":230,"versionNonce":683027914,"index":"b03","isDeleted":false,"id":"dQ8FHOxxzP_a9jxvSK30v","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":971.9974006256302,"y":75.1476133139737,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":49.23076923076928,"height":49,"seed":393181450,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"Ufdao3kU"}],"updated":1725351400995,"link":null,"locked":false},{"type":"text","version":185,"versionNonce":33678474,"index":"b04","isDeleted":false,"id":"Ufdao3kU","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":987.2070798579614,"y":87.32349717490328,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":19,"height":25,"seed":972015562,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351400995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"T","rawText":"T","textAlign":"center","verticalAlign":"middle","containerId":"dQ8FHOxxzP_a9jxvSK30v","originalText":"T","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":220,"versionNonce":237552458,"index":"b05","isDeleted":false,"id":"GztxJ3yGQWse1_mjB39G_","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":1032.7666313948616,"y":72.79467213750308,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":47.69230769230785,"height":49,"seed":1769342858,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"syy7lHBM"}],"updated":1725351400995,"link":null,"locked":false},{"type":"text","version":171,"versionNonce":394643978,"index":"b06","isDeleted":false,"id":"syy7lHBM","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":1049.7510081511825,"y":84.97055599843267,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":14,"height":25,"seed":1495303754,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351400995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"F","rawText":"F","textAlign":"center","verticalAlign":"middle","containerId":"GztxJ3yGQWse1_mjB39G_","originalText":"F","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":117,"versionNonce":1519792714,"index":"b07","isDeleted":false,"id":"PR1u401PJUcQFwlUUFqSA","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":754.2598440645447,"y":239.6476133139737,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":4.705882352941444,"height":94.11764705882365,"seed":162016534,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"oKM0XVCc"}],"updated":1725351421589,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-4.705882352941444,-94.11764705882365]],"elbowed":false},{"type":"text","version":7,"versionNonce":1138304214,"index":"b08","isDeleted":false,"id":"oKM0XVCc","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":733.786915400281,"y":180.08878978456187,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":36.23997497558594,"height":25,"seed":484337034,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351368392,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"left","rawText":"left","textAlign":"center","verticalAlign":"middle","containerId":"PR1u401PJUcQFwlUUFqSA","originalText":"left","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":249,"versionNonce":862019274,"index":"b0N","isDeleted":false,"id":"mrUJLs15nJGFGEIijgCkA","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":942.698758091694,"y":237.73628662465643,"strokeColor":"#e03131","backgroundColor":"transparent","width":4.705882352941444,"height":94.11764705882365,"seed":658485578,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"l7EDgS29"}],"updated":1725351795973,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-4.705882352941444,-94.11764705882365]],"elbowed":false},{"type":"text","version":12,"versionNonce":583354198,"index":"b0O","isDeleted":false,"id":"l7EDgS29","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":922.2258294274303,"y":178.1774630952446,"strokeColor":"#e03131","backgroundColor":"transparent","width":36.23997497558594,"height":25,"seed":193918986,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351415829,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"left","rawText":"left","textAlign":"center","verticalAlign":"middle","containerId":"mrUJLs15nJGFGEIijgCkA","originalText":"left","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":152,"versionNonce":1332170954,"index":"b0U","isDeleted":false,"id":"YrKAqm1wHiuCiNXOuata0","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":822.4951381821918,"y":241.3465804467786,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":4.705882352941444,"height":94.11764705882365,"seed":976332746,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"JrSth1sD"}],"updated":1725351806317,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-4.705882352941444,-94.11764705882365]],"elbowed":false},{"type":"text","version":11,"versionNonce":1094064534,"index":"b0V","isDeleted":false,"id":"JrSth1sD","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":802.0222095179281,"y":181.78775691736678,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":36.23997497558594,"height":25,"seed":167648906,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351422330,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"left","rawText":"left","textAlign":"center","verticalAlign":"middle","containerId":"YrKAqm1wHiuCiNXOuata0","originalText":"left","autoResize":true,"lineHeight":1.25},{"type":"text","version":68,"versionNonce":901797910,"index":"b0d","isDeleted":false,"id":"9f1da3gj","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":726.0245499468974,"y":262.0005544904442,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":423.3798828125,"height":50,"seed":899979722,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351556081,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"当countF=1时，满足countT=2 result=T T F\n这个时候的长度为 right-left+1","rawText":"当countF=1时，满足countT=2 result=T T F\n这个时候的长度为 right-left+1","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"当countF=1时，满足countT=2 result=T T F\n这个时候的长度为 right-left+1","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":264,"versionNonce":1296314390,"index":"b0e","isDeleted":false,"id":"DVHL--Ca_T-T3iQxUSHpu","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":1064.8480793586623,"y":232.62460620714168,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":4.705882352941444,"height":94.11764705882365,"seed":1062283338,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"1xGlJxvK"}],"updated":1725351507445,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-4.705882352941444,-94.11764705882365]],"elbowed":false},{"type":"text","version":23,"versionNonce":1013384266,"index":"b0f","isDeleted":false,"id":"1xGlJxvK","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":1038.9851589341447,"y":173.06578267772986,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":47.01995849609375,"height":25,"seed":811175690,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351507446,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"right","rawText":"right","textAlign":"center","verticalAlign":"middle","containerId":"DVHL--Ca_T-T3iQxUSHpu","originalText":"right","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":156,"versionNonce":1113767318,"index":"b0g","isDeleted":false,"id":"UOe_d_-TE6GwFkWvR8Sa5","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":883.6716087704269,"y":236.35917695239613,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":4.705882352941444,"height":94.11764705882365,"seed":436204182,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"YOIJrkEg"}],"updated":1725351802129,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-4.705882352941444,-94.11764705882365]],"elbowed":false},{"type":"text","version":14,"versionNonce":1185038154,"index":"b0h","isDeleted":false,"id":"YOIJrkEg","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":863.1986801061632,"y":176.8003534229843,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":36.23997497558594,"height":25,"seed":1506881494,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725351800216,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"left","rawText":"left","textAlign":"center","verticalAlign":"middle","containerId":"UOe_d_-TE6GwFkWvR8Sa5","originalText":"left","autoResize":true,"lineHeight":1.25},{"type":"text","version":45,"versionNonce":1341225238,"index":"b0i","isDeleted":false,"id":"dr2QhYSo","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":721.2709946786365,"y":417.93596711703344,"strokeColor":"#e03131","backgroundColor":"transparent","width":758,"height":75,"seed":189234378,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725352023983,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"总结：\n这里的核心滑动思想是检查到了 窗口里面包含的转换次数不满足 则缩小窗口的左边界\n右边界一直扩张即可。","rawText":"总结：\n这里的核心滑动思想是检查到了 窗口里面包含的转换次数不满足 则缩小窗口的左边界\n右边界一直扩张即可。","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"总结：\n这里的核心滑动思想是检查到了 窗口里面包含的转换次数不满足 则缩小窗口的左边界\n右边界一直扩张即可。","autoResize":true,"lineHeight":1.25}],"appState":{"theme":"light","viewBackgroundColor":"#ffffff","currentItemStrokeColor":"#1e1e1e","currentItemBackgroundColor":"transparent","currentItemFillStyle":"solid","currentItemStrokeWidth":2,"currentItemStrokeStyle":"dashed","currentItemRoughness":1,"currentItemOpacity":100,"currentItemFontFamily":5,"currentItemFontSize":20,"currentItemTextAlign":"left","currentItemStartArrowhead":null,"currentItemEndArrowhead":"arrow","currentItemArrowType":"round","scrollX":1188.4510411222202,"scrollY":418.9022737883031,"zoom":{"value":0.5},"currentItemRoundness":"round","gridSize":20,"gridStep":5,"gridModeEnabled":false,"gridColor":{"Bold":"#C9C9C9","Regular":"#EDEDED"},"currentStrokeOptions":null,"frameRendering":{"enabled":true,"clip":true,"name":true,"outline":true},"objectsSnapModeEnabled":false,"activeTool":{"type":"selection","customType":null,"locked":false,"lastActiveTool":null}},"prevTextMode":"parsed","files":{}}
+                    }),
+                ),
+            );
+        };
+        const excalidrawWrapper = document.getElementById("5cb76bfc1");
+        const root = ReactDOM.createRoot(excalidrawWrapper);
+        root.render(React.createElement(App));
+    </script>
+
+<p>[[Excalidraw&#x2F;2024考试的最大困扰度|2024考试的最大困扰度]]</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/" rel="tag"># 算法练习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/93df99b/" rel="prev" title="Java程序员简历">
+      <i class="fa fa-chevron-left"></i> Java程序员简历
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99"><span class="nav-number">3.</span> <span class="nav-text">代码编写</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%9D%E5%A4%96%E8%A1%A5%E5%85%85"><span class="nav-number">5.</span> <span class="nav-text">额外补充</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://navigation-mu.vercel.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">103k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:34</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>

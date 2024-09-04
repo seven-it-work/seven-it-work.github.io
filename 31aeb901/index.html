@@ -390,6 +390,10 @@ var ROOT_URL="/"
       <a href="/leetCode/" rel="section"><i class="fa fa-archive fa-fw"></i>LeetCode</a>
 
   </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa fa-calendar fa-fw"></i>个人简历</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -516,7 +520,7 @@ var ROOT_URL="/"
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>765</span>
+              <span>663</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -540,11 +544,29 @@ var ROOT_URL="/"
 <p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsvc2NoZWR1bGVkVGFza3M=">https://github.com/seven-it-work/scheduledTasks<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
 <h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="自动拉取"><a href="#自动拉取" class="headerlink" title="自动拉取"></a>自动拉取</h3><p>通过<a href="win_start.bat">win_start.bat</a>脚本进行自动拉取远端代码，并合并</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">echo &quot;执行auto_push_before.bat&quot;</span><br><span class="line"></span><br><span class="line">for /f &quot;tokens=*&quot; %%a in (project_path.txt) do (</span><br><span class="line">    echo &quot;拉取项目&quot; %%a</span><br><span class="line">    start cmd /k %%a&quot;auto_push_before.bat&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">@echo off
+
+<span class="token builtin class-name">echo</span> <span class="token string">"执行auto_push_before.bat"</span>
+
+<span class="token keyword">for</span> /f <span class="token string">"tokens=*"</span> %%a <span class="token keyword">in</span> <span class="token punctuation">(</span>project_path.txt<span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token punctuation">(</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"拉取项目"</span> %%a
+    start cmd /k %%a<span class="token string">"auto_push_before.bat"</span>
+<span class="token punctuation">)</span>
+
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h3 id="开机拉取"><a href="#开机拉取" class="headerlink" title="开机拉取"></a>开机拉取</h3><p>通过导入任务计划<a href="%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDbat.xml">开机启动bat.xml</a>，再win启动时，进行自动运行<a href="win_start.bat">win_start.bat</a>从而实现开机拉取项目</p>
 <h3 id="一键推送"><a href="#一键推送" class="headerlink" title="一键推送"></a>一键推送</h3><p>再管理多个项目时，可能会忘记代码的推送。直接运行<a href="project_push.bat">project_push.bat</a>脚本即可自动推送（脚本可以自己调整，进行构建等操作）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">echo &quot;执行push auto_push.bat&quot;</span><br><span class="line"></span><br><span class="line">for /f &quot;tokens=*&quot; %%a in (project_path.txt) do (</span><br><span class="line">    echo &quot;推送项目&quot; %%a</span><br><span class="line">    start cmd /k %%a&quot;auto_push.bat&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">@echo off
+
+<span class="token builtin class-name">echo</span> <span class="token string">"执行push auto_push.bat"</span>
+
+<span class="token keyword">for</span> /f <span class="token string">"tokens=*"</span> %%a <span class="token keyword">in</span> <span class="token punctuation">(</span>project_path.txt<span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token punctuation">(</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"推送项目"</span> %%a
+    start cmd /k %%a<span class="token string">"auto_push.bat"</span>
+<span class="token punctuation">)</span>
+
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><h3 id="拉取本项目"><a href="#拉取本项目" class="headerlink" title="拉取本项目"></a>拉取本项目</h3><p>git clone <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsvc2NoZWR1bGVkVGFza3MuZ2l0">https://github.com/seven-it-work/scheduledTasks.git<i class="fa fa-external-link-alt"></i></span></p>
 <p><img src="https://yjl-img.oss-cn-beijing.aliyuncs.com/_post/img.png"></p>
@@ -575,7 +597,7 @@ var ROOT_URL="/"
       <i class="fa fa-chevron-left"></i> 网站收集
     </a></div>
       <div class="post-nav-item">
-    <a href="/0/" rel="next" title="面试自我介绍">
+    <a href="/b1331a25/" rel="next" title="面试自我介绍">
       面试自我介绍 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -652,20 +674,20 @@ var ROOT_URL="/"
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -789,13 +811,13 @@ var ROOT_URL="/"
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">22k</span>
+    <span title="站点总字数">103k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">20 分钟</span>
+    <span title="站点阅读时长">1:34</span>
 </div>
 
       

@@ -178,9 +178,14 @@
     width: 300px;
   }
   .card__year {
-    /*font-size: 2vw;*/
-    /*line-height: 8vw;*/
-    padding: 8vw 0;
+    font-family: "Oswald", sans-serif;
+    text-align: center;
+    color: #fff;
+    font-size: 1.3vw;
+    padding: 5vw 0;
+    font-weight: 100;
+    position: relative;
+    z-index: 2;
   }
   .card__thankyou {
     font-size: 1vw;
@@ -188,7 +193,27 @@
     line-height: 2.5vw;
   }
   .card__outer-year span {
-    font-size: 0.8vw;
+    font-size: 2.8vw;
+  }
+  .card__outer-year span:nth-child(1) {
+    top: 3px;
+    left: 9px;
+  }
+  .card__outer-year span:nth-child(2) {
+    left: none;
+    top: 9px;
+    right: 9px;
+  }
+  .card__outer-year span:nth-child(3) {
+    top: none;
+    bottom: 9px;
+    left: 9px;
+  }
+  .card__outer-year span:nth-child(4) {
+    top: none;
+    left: none;
+    right: 9px;
+    bottom: 9px;
   }
 }
 @property --rotate {

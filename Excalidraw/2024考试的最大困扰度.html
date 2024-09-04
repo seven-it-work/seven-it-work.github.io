@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_qpxy7j8c7ec.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&#x3D;&#x3D;⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠&#x3D;&#x3D; You can decompress Drawing data with the command palette: ‘Decompress current Excalidraw file’. For mo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="技术博客">
+<meta property="og:url" content="https://seven-it-work.github.io/Excalidraw/2024%E8%80%83%E8%AF%95%E7%9A%84%E6%9C%80%E5%A4%A7%E5%9B%B0%E6%89%B0%E5%BA%A6.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="&#x3D;&#x3D;⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠&#x3D;&#x3D; You can decompress Drawing data with the command palette: ‘Decompress current Excalidraw file’. For mo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-04T11:58:49.078Z">
+<meta property="article:modified_time" content="2024-09-04T11:58:49.078Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="excalidraw">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://seven-it-work.github.io/Excalidraw/2024%E8%80%83%E8%AF%95%E7%9A%84%E6%9C%80%E5%A4%A7%E5%9B%B0%E6%89%B0%E5%BA%A6">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title> | 技术博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode" id="LeetCode">
+      <a href="/leetCode/" rel="section"><i class="fa fa-archive fa-fw"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa fa-calendar fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+  
+  
+
+        <div class="content page posts-expand">
+          
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <p>&#x3D;&#x3D;⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠&#x3D;&#x3D; You can decompress Drawing data with the command palette: ‘Decompress current Excalidraw file’. For more info check in plugin settings under ‘Saving’</p>
+<h1 id="Excalidraw-Data"><a href="#Excalidraw-Data" class="headerlink" title="Excalidraw Data"></a>Excalidraw Data</h1><h2 id="Text-Elements"><a href="#Text-Elements" class="headerlink" title="Text Elements"></a>Text Elements</h2><p>start ^1YBXJUpB</p>
+<p>right &lt; answerKey.length() ^JDd4UZbY</p>
+<p>end ^XRT5nGYf</p>
+<p>answerKey.charAt(right) &#x3D;&#x3D; ‘T’ ^WlKvL2P3</p>
+<p>countT++ ^2rTUXvKJ</p>
+<p>countF++ ^eALblDLZ</p>
+<p>Math.min(countT, countF) &gt; k ^assygEHD</p>
+<p>maxLen &#x3D; Math.max(maxLen, right - left + 1); ^7G17HWEG</p>
+<p>否 ^nksljwu4</p>
+<p>是 ^zh4XlhAj</p>
+<p>否 ^ldLt08YH</p>
+<p>answerKey.charAt(left) &#x3D;&#x3D; ‘T’ ^O40Ij7Zj</p>
+<p>countT– ^xxrT76vk</p>
+<p>countF– ^NhCgwA8s</p>
+<p>否 ^npBcZIXC</p>
+<p>是 ^6FlHIL1p</p>
+<p>left++; ^JfH0eKUg</p>
+<p>是 ^i1vMFweb</p>
+<p>否 ^n4o2OES4</p>
+<p>是 ^7rBAzGDC</p>
+<p>answerKey：T T F T T F T T<br>k：1<br>初始化：left &#x3D;0 right&#x3D;0 countT&#x3D;0 countF&#x3D;0 maxLen&#x3D;0</p>
+<p> ^OU1OMZRM</p>
+<p>right++ ^NcuNLz5L</p>
+<p>这一部分就是讲窗口不断滑动<br>直到满足T、F的改变次数不超过k ^7dnyBS0u</p>
+<p>countT&#x3D;4 countF&#x3D;1  result&#x3D;T T F T T<br>这个时候在进行红色区域循环时发现<br>countT&#x3D;4 countF&#x3D;2  result&#x3D;T T F T T F<br>这时转换的次数大于k了，需要进行滑动处理，直到转换次数小于等于k<br> ^Q7k8qwuC</p>
+<p>T ^WBvKjTwJ</p>
+<p>F ^n2S79WPJ</p>
+<p>T ^jXQ6CyzK</p>
+<p>T ^zlsrGQ2R</p>
+<p>T ^Ufdao3kU</p>
+<p>F ^syy7lHBM</p>
+<p>left ^oKM0XVCc</p>
+<p>left ^l7EDgS29</p>
+<p>left ^JrSth1sD</p>
+<p>当countF&#x3D;1时，满足countT&#x3D;2 result&#x3D;T T F<br>这个时候的长度为 right-left+1 ^9f1da3gj</p>
+<p>right ^1xGlJxvK</p>
+<p>left ^YOIJrkEg</p>
+<p>总结：<br>这里的核心滑动思想是检查到了 窗口里面包含的转换次数不满足 则缩小窗口的左边界<br>右边界一直扩张即可。 ^dr2QhYSo</p>
+<p>%%</p>
+<h2 id="Drawing"><a href="#Drawing" class="headerlink" title="Drawing"></a>Drawing</h2><pre class="line-numbers language-compressed-json" data-language="compressed-json"><code class="language-compressed-json">N4KAkARALgngDgUwgLgAQQQDwMYEMA2AlgCYBOuA7hADTgQBuCpAzoQPYB2KqATLZMzYBXUtiRoIACyhQ4zZAHoFAc0JRJQgEYA6bGwC2CgF7N6hbEcK4OCtptbErHALRY8RMpWdx8Q1TdIEfARcZgRmBShcZQUebQAWbQAGGjoghH0EDihmbgBtcDBQMBKIEm4ITQRlADVSGQApCgBWZoBxAGUkgA4AfXoAYSMayVSSyFhECsDsKI5lYLHSzG5n
+
+bviANm0AdniAZm7m7oBGY+aNnm2ATn5SmG5mpK3d7ebtnmPt7o2D+NvICgkdTcY5JK6JZrxSHQqGw5r&#x2F;KQIQjKaTcbpXZraHjxeKvZrY3GteGFSDWBbiVBJBHMKCkNgAawQAzY+DYpAqAGJjghudylpBNLhsPTlHShBxiMzWeyJBzNDwAGY8TSafkQBWEfD4DqwRYSQQeNU0umMgDqQNGaD4JIgxoZCB1MD16AN5QRYpRHHCuTQxwRbDgQrU919S
+
+SpNtFwjgAEliD7UHkALoIhXkTKx7gcIRahGECVYCoALSMarFEq9zHjxXG0HgFL2JIAvtSEAhiCCeBtmqd4p3rTXGCx2FwrWcEYPWJwAHKcMRon5PZpXcG55gAEXSUDb3AVBDCCM0wglAFFgplsvGszmbUI4MRcFv2773s09vikvErntPgiiBx6Zm2b4L+bDCtuaC7vgYSFM2hTVpA5QSAAKpgABWNTOMcSEAIL6PQNTYQA8jwpptAACkIbDMmqkw
+
+UhAMxzOSaorGgzh4toGzglcSTbE8GwbNsGzdAiIaoM4PB7Hs2inDw5yCScjxnBsCKAsQwK+ns3E7JxEk8Tpew8QikhIiiUDcNsZzaL8GxnNZZz9qUZLOuGNZ2oyUpspyvI8kgB5CiKZaSiynmygqCrYFcEVqhqWqOs6tosm6NpuQg5pqZavDUrS9pxXRrrtu6wiet6IL+oG2DBiCYYIpGt6xvGSYpmmCAZmgV7ATaebEAWEi4CkhXisQFZViSEx1
+
+twDbjLBrmtk+qDfviuKfMJNoTsOILdHs45MJOHAzhwc6+jZ2xfJCxwrTWhDrpu4GoJB+42oeg2nhkWQ5PkyY3neD63Z8slvscPBJLZfo2n+AFtUBIFgXN90IDBtzwbWUwSEERByL5q07etaA&#x2F;NtQ7TrOFJvL2VzHG+LmlF1PXoLgxxqldG7BI+O57gguZzRA2wKhsAzHBQx4AJoAErCwAqgAGqhx7YEkHTHBsygABLRZq2q6nliUFcl2Vmha3AOQ
+
+IusOhrFT5aWRWSMNpU2gGQawFVlOkvMzkIixYmXH8Nqic4ewXDsez7K8WUmkywUyugXI+XyfnCrVEoeRH0DkBwzCBoE2Rqqp6moGT2jLgXheF9sRkmaiuMl8ls0gq+QOAxiTsQLVMZxh9TW4Omc3tQN5YlWg8FjSjvBNgeR7EC957vWgBTjEUo2D3RW6YGZ&#x2F;xU5zxyCwAQhLDRi3Am8QKN03jAPCGc5LAAyACK9JTvoNQKsZCDYZgvbbFA0bCxL&#x2F;
+
+KlLRFS4KQOkVAj4kk+jWW894WbPn+p+Hgm1zg3DBnmCGqBu5g1AoyWGbMEZwRtH&#x2F;CQS8V5YwJiOVA8RQYDmxoTA6FJ9inG6N0Q2ZR8zuwgLgHgDNrrM1unDDmFQN7b13vvVWsVTb6i1kaY2aUc5MJSrlM2EiBrFUrDbGsdsKoO1DI3JyFJG7u3EpCDiVwhLgnWLiPYuwvY1h9oHY4+ceDYnxArK4uwvzKR1qHROXlo6YxrIKOOgUvEEJTmnABb0s
+
+76zQK+KymljFHCBt+WSpdkTl14MSGav1XiAwuOQxuzd6ptxtKmDuLUu5QxtIFa2kNrx+LHhPN6DUwGlAgT9Oaf1XzxHRBJbs6TSjg0AjUvpGCeFsxTJwKAHRCBGApEDMZ2QABiHdNSiV6RMLAZl9RRHqKWSgSF1lmy2UQmshDsJEGUKQiAYhshMDVIOKA5gCCnORBc&#x2F;QJBiCLARHobIuA8xMFaugbmvN+ZC1FpLaWst5aKxVv6UgyI8wED2cvA5A
+
+CjmOSEFANgwtwhTIpLSIQ7MkFeiVmXDZqA7GyRwSUJG+D0COA7pwbWlCSEgi+PjXa+1DqoEODxJ4FiLpUxYf&#x2F;PYnCmYICgXdUZnVOYAGk1z0E0MceIStCCC0FseJCSEKAGDaM0KA+gACyIj1ZOk1oaEO9ppEZVkcbeR4izUVMtlUslZV7aiVBNol2ui3arD2Ek72qwPjPEDhY1ZtpjZBMjt5GOj1&#x2F;LxyCtKCotJrChIzqigEkTeBJFDcZFJpK64t
+
+l+t0CyoI&#x2F;bcRqmKFujT26dwGR1GslS+6oAHsjGZI9Hp1LPA0&#x2F;Io1T4tsTfs1eZ8KgNDXMQeIYtCyaEFofWex8qXzzKJzAAjnABUS6lb4CViKNoSRjy4H1Q0ZoS6Oj0FNAfQdfbeqALYMA2dq9e2IXQFigYVwKC9EwPoK4CoGhrHoJISEZFpXSsIj&#x2F;Be&#x2F;9r23qmvehdj6ICXxvnfB+T8X5vw&#x2F;l&#x2F;UDl7aYQZnVBntMHOZXwaGRNSDRCAToioLf8bQE
+
+BGB6NGZwGGaVsOwyA8YTTIAtPFe0wOLiga8VDf06pdahkw1ZlBeGJRj7UvGgQgdxDdosqsaUNa1DOVLQsl+XiuZBW9XiCKm6WDxN8IkCOsdE6p1GttS6RRHiLUZutaHKzCV7X1sdY2ihpR1GVS0QiHR3A9EBqElZT8xjrjnEhDwFxIlVi2QSOsEN5r3Lh28d5NU&#x2F;iApjwjcnZN6dwkqQzVcOIxwC5vjJgZQ4K4bQ5tMuZUNYRbqRdOBsMM3xy1Rg
+
+KdPdj6pmr&#x2F;LQa5waTq+ulCeieTtF5CngO+lxl8PHXivCi4SlBQ3ICslExBSVNYFTjMmdMg2jctsLKWfgFZCJCHTFzagAAPAAHQ4MmigTBpUIFuzAbQwR5jqAABQAEodkUERaS+iF3LuoHu49hAr33vKC+79076ynnnIqFcrc7J8b3PcAjl5byPk2i+VEX5pB&#x2F;kQFlfKxVyrVXqs1dq3VBq1RsjhXd&#x2F;AAPzumSu6D1OD3SBPch1kaHkgftqlwOizF
+
+2LdtoDxQSmsf4EDEtzSCLEzRKVz2OTJrDQDblUNIX7SuTL2VE24FCP2Z1ITae6qw3AzR9PcMMw9S6y7V3rs3du3d+7D3HtPeeopasnPm0S6lezfufc2f68o+MHnIBec0WS6qNo&#x2F;NoAC6xX1cQDJdmxDZWSrwtr+tYjJaShWXFgh6IDchfustR1S7HDLg0stJtTrlzO+X0oPA&#x2F;NJN8FxgYbE&#x2F;D8LPNZqupMSL8boSRZJdg&#x2F;PEHoPfSj1bafsbshxX
+
+h5IrR1hMXXik1qEz3Iajbm00p4G22pz0xtTwTHh2eYHZNIovbBjg8Q2A8EIseDoenWMlC65xzJ&#x2F;059hgMpPlbyDa3QyYJia25T6HKbxdR5jKDcDNrpCTxE4k4KpKoqpqoapar6A6p6qGqrzqigRCDxjOBJDJALSZ6ez8Tj6fAKzYHKC4BwCqKbaECYBthkRsB5ikrtT76lBZDEDgESiQHQGjQYBH5E6kB7BQCERXBCAUDHCaCxLYAcCkBtBtCED6
+
+BITHg&#x2F;w4HYB4GrCEFKT8Rp7GK4gSQXDuKzxNw0EPB55fg4hvDvBCSRaIKmEaiMHEDMGsG1ocErahBQDMj6CvIyBMEsGZwb46worYQQbGS4BlKDKQBcFhFAIRGcwALq4IhwCBHH4zzjAZHjBOwlBJCjTsZgBZElDOCPCJDkznB1yd7GKSSDoD7rBD4j6lHj6bT5GgIIhBCHgPY24SZgBSZ4Kq7QBya644xkJsrDgcoUhnCMKbQWQGSm40xsLNA1BW
+
+5iojJGZSoVA3534P5P6WZiLWYuagGhyWoGyB77HOZJQh5WzuYuoaJuox41hx6UjeqsRHAD67CSSbANxvDRY54OLaCPBZqcQXDnDD5Zql7JayhRq+LDaxqBKQnoC14pp5Y2jZxWqNx955p1bVxWjrC8TAznRtZ1StydbVqlIAEOoDaNrLaVAdqvTjaklfSQIf4dJfhvhD6NyCaoLlJS7DLdFzITI4p7YCmLKvLHYPBw5IoSCABkKn9szjKTRPDmch
+
+csjjcmjg8vgJjhUK8sQO8jCZAHjj8l6ITvbmuhulusoDunugekeiemenTrCv4Aivsgqb5sLliqwGLqgBLr+L8rLjVr6ArkrtJkPIIejGEBrsyr6EcGMapjMmGAuOdJsPMebhsCseKrwhsRICIWIRIVITIcuHIQoUoSoWoSmN7ucb7rZnrE3laGcSagoocZAB6NcSor6Lcd5tHh6kxPHi8WJNxN0NJNsAZIJIViOTrncDFhYjsIVk8MOXpGOQ5vaG
+
+XtCWlnCZlgidlnXmEg3qiRmidMkgGagO8AWnNBYkDNxIHESZWhNqUGvuScEf1r3G2U2gIbvh4bSYfvSekafqYbBiumaU7paS7jae7vaRekxkkTejhpJtBmfphoMZfvhhUBLMLEhM0BwG0ILAqDBb0W0Uya0iyp&#x2F;qcIqjxEpn&#x2F;v+BSbyWthKuJsGf0aGWdrGaQqRcxRMSCDiLiAwpxORcwmbv&#x2F;NsOmWsSAUOhIKhehZhdhXsQ2XapcUcXZrWZlNWS
+
+bDJQcXJc2W5i+eHhAJHvcd2a7DaPotxQCYJAJAZFCIqkuL8WJD2FiLiGTIquZT0B+BCQmlCT4muQEhuW5YiSEvXmmhAGiRNFJKVgXmCJcMOTiIeakn6hknNEDEcCcGTDGRGEviSSvmSb1jyaUA2i+TSSNuPEflWgRdNsRT2GRb6ZRY+SJkAetusZtttkKVaPtuMqKcshKXgi6egFwXKV1RgBKIqcvFqRIKqajsQujo8sqdqdjvqZcuMkaX8pzDme
+
+IZIdIbIfIYocoaoQ6Qzs6VKd1QNW6Rih6U1d6aQPipVTLiSvLhSrBbgirqGXSvoAypGQpr6CcGxfrrjOQnAmCIwimf&#x2F;FcEJfyVmegKhLCqaL0AqIRHsMQM0JvO+swGRBsPoGLGRLDdJfFFWa5FIgHspUHk2fRJpWHh2VHu6r5p6v5n2b7PsNZaCFcFiF2CCa5SFJGh5ZXnGjXn5TuQFUFVaMmVVtdc+I3NPhNJ+Dyp0iYaUPkulY1EUj1lEcJhpV
+
+SS+TvqrnvrhgfqNt+Q1L+Q9YvEMX+ZzKaPgNKvQBfDwOjbhXOsrkbRUAgKes0MQErBQNwYLB0MLAMBQPEPoOPPSPECsBBQMVBZBndbPA+pzM0GwBOkhIRJoBLDUFANsCbXADAPLB0GuHAFfIxsHSxnenrWvBUM+q+u+p+t+r+v+vEIBsBjnaGSHdbfhZNsyW0jNrAkPq0LxVyTSatrVbRdBGHbbefoiYbZACpqQv9fJuMV9WSptMDGGBJLxdTObt
+
+hMDcAZLoXRICbWbRbVbeWaIqpRcYyvJTWTIvWVjcHjlcTXQRHuVJ2eTbHpTb2YZQGq8IzcuI8N8PxMuEwm6ucNpBUXVuGpueXj5J5VXgnJuUif5REopacIQa+MuMDMOZJFcGYtFaSsHFXLdEuJFptCcPypADLcVZtgrVRZfSrZeNlQKHSZPMQ80lNiyTxh+LxgJv&#x2F;tVStnyWvQKTtvGSKUdidp1ftWwhzuDq9rdtgJIAAthFAJ9o6ZILdlAN9qgA
+
+ALzKOoAADkSE6jvVQjYOXOEOugkjpA0jsjuaSjqjGjWjg1UAw16Ao1kZE1mpU1EgOpepaohpBORO4NhAkN0NsN8NiNyNqN6NR9Eejp8KTOfVej3OhjUjMjcjijKjajmj2jR1IunpuK5169FFV1cugZt1vRiMDFdEDEfmzF3AAkn1NCIIxiPwxijCTCS9&#x2F;8nul0XCqxINduFQS6PAVEGwxACom80YHAMAbAMAwskgAwzgpo+g+AZEmNpq6lYaxxeN
+
+ONjmlZF9ytoe19Olt9ZNDxjkj9zxz9iedN+wjNADLNScID0afi651ekD3NqaMDMiY4gteTZKsyWDbSlwZBUIBDTcaVdDkA95WV0RRNFD&#x2F;BphNKk0A91DX5tD3a4dC6TGTFyFEgPApASEks9A0qDQ1tcFdtEgUdMdcdCdSdKdadxwGdWdtddE9dR8BLnTEgmdQgm8qE3Qgs3QSsU4mEx4+q2EpozgYsDQm8eLQdddedU0jd9DzdRFrJPzJilVS2VD
+
+EAPdwlPRfR+t&#x2F;aSFwxnAII2lY97FoYgMEtDiANvUm8yxq4oqGZG2G96AGLWLEsOLYrXu+959hNKUJxdZ+N6zhNLZTq2luljsFNPZRzNY7sRwWIQMHe9lsCxWdNWkgkFzylK57NMaXl9zPlW5yJu5NYfNuccQrQy4AkH4oISkTCmJBs2Jv0r4E+uw15y+ctJDJSoLSt4Lz5lDYLBV9SDJGVJVjD4tXYX4DhfSbD3JYLarHTd5jVXpnzDVh2YpAjxy
+
+fVeg4oUASEAA1Juzo4Dmu9kFuzu5KTY843Y29GqeNRqbYxAK4zjjWB48aUTt070&#x2F;04M8M6M+M5M9M7MztU6ZE0I&#x2F;uxu9u4Lu6aLpkxdYSrk0eeSorgPSGSUwgLMGU5PXq76JQSh3tNPbsPxA0ayp1DprTGuKvXVSJYuvbcoJgMoMeK8BLGuKaMqFfAqFfG0HAPQDGBfPM42Ys16ys8fSpR64swGzcbbLs3paGwZRG6sAJHYqGm6nAuc8zam8A6uR
+
+zfCdm1Azzc81aq873kLR8yLTifNJ2O3ZsEwkQ7ecC6Q+wx21vqrW+arjC4U+2vC12tPAXUPYhWmvaxgNhBfJoPgGuBfIWPi+52R6jI7c7a7ZvO7Z7d7b7ceP7YHci7nergy6F7BhsPSPSMQJoErGuL0ErN0Pqs0LhKhPoFOMeBLCLLS+Bql7OtKxxgwy3TAoVpFeiEq2QxwzRXDPRVqxfgFWPeZAa5rka7wA4jZAOY0wR2wmWZ1G07a&#x2F;Vd58&#x2F;H5w
+
+F0F5x7JaE0swpafb6wfdjeQ1s+2SJ66iGw&#x2F;WGwnmJM1oOWTMuK8L9YJD+NnmSq&#x2F;cm4p6s8ucp+m7c5mxA+p48yifmxmuiNoJtO&#x2F;UCfZIHLxVW1aDWzPg4kXgZGZ4CxZ91q24rZvoNiqz20VSj+&#x2F;s16yTxIHO14tp16q5wyR9kzgdkDw8KUUq1fwx1SuwB0eFAPMsB+6Lsquyz2z0e4Iye88kjue2NUyo49e7e7NQ+4teR5R9R80LR&#x2F;R5oIx8x6x+
+
+x7+xE&#x2F;KXY9z+z7HqBxk9wD6ZB&#x2F;6akjB717&#x2F;Cl9BeU7jFLaPSN9PW+EcF8PxNb3xQsbgG0MR33ZT7Bg7aaE7S7W7R7V7T7X7QHet2pZtzx4pUuYyATYJ1fUd2oqJ6d48YcxdzTXYt8J0h0sZxJFeU98VnEJ2Cm+90ltm9c7NelpzQ8zlpp43jnKcFJD8N2JsG8N+KZc79D+G1PoZ+CJ3qWgcI27LavlZxO+27lSNFC+rR+djzrYiyfMl4xSPd5&#x2F;gM
+
+QBfFAD0ILCrC&#x2F;mAG&#x2F;k13KwDBySnh19Z1O1wyEfUDwY4PMJCzWLAW9F4xDVDTDXDQjZgEjSjWjRjdgVtpofGIQcPm+EizkJPgnefjAwkNiENzCCfegs4VcJBFR+H5Lgpfz4L9wBCd&#x2F;bIETmqAy8aOdHBjkxxY5sdowHHb&#x2F;rgT&#x2F;7JAneFAygU7wnLS0oBzqAQk4QCJuEhMH5fAF4R8J+FHwcAtgiqxpChFwiIQdHjaFiICDIitXC3jaFSKsFdas8Io
+
+mAByLyD8iq8OQZhHJgcQAYLfYciAP4iDo8is8RMA10EKdF1WpvDzqi11akJeKhraemcDeCbRyEefS6NNzd5Ws5uNrdVsZnQAr81+G&#x2F;aFG62NQCcI+uNKPmfQWabchOWlUmmJzO4SdlgqwZohxEYS9hpOtiR7tYhZQM1XusVPjmmwrwZtwG8aVmjm2gZ190S6DatqeRrhAxewDfRfO1iH6ZUhBT5Wzl23bYz8EWjJJuoRWgTysQBmDKXOO27rk9Pe
+
+3DU6vOxnaLt2qUSY9hUFlIc9&#x2F;sfVOYXz2vb2N1SGOU9jexmruN5qnjTmD7z95RcYuQfeLolzV6M4NeEAJYY8V16nUDeAwolHpxN5wdim4gqgJb1QB4wMOo3L8N2F2Cvh&#x2F;mTTXqH4NabuDp2oldAMS0LCx146idZOvgFTrp1M62dPegELCGSJlmIQ3boEIth+BWyJNY7ncWT4HNzu1Nd1PnCLgUjjEibQckXze45DPueQ77gUK5o18nmpQ7gMYnJG
+
+UjC4UPPTnEBHaaRBRAozTDQNtCGcjcjCFxBPRrDmdOhd5EfjSXH438zeQ8DWrC0&#x2F;La0OhJ+JFvBRRZL9wREAIwJIHiASx8AkgbCKhAbpsYEQePffl&#x2F;iSAGRWGVVUfoAQ8Hn8oAyA6&#x2F;qgNMLoCP4nMbxr42f4BM3+QTT&#x2F;qE2BakD&#x2F;MyQD8D8D+ZwNuwnEWxFQToF2IO8PwCyNiCBiHA3gqyYFgwSYHwD2CmtTghKE9FQFvRt&#x2F;IQsuh6YDA+mAzIZi
+
+MzGYTMpmMzOZiQN&#x2F;7aFkgxWcgsVkEgfhrgH4CAWYVoLQC7y+YlwmkXcLFjPCNIDgWoC4GTjrOfA+oHERvQJFSeIg+IoINeFqgpBfbIonIIUF6DrRo0OQZyO5FFxyKJQfkUKNvECiTorRE8ZWOMHdFTBCFcwcpk1yM9PxJCUbqCHHxQhBIZrfDvxSBGuCQRBmM&#x2F;ky3QBGiTRZoi0WH0ProjtuVqUIVx3CHx96BifE7j5hiFepjml3KSCFgvGoNneb
+
+qItFiDfC+piswJYxAthL5hwy+KnfIVXz+6siAepQAtsBN07vNshAgQzuTHIStBJI&#x2F;zWUf2xbbr4XRlJTtqT3aGudxJMrboc9xa4fAngpwY&#x2F;lJOoq91MyC7QUnOxaqTDxS0wvnhUEAD0ZruzMnWMVhQvBxlew2Hi9th3yXYRUEhHQiyWcIhEVSyRFnC9qgOcyWkxOpek7hY7B4e8yeFOd50fXWlFYGeqHUMOG0Z3tYOqZoAGEl5NSYvWcHRgPeOk7
+
+zqMzaB7AquhYCUMcELBkQOAbAJdKhCnBwBJA0qJCIhP25GwMRO3BibHwwm4jA2UQokc7BJEETfYBkBXNZUeBbBaRfErbqXyKHl8wGrEooRpzZF7ko+aQ0oJ33h6VDfQGIL8AwgH6pV6hQLVHpJMVFjwnUatVUdPxobySiivaPUTq0Ja0xKwMAKjnlxC46jbpUgYgPqiMCFhiAGwcKJoELAbw2gygNgBsGlSaB9UHQGrlejq7TjB63nJCPMnwDHg2
+
+OqNPKccDaDzJN4V8WjPKnd7is6WkrWFrDINGZdsuuXfLoV2K6ldyulXarnjJ3FpcXp0EiACyzZYcsuWPLY4HywFZCsRWrrXUeb1DoRT5+8FWDNsFIDdAiAzgIwHACxTzIjASEDoEYAIBXxjwbAeqXTKhnQVt+u&#x2F;WVj0J4y4NFWJPE&#x2F;sMJ67PCopnnV6iMRSoWC&#x2F;xHwEmJcDmIgTXefMqmPNzdFMzQgzAB6ceCekoi2pyEk+qhKxFoilEeI7ZsG1w
+
+kp9epknViMZ3zixINMEkaYtpRWT8QFOY0lKLkNAaqdvKs0&#x2F;7nm04kFZEgRaZcPsDxJM0xpnfe+nFQ5ECRvgBJUScjzlGWc0epPJUdZzkn7idZSk7jJ+EBgXl&#x2F;mXdFVqfwp6jD9JfDJdt+LWRCN9UD4SQNoFeQcBPs4jFnkhGoArz128yJRgAD5bsAEeYRcNnnqAF5eYT7IBzXmoBAOW81ANvNQD7zlhGw1YZe3WEC8XGWwz5DsMfacw8pBUwWEVO
+
+IAlSypFUqqTVLqk+T&#x2F;2gOI+fPMXlnzV51AS+dzx3l3yQOx1MDvryyaXUjepKcKZqxVEIckOlNd4QrFDRJTOUVExrO8Cm6gTaY0qbKXawNGaBCASEJWfQCQi9BCwVXJCNgCVjop9Um8CgLgHoANSNm40&#x2F;3JiNal+s4+HU4TthMJGRziRsQyAO7E7AM0bIfsXEAOPoS&#x2F;4IAokQOHED7knRrgvqB0fiG0WZyGR2cliWpzznsSC56aRSoHBGnZpHhPEA
+
+EmtLJS+ooQbwYfIPz2kgsmh5DGSRWLwUTQzpLnfcaF2ulecDR2wNoJ8CVimhjw7vBmcLNemSB3pn076b9P+mCxAZwM0GeDMhlq4tZ+dRmd50IibxlAmXC+NhDgASzmAewTeGnWcC9B5kSEU0OrIX74zoZkmQwbaL1ndh&#x2F;xgkUUUPMnYmzsEZskJf10tmocPm2i0hbQmaKRY+I5rGheBNdmgioJ3nWJfEsSW4z&#x2F;B&#x2F;sv3N6yUoSK9uIiiIfiNkV319
+
+mPUxRRAGUVD4rIQkebJ0msK9heKuiiyHZU+AnQvwCSUxZcxSyWKmRM0pOHNI4n2Kc4nigOC4lMoN84E2lTvo8HcX&#x2F;jFUcCbDr4pR7+K25R06klj3OldybRe&#x2F;AZXA1xCVMjZmkmqu7ImF6TeGdPQycu1&#x2F;h9V9AuATABfCyAqNUAUCheays+wsq2VWQeBQk1uzOBUAwQBUFAFQCbsyU32AANwWSXGrK9lRwE5Xcr+VfKpVYKtQAJMxIYqhABKqlUyr
+
+5Vx7aydcmF4&#x2F;jRe9k9+bjk&#x2F;lS8JAjC5hYIrYUcLBYXCnhVAD4UCKhFMKXahAu1KaqVVajNVbyv5XKqhVF2UVeKslXSrjgcqlBek1uEYLDejwoMpMo8710iFAtG2dPWqGgh7BOgp2ebinB0LFuBo9JR9K+k&#x2F;TsAf0gGUDJBlgyIZfsyRUEOalBzTl2I0OZ1IJHXL9K+EmOTZU0gAkbIpnTaKRXxCiiVkDCaSPxAOB98MQ5WQFe5UZGwkfuhQsFfnN
+
+5oZpx8&#x2F;I2SHAwuAQ8O+jw8fNJDDAYhIqZlA8l8xBBM0F8DoxubtKxUKiVW7c18pP1OnTiNRhVWfm5zKVmD9RYXdAP+GYD4BUIFAIQM&#x2F;nq5PjFJpVV8PaIMijsKKyrMZd13oVhoUUZY5UTESrEVAf5hU4qaVPKmVTqptUzpY4UjHx5oxs+U9T8HRVAkGEyYkcVhJgEFieBWoRAaWIgJejX1lY78kTgdUsLnVnC7hbwv4WCL1CP&#x2F;LQhRvCqtAZimkR
+
+rA3yvHDiKmg0hgeOO4FTj1RbA2cQYE4EsbSey4mxqIICUxEJQq4igOuM1lvDJBaRGQZkXnhHilBp4+eNuvsSDKngdsowoOkwjHr3UZ6xxcOQfH6DDBHRG9CYLTXviR6DAL8aGCqacpsQFMQ3BlOoVsIpw6yhCG7LBEAaIAQGkDWBr0xNqzlnrYIS1L46HLKSh3JjTfRwldlxOfauIVEjsTcR6a2IIxeFh&#x2F;rN5MQNkJcDxDhUTdRR5ipiV9xXXMjq
+
++25eaYDyj4Yk+RsPcyFmhb6dIkeD65uftIfKUrlaQStbZ+t7bpFu5MG&#x2F;WU8DBDaVRl7bEeSMPpW0raeuktqkZNQChozsrpCpJzyEZXCmVQ1R+TZLWGTVX56AByR&#x2F;KclfyKg5azJVWprW5K61BSxtbbHCbnDFh8awKeB0p7S4sFN1WDkLPg4VAnqL1IhesFi2TELggkT8AvlWVsI2xbgyCaPNBoQAL4HQbYMRkwDRgl00qU0DAGwhsBowRgBUJoG2
+
+CCxTQAVGKKiPQkByxFJWpqTlGbU4iKtQbJPvItuV1alFPqT8CD13Xd5SJhWf5qJD+XqCFYBwHiOdAxC8UBtk05iSCusXrrbFm6qPlmuWmPCtMV6o6NcCLTINeKYk5tvKNbnWcX1J01tB+s7k&#x2F;lf1EWm6UzMIjj5owqEbYIWEtEpLIpr07oCqFwCuqhAPAPQMeBgBTgl0+AYWJ0BqDxBkRXS+maUtSVMzpU3QeZOCD0A&#x2F;oNgpAfANGEfxXwZw2EQW
+
+GwCKXMYelQs6PUzPhmIzkZYsVGejMxnYzNA+y&#x2F;mRK1b2Ng+lxK5SfK2eWXr7hSGk7eMrorhaolMy8eqKIWUsoBIX4B0XhycHJbcAueiCdbi2UGjg9SQUPeHstEFaO1ylY5dH344hzytYc0cTs2q3VyFFcu+5QGkYSUTuwHwOBDiFmzWVUGOhb8D8CHwWR0QJuJToNuXUCg7mv3GxWNohWBUM0cDEHsVmSonRFU8Wf5p336Hd8Gsx0XJDvulpNyFJ
+
+Lcg6c+txV5V8V4SnbUSt1mT79ZFiXsE6Ln2ujMtB2C7c1QnlTDbtMw3qCI30ZiMDoRjExlGtuzmNkmVjA+VEyEMxMJGcTT7FGqkOWNUmD877Zcg+3PyvtiON+bqTvalBJeJpCoNTtp3EB6djO5nazvZ2c7udvO8BRcOiYGNFDxjGRioaSZqG4daC8XEmvuFQdjeqatHS8OzKIdGIhhm3lGWPKNx1960hWIOKzQAjnBwsEtaR1gyERJApAPeKhGYB
+
+IRMjbAKcBkEQBwAGgCACgLQSv0P6GJt+tCRtwl1P7KtL+uRTVrwlU0+pDNRhAmJQbfBWu6u2uVsB+Da7wDeuqAwxKzk3NhtoKxNBuq04GwdO1usKeMP4m&#x2F;Qma6IfuYtuJJ+Kn1YLT3fZyHiOc50W2nHj+sL1TLh6ge7zpgEwCYtBI9AACFHqJlZbi9pe+IOXucCV7q9te+vY3ub30sC97e7zmRAGDYRN49AVCDZAvjSptghEYgA6IvibxSA+qTAF
+
+wA1nFLBZY+qDY10YO9zCsFwXBhpKGEobF9wR82R+MiNvUyUCGqLb+JsGSjCdMm4nbgEh2H72mx+rLVcZuMbA7jwiora2tOLBzBdnamRZ5ml0tGo5dyyNlJC+CS1T1qDXsBYjIlVRFUreIY7rsgMG6gGMB4FZMdN3THzdsxlKdsB2DXB5189fPJxHKEw8UVOYr8CWjqGbHH17uzbS+vyoEr6DA7fHvrJ+pWUKVhJ7Sahq4M08eD5267Yyunl7tV5z
+
+gBjLIeZ7rskIUZqye9rNW2SX5ehn7davva2qTDEgDI1kbgA5G8jdIQo&#x2F;oGKOlHyjjhrnnGYTMBSfDZ1CDv4eR35NUduCjzqU0IXxS0OVJ2IzPW7Dghh8VuhCM4NI0bLydZ2pmYWGjCmgxYV0ZwMQBKPEAGgSQaVHSFeR7Ji1lRwUzft46i6Y+4uoU5EO7V7Ne1bR&#x2F;te8a+BWRld3RnSFSY13dgtdYBtU&#x2F;rsXVs1YDlQeA2ur1NIG7FKBxac4sWMG
+
+dbop0TiO8G2kyiyDruig6tsOkQtglQ9A46PDoO2aATf6i4waKnATNlAFAbCN0FyAPGI6FQWPYKAT1J62AKetPRnqz057fjBMtvY8dgwDBsAgsTADUETq4BTQSQNcNKiSBtAL40YbCFOCvimhmTb67pSUqlaYmIA&#x2F;Spg7Am630bfTw8hff3RJNnGLZ7w64LjoeC8Q&#x2F;YnebiQKj31ixUjXvTmOhYGCYXsLuQDc3UaOXbnRFZWq4l2quVHnatJ5+rZd
+
+zUH29yYCsZrMAMVNoAC4Kph8xAafPQGjdQ2uA6upZFfmLdOcQ4MkCXBuJTFQcP80eQzmGc+xGIWSM7vAvD8nT0Fjba6cQu48J9OJxxGOQJMKWiTpHQM2MIMms8GexkpnhGc3nVnHtCw2MwshauNXTVKOFM7oaxwGGJeWZonBOanMzm5zDQBc0uZXNMKEA65qHb6ouFXzOraKVBXr18P1mQpAR7BUEZbMIUM1HZ48olNt7JSuUJwHoEcEcF6XXeaW
+
+soBlrZOwZCL8epCInuT2p709mejoNnoP1jj3WVRvjjUYFNWXH9DlkU6&#x2F;puXCNo5rlmmoOU4hhgFYnRhMSnKVOdbQDOuoK6MfpFamJj4VkbWxKisGmyUagpvoqi7BaDhloozvgBbaRf0DgdbDYzeWW3YqPd1BiflFLVFt6jj367UacZQvRKstHAfeNgAnMSwBgVo1&#x2F;AwZ7kzY4NgMcq8hv9Olq0NF&#x2F;TjeWO42cFsNEgMw3ToZ1M6WdbOjnVzp51ec
+
+NCkmykMkG6RADTgBOsAdKJlEpjv+amxcQgI&#x2F;VIDlbmGwQrxs5gjXpzzAWc&#x2F;OcXPLmDAM1ua2Ro7FSaqB4d&#x2F;iDQMgGMbw8eY2AY7aLGab2BOm+cXpqXGHIzNFmzbZuLXHbjLNu4mzXPxKCHjdBjm2QfPFUGN8NBpNtvgJCjuKCgtElkLV0TXpvjl97w&#x2F;5t2cEkdJS0jcQEbTFNCGXPB2WwW8LdFuWXw+QugG+2r+ubMGjUusG8eafqnmhJAJHiN1p
+
+kj&#x2F;jZOjsKSJ5cCsjGNTniCxdjbfMRXRtubaK2ULeYpWZtzVTSK+E0gNsdpDpxm9sbH4s3ZJbpvaVJZKuRZJInJQYRVfltVXZ2dKq7fVf4MmSHt9aJ7YDhe3hnurF7EXnZM0O&#x2F;abV&#x2F;2u1egEevEXXr5Fj619YrPPbvDa1us4jr9IpqCmu1yCthjUtMJuzWYoSCcGWWMnv41rUczlINHPGy9bACvVXpr0dA69bABvU3ontITrL4i0rXueBvCmqtzRt
+
+&#x2F;bLpcvy6c8rizo9rs0g9HjOdNYfHYkGP731Tz5iAFNJzlZtEDF9gm+eJImoMqTK0+OcKLvHghb7lJnsDxgLVgWlt5BlbW2wx7b49j3u9Ub7qQuPH27aLdABsARlKwiBxwWgtrIlt7bpbR2wB3LepVGx0Nrt2C+7bgKcxNbFh7W9Yb1t2HDb4m8jabbDCbBA4RweMfDceAY3aBMdrsTOozG9hzrFkKO+qAdvMCnb6ol27wS40wF1b6AXM9kdyP5Hi
+
+zpZsoxUYYHFOCCXYvs6cBcTeXrgDiVBgxvlxhg1n6z9Z2ivtvx2Onidjm1pu8Ip3&#x2F;CE43Z7wIztGaNxpmi5&#x2F;nZSKF2Tjxd+zaXf0HKD54FjkicTzPw3i7Hwohx4+PFvCD8AL41u0voGJknqTFJzu8dc5SpTckrjq6+bmnRsOj9FOpmWE83SROJn9BX65ueqM2W5EUj+yzI6aM9rnLy9qG7xAvNdH1HOkJ++kONaEFms5MBLWcEKyH2PuWNivu+ci
+
+tmP2RVoSttNpRUOIToOIS4PepfseOmbzpj+x3K&#x2F;tFXsTrdQrH&#x2F;cdmz7Sep2jh1T24OZpeDN2u7X1X8mtWLh+rrq0mZ6ufanGqDjM0YaGsyoS93D3h58YEffGRH81v9oa+IeJqNrOTRs2Sh2tFNzZbZpiO8PHwaXQwdEgSN2D7vODguSL1kyi+87NAlYpATAIWA2ASxegKEHgGLAvj6BgNmgeZA0GjDj2DlBL&#x2F;63i5tQlu57IN2RyS9aNkulHYkQO
+
+EadUcq6NHfR30AiqsgnA9HwVsY8fc5dn28bPLhaS8ym3vMTobiu3dHkSRtd6bTbHK5QZ2PSvVbcFsJZqIumRLQX&#x2F;62DA0AVBKwkgCAaVGLCgJ4WQnEABi0xZYtRB2LnF7i7xf4uCXhL5sv4zDPwsSAgTIJsExCahMwm4TCJpEyibz352T3IszmGLIlmEApZMshAHLIVlKz8AKstWdRdH3j75XKk0iR85CnsH0ElVjVn65UtgvBuaAKwVC8mLAx1g
+
+GIcAYydwBD3KdO7vdwe6Pc8nuOxWttZI8K1SLJdXUmXRDYlMv1EghWZvvxFIrYg23Hi1xbo7RsH2DHRjqxbnLN343eXHwsogXDIIp5O8TwS02khRW03GEZwLK+44guePjNNnTHt21lfLaf7Cr2SK0E+EqvjZOHseWA5pWhmp5FsiQFGu3bGqDXfVDz5uy8&#x2F;GvNDT85B6mf6tuM&#x2F;t+OAHUS0TfJvU36bzAJm+ze5v83hbwh4Dl8&#x2F;+eVrCaoKX4c2v
+
+eucFeH9NTQ4Oud4Q3maYNF2G7GMnVQMbhbmkc5jnvmLrF691xZ4t8WBLQlpjy2pQn8mZ7OLg7vPa49in39ijz&#x2F;a8QEhK6qXqu7RfcXeD3nJP+jkK1c2N06m5Pn5odxNqhXydb1GztZ4ir5FPAVNNc58EzSmI23CG2VxoTipgvLvMM7Nw4wE7leS3iKh&#x2F;cmLLfn0Of3RGG9J76OGuTnvbvtia&#x2F;7emtrminod022U8d08QysJ0WMSs9HFx207nTjm9
+
+06v4q2+nHtlydF5TdpuM3WbnN4C+S9FuQ7JtwguQnDcWJ1F&#x2F;+3YK94ELUFGNRbbZ4j72eHGDnc445+pvTv8CtxYg6zjnfM1520TBd6QUXcKKPP7NZduzWfl9SDltvO34GIOiBhOK&#x2F;nO&#x2F;dooC9C2viQXI+iQRYIqYxGSPCUotEuE&#x2F;BJG992AGj0zPfegnwTxwSE9CdhN7B4TiJ5E516ntlu1m7H9qZx8PPRDxTH+92Kg2SBJCTTgksEBYi0cUSJPw
+
+xhb7245fTTdTwSfU4p5EkJA9I+wRJKCA+CaeC+E7o79HmazqKG4mK1+7laoPXevdBsVd1+q1GGfLPz37&#x2F;DT7s+ba1XqGgzV95u8&#x2F;fOYgz&#x2F;M8M6LNFGEAJR8Z6D5NvTPqnTT0Ei8BnXW9o719BHyc8LFAR2N3BNJ+3&#x2F;6cQAE3Sb7H3F4S&#x2F;4+83Bbonw1TB&#x2F;TPNInwbdYpFB6JU4fPrvibP459I+Wfyd3wqnbn+sb22BmzOwL5pJ8+s7Le7X6UD3F+
+
+7JfWeAc1nnJzTPx+pQcnHwCdSSEBgM&#x2F;WOzABs&#x2F;VHVfxgtNXxbsKeNuwFkV9CpiOsaTE6xOASbXiDO8Xec3E25GYdh1Q1YMTvSRk4AFGRgA4lPvSxkkgHGRd9xHEXVssK3cFi99HLH32G863Ubw9gPgIxC6Rv8ItE2ALgayneAjTTsDoQMQSOwJJpPZbxxspjBPwU9h3DKCNMFTdMR6RwQTsHBJr7GKmBgOIX6kKwM&#x2F;fYDBB+tASSEhzoPEgHMAWA
+
+z3ncoLUvw21y&#x2F;K0Er9ttQJyulN3VCyy1CAY4HoB9UeZAexVQGJw9M7Rc6Hr8AHZ0T9NknRWw9Fl&#x2F;dH0yccNWgN&#x2F;l&#x2F;5QBUI0QFEjSH98Cf&#x2F;j5R0PBuBb4i8S&#x2F;1js2nHZ3n82NZ2w40enNHzQFV&#x2F;bJ0sMdbGw31t7DI2wk0sg5IBxBYbfiAdE&#x2F;9Cn3OBL&#x2F;AfE7xzoCSDJgF8SECn9igpnwX8P1VnyOcFxU5zBY3&#x2F;a52zsrnbn0SIivGsH&#x2F;9AnEu3F8
+
+QA8uzAD1A0yhDQWXZIV0DPnAwIuAh8YwP7N4NbYGV8usZuzC1lLXm0wCiPUr02B5ITiFaxC1f+GIAbrUgORcxzbzh8C&#x2F;AgIIQBqvYtw99XfCRx3N79Pr0rciXCOSG8FHXgP0QjCTtxAsS5aTkWdrKBSBMpNoE72uAFYfrU1NQrV80r54&#x2F;XykT9VAg2H5deJRxxolUpfHTFcGbCVzftvHGgzM9CrCz2KsFXX1GHZneY7Q4M2Taq3HkQzCB11chGI1
+
+xypYHSyRNUTXJBwtUUHNM02EBrRyQi9MHCAEoDu9XvQxkGApgJ9VXXPV3ddsvT11VZyHMKV9d7qFS32sdfXGD18cAuLTBAByT4FAt4Xf+Fmo&#x2F;g2NwBDiZLLhy48uAriK4SufQDK4KuKrhSNRHRqVEVp7Nj2v1CXA8y4DupHjz99VgVoBk4skFtxpdrKWSBANVTdGzZcJpJbzCtT7XG1McShKkLQB&#x2F;7AElxNyYbEA&#x2F;BzgdDh4kb7RIE&#x2F;BBRC4B&#x2F;xU
+
+pOkLLZQBWGyL8WQkv0Xcy&#x2F;Xxwr8fdczw8da&#x2F;WDTCCHRHoDe9BQuNxSclbSoLdsO&#x2F;aXio4cBBXiV4CBVXnbESfJ5XTFPLCxEnDIsXoNp8UxEHk6DyYR8wQZuwRn2f8NNZHwqDUfRcNX9cNP+Xw0gFIjVAVhzGdjB9UxIGF+pfgeDWxB6w22zqczreckjtBjFrTGDGBG8JYEpgh&#x2F;100YIzbQWCVgy52IB3&#x2F;Hn0F9bnYX3udRfM&#x2F;GADMTXCNngKwnBj
+
+UUawqEBsgp&#x2F;MAEysEgAUVbC71SA1uDVfIFzQDNfUSys0bQ6I1K8piUcjfAktV3hwoavaINgwWZdlk5ZuWXln5ZBWYVlFZmArcyhC2AiEP3NLlUGzkdwbJ4gu5lwDiF2A8QxlxHJdLSAFEhOwLYAOAcwqT0W8gVE+zJDVvZQPW9C5BxU+Ac&#x2F;BYxStpyOkO4hRXVviZC53S72ZsBwkSyHD&#x2F;HEcJr9uQuv0nDB5RJ3e9gHSnlb84g6oIx8JAZ9lrFX2
+
+BsQ&#x2F;Zmxb9lJ1ifVoPlNrgZrAixgBS4E7BL&#x2F;Xe3iNzw9G3vtrw2&#x2F;2Z92ie8JQEV&#x2F;OKPQBnwlIII1gFYjTAUtw1oNLlUGWSDPU3iQYL6CEgISFnUk8AaPxBDgcqITtJgpO201H&#x2F;dn3Gj5g85xQjefZYNzsMIn&#x2F;3Yi&#x2F;&#x2F;O525sHnPCKecCIlQTb5HI8YAkgjTRAJ35kA5iM950ArXzWjyTEYi7BSvdYBTDRg53n7s2EKAkEjMtWDGLo30D9C&#x2F;Qf0boD&#x2F;
+
+QAMIDBAxwwkRUj5WA&#x2F;F0UjpHOMJUia3X3xG8UQhyObcrzNXWspMIGG3Og&#x2F;YAvjOsoQKk0N0Cw0kK5dz7UsI28rUEHhqFeIcECcpyCBAG80s&#x2F;eTgoIKfASC+IyYFFUlF77MEH09xXQz0lc8rFoTdt3yYcM5DNooJ08C+bUWVIBN4bCCMA2gNcFFtggroTicJw8ymnDsPSKKyhUnBcO+9V&#x2F;BAjJxkCSnDQIMCWnDajOxWsKu4FYGiUfs4EBDWn98mc
+
+mHz9UGT4EBI+wMaLmD8ARfzb94g+&#x2F;n9FH+Pxhf5AmD&#x2F;hCZMgqMSQZLApcDwZNgU4EhBFNOnxn9xgxCMqiwYeCKf8Kos5y59lo4zy&#x2F;8BfVaKF8IlXYKACdo&#x2F;5zzjDosmI+AKY0wIAlgYGmMVRB0QGEHIGY4ciZjOIMmEYiAXc6NNlHggPQG5otUYi+EsOLsHRAjFSNz31agc322UJYqWJlj9&#x2F;PMWxcgbXF3kiIYmMP68q3Ylycta3LvnrdxIeTiRj
+
+qXXo2spfUfODMpsQbiFZcu8QBiPtY&#x2F;YxwQN5PWyMhUrUGkJvtBXEtBEkbAl3XsCvHaST5iZXIWKCjUPVkmfiMPRDVVdFLSnmFCnPCMQZVXPe7XQBJQ5smlCJAGBM85EHc1UiNLVC1xVDwvBamzMn0JkBLofo8un+jK6aumBiXXdXkNCazEh2CkvXCh2bMCvPazWCfxCkyipe4k6yZoLEXsRN9XeUYHej7rc+Alhr4W+HvhH4VsBQxLgNDFYdwQxe
+
+OhCow6ELssl4+ENFN5HRMPhiA0YrGSA7uT4iHxQeP2FRjIsZPAkCeUD4GKwFoeQMLCrIkx2vjiYuyPr4FcMMHxJdPTQRx09AjBmOiPwcp1D8egbMVZjvgNvHxNn7ZkO5jWQj+OOlBwlwMFi13QlRCCSVQ&#x2F;h8V5LJJ0y1oozWNqiEgiQEBQ+YAWBFhxYKWBlg5YBWGVgg41iB0JQIv5Uh5NIB0VppjwxjSkgDCJMk7BbIBxFfAXY0oLdjygpf0STP
+
+YjARlQ5URAnJwUCKnHQIacLAkmcwff&#x2F;hsha4w4CFdFoB0V&#x2F;wbYn1z7MyVXiGp8wgkvFU0Sgl&#x2F;1YEk4maNdj1YlcUWDP&#x2F;JaP58Vo60PWjsI4WK2C8IiXy2jZ4GDlsSWsD4AcSrxMAHHdSiNxK30GEVoBbjnxdX2BcO46h2SIDrLqNK8Z1Xu2ejnBQgFHiYlcWUllpZWWXllFZZWVVlPwtpxnjJ7FgNY8ZE9gIuVw5BRLUjU+amnt4iCUtnOhmsCSH
+
+KI6aBaCIJIQdYHqTqfPMMYkSQ7U0UDyQ4oVr4ywshAokekSAN7Ah8AyAb8nI1JF4g7EYhQ+DtHOsIN0BJD+gE91HHsICS+w9+18i2bVwOONRw4KPHCXvbRQFDVY6IISSHwrWLqi1&#x2F;LH1i9cfRLwJ89&#x2F;fJLEgGXSEAbiEkE&#x2F;13UhxGOLQBJAyOLsh&#x2F;hK8JWSJgsoK6dqo3p1ijkk+qKSC8NABSaj3wjIONiKNB3V7AY2OBEkh5IQqLXsco0EGlNpT
+
+QyDdT44iaP2cNk2YKaTtkwzQWilgtCMWDs4rCNzjAA7IgLiVfUANnhnAFvixAGECOP+EI48pLADeQ6SHrSutX4CXANgC5MIjDowvhUU&#x2F;mSAyEhgLLzQFTp1BBAaIlIRVA+S1bNuImUfk0WOeCyUZFWYTOUJrC0sDtKhVd5L9MnX+D1XdIzFhjgQiH1RCwYWEGSsXAXVnjS3eePLdIY2MOUjq3VeLhjkQobilM7YqZO4gyKD5QDQHRLsS+BSJfuOT
+
+YiQ8+PpTLIwmMHdLE2+IeBJIIxE6iyYYGGL4+U7BVStboRV0VQewWdwaF5aWVLZDWhBC3CT3TBWMYZBleHnmNAE+zzVjztIMy1dRQyeQatXtQHGcMYAQACx&#x2F;pCFQAWM+ZFYyOM9jJYykIPeUYzjgW7EABcJUABpzUAA0ZUYyo1FRiSBtVXNGUYpM8+VkyEFTeQUzQ1LIFkzbsW7AVVaYeQwhxmMzjI4y2M&#x2F;TN4z+MjgGEyxMiTIUyEmBTPky5M7n
+
+mUyA1NTI4ANM2UM0Mo1Xq3NclQjFExcrXDBywSaSenANDdGbTKYzuM1AC4y9M7jKMzBM0TPEz9VSVQsyZMmzLjMrM2zKkyVMjgAcynMnXlWsPXMh1CloOC0Pb0stJWBgA1wBoGlRmgC+E9pqgekFIBTQSQC3RMAJIHwBEXEI3QAA3CIz4DEkLEC+A4EdTwq8SvJ7jvNx8biBOhA4YGFnxeKLiSYSGw1JEID1IkxIJiB3EsJZSz02RKkS3fMXRvS5
+
+E6GPvTuA87zsDvIzbRejcAe+WaFgkvyPLCPyUWhSlSiEaM+COI5Z2XS8dFxHt4xA7dM9D1XB7xwiPAxfi8DYMKcE0IpwC+CMAKs56R5sstCpSqV6QGpTqUoIRpWaVWldpU&#x2F;CrQmixtpX3dAEIxiMKAFIxyMK4Eox6QajFoxugejCQ8xLXpQksxwgGFBBRk&#x2F;kPCiZwi6PC1&#x2F;swHOBzQc07HnS+yWJG0hZ6CyDeJOIbewdSGaY+J60xsxyhqcfzHOE
+
+4gZnCjy7xQ&#x2F;fA0gAVpUNHmzzIpdQZSiwpQIpCVA1bPYCwYtFIUjJEjgIG9vfBMNfjDsmkmOz6QG6xdNeBQzgsoCSOtneExc7s1QZqJShWei7rWcM5stRGkkpy3NGnJVitJaIKgSgcUyG14YHNq0BwEmUPJpVKMpYw1cXPWjIQc5Q5BOpNUEpULQdMzHzKJxis0rPKzKsgYGqzas+rPpBGs5rNS8WcaQCjzSQG4WNDcsraxR03xdI0qVqlWpXqV4c
+
+joBaU2lDpRogMAvslnx7EbMXIIWsSKj3jj1fII+BNIK7leBJsjNAGNsDVviolyYR3k08Y2OKyN9x8YthxAYkx9PXjRFcY37diwixJWyfrc9JRS5I8GOvT9czFOf0EQxRJNzMMhd3bZjsgDzOyfHC7OHgP1a7MXT5sO2WtkGEkYnOhhue0MmJzoJcC+AiU7hI9yvszbR9ylY6uNiSIo6II2CRfM5KACu0uQVnys+ZBlfBF8+7MrSV8rNDXyCC8EG3
+
+Up0mcUOdpozNJf9s0j2J9SvYioH40nVdhSE13VT1TE1Q081LaDTEemml9zoMLEv84gYfHDcuwUrDJV5nRpLWSWkmgp9FV&#x2F;bPLKyKsqrOUAasurIaymslrIyiTYh3UHTisasJElcC2p3MhxC28MONkI9ONQj0I1YL+TPk1AIZyO42DExySMMjELAKMKjBow6MaM1azC0giS5T84bJF4gvFAyCnCnuXsBT8RsyKnGy3wUUQLZIQTISTxvgEm0HTkrY
+
+3h+AQeMtgo9Uin023yRaYkPxjVcsxKvi1vcDKRST8sRzPzdcheNnsDc5eJvzwbO&#x2F;IkkHAsFmOznXF&#x2F;Ls438u7xRUM&#x2F;RxXiQiFOXPBcp6E63IJNE7iDdzNlSApHDvclVIP56&#x2F;TujpzNUzLSQKcIlAuyI0Ciuz&#x2F;phyBxDiLRA74AaSK7M4EIIh8chDSKDih3mWKwA6IoDh1i4dRw47onYuSL9i4rCOB0iq4FILVWDNPdTX&#x2F;MAhijpCvVNkLc8hQqUK
+
+i8kvLUKD&#x2F;bcLMDucp+OJTKFS&#x2F;2ti44lOI9S7w1pJ1SkkugokAdYpAgpxUCanEwIzU6Zx4gGiDECOA3gaoW3VY0kinsgFtVSVmJDC2CPVETCg5Izj9k7&#x2F;yOSsNGdOJNdrUWSGgYATeC6AhAbvN+yAqfRBOhMQewWGVFfV8Asghpcb3aCi0dFSMUWY1lJ5SrIeK0OAAYeDPly9OJdMyKFs3ItAzls8bWPy1syMI2zdzLbLhCdsleL2zbArmLfjjPY7
+
+OTyrc+YIElWDPE3+F3hOBC4jW+LqNpcRzHdNQ0oC8Yt&#x2F;iKYY&#x2F;0YQIgrDwDzMtIPMABN+MAAAOUAALhMAAwJUABGHVMlAAJujAAdK9AAY+VAAWDlAAWtNAARbtAACqVbsQABe3QAAYlQAEO7QAGbYpCEABABnmRAAELdAATlNAADeVAAQmtAAB1NMywAFDYwAHH407KlDw8ioGjL4ypMrTKsyvMsLKOAUssrKay+subL2yrst7LooUB0u1nPMUOcy
+
+lQ1zLNdr2TzNVDME9+LURodXyUHLYyxMpTKMynMoLLiy8sqrLayxstbKOynsr7Kq87LJrzMFahIbyCMbYHpBugJdDA0p4zuOYhzIf4kHEqiT8E3ybzeIQz4ByckpxAS5bSgLY8TDiHistBawkSQ6YxXNxTlcl821Klsw&#x2F;L1Lp44oojCdcnr2jCKiq&#x2F;MaNqi+038TrS0nmOyLLIJLxUHSwtCmTllS6xujZlCSDod9faMkftWwuApZNavSnj9KVWGA
+
+oaYpk&#x2F;3KpVwyyswPZlGeIEUyFkZRmOBUAbVXCBswKAGUYQssLJYzbsCMsAAqOUAA300ABMBUAAKdUABt+MAAZCMAAiv0AAnIMAAuZUAB99UAAq&#x2F;UAB6530rAAReVAABucN5GSrkqr5ZRh4BlKwIGYA1KjSvCzOMnSv0rAAG3jAAI2M6y9ssAByTUAA4uXpBAAMLlAAGH&#x2F;AAAHTAAQMiLKgssAAQTUAAwFzSrSymKvbLAAeB1EqwAElvZKsyyw8xa
+
+1XlZK+StZ5FKwKtUr8AdSs0r9M1AB0qDKkyosqbKhypcr3KryoOgGq3ytsyAqlSuCr2q0KoMzNKiKpiq4qtsqSrUqzKpyrzK&#x2F;KqKqSq6KvKqqqmqufzo8mq21cwzRBI2FNynQ3cyLkHcowTnJazn8zSE9qw3ZGqvyqUqpqkKs6qQsnqqMqzKqyrsqnK1ys8rvKp6vGqlMyaqCr3qsKrYyFq2KoSrkq9Kuyrcq&#x2F;MsKriqkstKq2yiquqr6QWqsy94
+
+ddBRNCkdd8sZz&#x2F;ReABqBTQDgEIgpZBoF6ANgGAAvgGgfQGUAl0KcEIhEUpjDRhCADGEAqHUzsASAToO9VjEhIB0WxDUxfEqwNsDL4BIMIMojwZpdIUcllqdIXAz05PwUlx3y8YiyP3z1c5lPwqiig0uIqfWXrwvTTSu9PNLjci73vz6ix&#x2F;OcEAqXY1aKrsgSQcR77MmGI8ojUEBIVuKrlDCCpA3sAgKvQz3PXd&#x2F;dYJxA8KgM9BxZUITVDxZ5Y6DU
+
+IzSKR0LYMgEnDw&#x2F;Lg60E2lQw6igBdkngvsmp9EhTEO+ABUkjJ0UORKSEuASbMwIeKZiRTwTYnEioTXisioDJyKQM3CoKKj8git1qWPEivRSTSyovkTF7aVJorrOY7J5LsM&#x2F;TUdL17JcH4q&#x2F;82ZSPDs1XAK6QrYl0PS0Ri32uEqwWGAvHxY6iSq65yMxqwqBEU8gAHLkIJcup4jq6jL4NxQ&#x2F;niVCgvBUJC9pqdBPQc1QrBIgBUIEmrJqKaowCpqaa
+
+umoZqmalmrLyD68hJyy3y80ModaEtmq1AOaiMiIVlwUrzuTg0OuCHjXeb1XezBK4ezvxk6CgDIhCILoCMArgeZFIBjgBUCuBegHgAQBJAfqAkSKivWpOVSK2EK7qzSyipVqLuQ4ESAMxSSEuBTFCKnEC64qOITIRXS8n+Y1alXIbqD8puu1qC2XECMR5asclxLEi0lGVrJ3c8IQYLIb2r8SvI82v3LAlT+Ju8BYgKO&#x2F;iN3Pkowxr8HgBp0rgU0DI
+
+gI6yDULio6z02b5ZTOOrIyHgqh3ZyDrRVC7N3audVfAmYxk2ujbrRet3TOYDgCMbrgUxvTqda7XLbr9a6hsNraG42voaa6vsiLQdHULDBAP6TvFGinuLSH&#x2F;t&#x2F;9apw+AS2LUqEbNa8FW&#x2F;MC2cerVLaQ9xUVc3gK7md5ait3Qfyh6r+Lwzv7CYpsb16+Avpz1XUBJXLwEuqxozIHbeokB5kTTIgBBm9cpVJtDYLz6sb6sLzvq9y7+UuBTQdBswakgb
+
+Btwb8GwhuIbSG3+vQARmrLKy8EdQBvyzgGy0I852azmqIVtEp7KqFSYfYBsDjspLgEqhIzmBgB6dILiRBcAAHIGBewQiCMBUICWHmQxYKAGFQQY3k268ImjusvzMJBe1Uil7HfPdhrgAfEeBbEcdPl8nuE4DNsS2EEh6QO8PJo1qmUwpsvsDcGWpHJ9IBcjdKq66WsFcGEXErgR0MrYywyGKlooVSwkqv39rwcwOtelfmq+F5gYAIwFoVI6rEye9
+
+xwtevfoN6sngTrWI7Vi7iojOS2nqV0wwhAsRJRk3uAfavxoqBOW7lt5bZIuePPz3fCFukU6G7FJhbGGsECHV56EtAANM&#x2F;dJqLrEjRSHiNrgL0uhC98uP2siNcm+PFyMoSupmysSdxQJ03IwQt7rTcxwM0aCrRpse9FY4VoxBRW5vwVtOm4M3Adems+p3qhm1mqVJAvcZqvrJm&#x2F;Q2maM8++qJxnmogULA3mj5q+afmv5oBagWkhJh0hGRFKFwXy&#x2F;Z
+
+uTUgGmhOOaEKU5ogbnGwrC4iEVH4B0sQU5LU0BgYcFKy1cAB+H+kGlGWOYBhYZOiVhUITQCFZCISrK1bL0nVs2y9WzgJhiH0ngNhaORNQWdCEm8fK2LfLY8hcSCCnEG4hOKMxWyL1a51vMSRG5AzEaiW0luJaUY8lrIRcY8VK2kk8F+LNq6i9RvW1NG5wPfydG0Nu+zAPc4zFjOYIwCggFCK+B4AUjflsktmmmOpFa2m2Yu+THG&#x2F;RszVsAvXBOsY
+
+AvwvlM+I1hH7aOEFVvICIOqDraAYOsMPIaaGyhrv0DS8iqhbYYzdo0j5OA4Ht4x8CbiEhsQ1RSgD4ERfIOBcYy9sEbcWl1q1q721A2scBXSdzYbGEP2HnrLS6isDb+w&#x2F;K1oNgO5VIDKWm5Dsb8ogzg2XK421coTaBDdAF3q4E4zsTM025My3KrVW+pzbZm&#x2F;+BHbjgMdrXAJ2qdpna52hdv1CHqwHBrbq8+tobNCaudNDJW22akI9eAZVwnrMOFhN
+
+npLgJ2uJ1+2itoeaPozmGIAr4EvSVhCIK4yMAyIXoFwArgVCEwB6ADoGlQDIRBq1zO62jtqNT829KxSe6uJoIkXERrRcQ16kEgXB2tB1MxBFUB7mgDH7MPywrDHBQLVy8WmY0U9FdSRrG7Fa95jkbc&#x2F;QUQAKoQKitUaf24zxtqmWoDpZbi05CwAqr8c+AVB7wNgD2B6QAy3g7V62xqjbgEy6INpA9XotmUQC0r0kg65XEAI76Cj8EHbYMMWB27cA
+
+PboO7F29bKvTdWsishbBvRRKVz+1VBkkCeUB3TeBjEEpoLrDTC81mwT&#x2F;S8jJaY&#x2F;YDJE6b2myMKLimyTrKbJ3XjDgyKiANrUalupdxDa1u&#x2F;DKsbQgiNrsam&#x2F;YBMc8umuPLXKoHMzpjNvO8zovr02lBMVDQvDrOMMicFLrS6MuzACy6cuvLoK6iukrq2aNQo0L87cvALvQ66IYLoXTVpS5qtAQ0RaF&#x2F;zBzPtqzQXuzmDaAjAKAEwAGgPYFoDBLMIGO
+
+BegIMM3hNINoF6Bvuw0t+6V2&#x2F;7v1aYmw1oYa+yEtDiB2+b8E0hJaICIMigKmcjeDx8hfAXU+umTxN1RO&#x2F;FoJtxGklrlqRyNJq9bCWlFR4iuU9XoU6Fu2potr6mrRqn5mWtwJF8fsi7vA6zYGABgBtgTdE3hDUI7sQ7Ke07vFbAuwvoXSKCW7t759gKUTi6ngbXuL7S+8vtPT9SsJr5MwWvXMd6123bITDge1y3&#x2F;FMhCNyLxBlTo2xD+PfjGLY5TX
+
+kMAz2XFHuvb8i9Hubr3WjimXy6Qz8DrYQ0TmMU7Ceq7xU6OQtTp&#x2F;jBWjQRO6UOsMqFC9OqjPjbT6ozuGahmnZoC82eyzouqxeS1wNJrXCoF179ew3uN7TQU3vN7UIS3quBreiXo&#x2F;6ca2s0oTTQvLMCMjmwrNgwyIYWGOBwNYGDMaxYbACvgAg&#x2F;ADFgxYeZGPQV6NnKuiua48kMQuosxCeBYQXEEzDB1LsKZdyYF7MiKt1HYESNZO&#x2F;EHBBFUabIQy
+
+ORMohAFcQbgaMIMKyG0da+3Dfo&#x2F;Mt+7Wv51W6gfqobwWuiHvBmAYyE99Dc+MO48amyC1&#x2F;aiAp7sEos+gDraL5G9vGIU2Kq7pYolpdisi6V03s0WclGkjoVsoCy6VA7VLU9zYBpUfVCSAE6BizFty0gjOsa0VKYipMNU+&#x2F;o9z5i05LF9zknYJLTiiZhrEHABPgc4ovNcEGkgRB623EHni6YIoK3i6guX89khEpqiaSWkqzsih8wp3EmIr5JYjbC7+
+
+W8HfBmoH8GKBhvszqoMx3mSo16hFTppHlDxN&#x2F;TpTOsKLQk&#x2F;EaQTl6TAksqwE+q0zq7ke+utR7N+11sKKFB&#x2F;vtBblBofpoaGOwHpqLv2jPv0GXo&#x2F;tu6AcRc&#x2F;tf8bc+LH3DLB0LrX13ahvlnoahRendyl6sYpErEOv2FB4mEcIckq2TIPPOq6qnz1izD6zV1jyuDePL6a6MpBLczf+mzu8zc2zmAwGsB8glwH8BwgeIHSBjoHIHK2o8vc8&#x2F;h&#x2F;+tfKG
+
+2w5qbbCs35N&#x2F;9bBg2Cm6Iu0bm+A64Vrke77VJIGDtvSj7NI7tSLIwaAL4ZgDOAOABoHRk2gY8GjBCAVCGUABgekDRGyu&#x2F;XIq7AbKru2zne2rs1L6u4Io+DXgC4OcRP0lXqNMrUz+jTxzgRtMxtJpBAAdFPLGQe5cMezgayHkh8hFSGX29IcttQBJIeuLc&#x2F;fuKz47BAnsW6z+&#x2F;9pCTAOjm1cG9G1odPd8AbYGPA1wZQA6BIsAId21o6sLBeza+ret
+
+AINYxEqKG2&#x2F;buleLU0uaLTi6SswoLSmSiACiGDxGIdQK4hy5PGAq0rgcSpzbFIYEGCxy0cyGbRk6IMEm7FAIcaQGpxo4iZbZXtu1NoXiOKwOEwjqSBiExLp4SKgX0f9HAx4MeBbmPJQbo6MUgHqNzuPcfvrdFXaNniRtAj4iFr8+c8x+UynZJoJBneARsjhdRr3vphL42QYWHt+gtj9hKJW7jGGKsXkWx7c&#x2F;IxLJh0QPQrT6MM50Z8ijh3DNJ6mm
+
+jTtQyFxyMeiDY2p&#x2F;oM6X+xntVYsR7zyEZvh0EaTzwR6zuzaoRuzpcZmR1kfZHOR+ZG5HeR&#x2F;kcFHhRzzEPK&#x2F;VTEYlUpevGtry8vArMHo6Eywoi6qhLiNYbPgZJupH0AftoMtnBurwqBBYLnGwgl0fQH5hlUIQAGBCAKcAlhCIIQAfA+oW3rFGDa2lFCANB+oyqKXe6YdcsGmGiO7ATI3TzvHMw8hGCx+4jjpOgHx7cf67TEnUrwrxOxSkSHix00f4
+
+Grxo8grGrbKsfKbBIVhoxUVGp8Z2Gie+VLONTBrWnfH8+9wbJNvOBoFIAdQSQEc6iOKvs&#x2F;Gh8QYxGUZiiId9rtUkoZVYUfGKcnZEx2EveKUx8odimGSrOIzGsxitNLTtg3aIrtjJ8AVMnzRsAMsnrRkya7Bni+4I196+yVsb7AC7DpXSOY+gY6R2+34PuHVWkzD8n1AQKZEnwm1YfKL1hyce0HEQpRKfSUpYfDNt4eDEE+A1dJG3eo7ECWteBOIZ
+
+0Mjt+GoTuwr8mobspCSYiaBGHzxlxBk0jfPfpRUBIVJqGKnRpyZdHTPNoUCjQx4IYjT&#x2F;7H8d06j6kUOf6dXV&#x2F;vAnYE&#x2F;eq8EQJz&#x2F;rGbv+iZsuqpm7noAGJAFielQ2JjiYoAuJnib4mBJoSbIaDyha1+G8J7Eel6qExtsTqJAL9GOB7wPYGUAt00k0i04Wnmv7Noi3vgHjlR3gH9g1nDunFpOKJhDEaJIKyAd1k5SuXVKjWnFoNGiY7fqWHyuvqfHG
+
+D6NQckmlImruhaLpvQZtLpuftvalXxyd3RBbuXjC4qojLjpbGmte1tgzGJoSseGV6xDps8Cgu&#x2F;o+GPcoPMABlfRer9KtKsrL5MgKvBqZq+ao4A9KoyrrLAAf1TAAMr1AALjlpM0yGcAPPfcdAnAcM2dszjgC2atmGqm2baqOq8Kodneql2Y9mvZ6QB9nYszdj9ndJGPNqtgRs+uvZPplPM57E0AMF3LbqzbXuqq2gOfNnLZisutm3qu2ajnHZwyt
+
+jnPZhJkTmJVZOfwn1rQidl6GxygddKBs2VsmJIsQY1b74GrsfdD2pxkeZYagJWAvgozAYFwB03ZwCQg9gQgCvhMAMWA6AlYOAEHrqOqJtEnImiUaNqxZpjqRCt20ME7wyY8Ax+F1R6bwNh94nJGax28JRvhsuZg8cNHjx40aSHeBs0bLHEQd5lKnRB8qY7C8TNsfk7dBozyunX8lbo9HAor0dqmtu&#x2F;hEwA2gfAAaACuvlosbAh8npJVHgSxCp6dO
+
+tk2imuNOMcKHh5RKdmjkpnZNzSKh9MfoTIALKaLjciMtIKIVBAqZ4GLbYqcrTf5k0YqnG7SxuZKahmwrl6YF&#x2F;5PmUrh4GGfijI9voEikGx5rgWEFpBZxZepsccq6Si6ruvyZJmUf7US0a7kOBQh2xBxAJ1FlCkhFwHrLrt3gUiSfnZPNHqPHRGrdSNNgYd+nI9msTTBkbq63PzwDHY7sIcm6WupoZacM5zkv67p0IMwX2gp6Yf6XpsBPp7DOoCYS
+
+YhmqJdGbBeAGYzagZrNpBnM8zmDXAJ5qeecAZ5ueYXml5lebXmN5iXpiXdm3GrbmDmlAfxGSJwke8bQupSC4iG+YZW&#x2F;BOxp7rejJFpLoqAxYQiAQBegYgF6B5548A2A2gCgHmR6QU0HoBhYboA6ALceRZWHBZ+KGFntwUWZUXpR5jvibNoLSPiNIfZIQgqVe4yLHrRyUxSh6L2uuqvbn5nmasWjJoscKmP5syc092F6ycnd9gdvHIRCAkBZ5ig28
+
+7IgX7vKBYDrGx16UFhCIaMF8n6QY8GPdUF&#x2F;xaiTtHSLGCWPcvBZVsCFxJITGpohCKSns0yocWj803NM8L1gjaOzHto3Ke4Xu0hIcuXmF0sYeTnAO5f&#x2F;nKpuseqn+F6ZUzU6l7lBMixcvYaSAuE1pb7GwZgFaBWQV6ZcDl26tYaiaNhqcZGmZxvgO8S88b4CHxqc7XTa7nuLYEP5s+XBi1GpBi+PMX5hsTqKaM0U8aGCmug6fGHzJmKjpDhpBhBcb
+
+j+9PslmwF9kJunv48FaYN7RQNGhXfav8cBH6eCJf6afp1Gf9n+x36YgmLO01x&#x2F;7oJ5JehH2lzpe6Xel1QgGWhlkZbGWJlqZc86S571c9XrhOtoImyl7a1QGSJ2DDIAeAK+EkB3aJovw9iZoCvJQKY3vkd4jcaynIQjTH4VCxLbKZK&#x2F;mC2BUc08ei0VZ0mOQXcf1HTlsDN5mKyfmYUXxRiAHmXNB6SeWX9sq0qU7LazXrBSs+0oYEkukYNElqrBg3
+
+DdqgCkEFsR6kpOS1m3xvPus4fc38PUd1UiKaNnfaoPMABuA0ABlv0YydKwABnEussAAOC0ABh&#x2F;QLLAAXANAAZ4NTJQAAGLQAFPzEspSrUADMuvXAAI3TAAUGVAAahU6ytGszLKy1AEABMJUABKfzKqMyussAAz3UABO+MAAZV1uxAAZ+UMNqMqLLAASyNAAAn1AAZ2VAAe+VAAIAYhmi9avWHZ29cfWX199e&#x2F;Xf1&#x2F;9fTKgNsDYg2dqjsug34NxDf
+
+TKUNjDew3cNgjZI2KN&#x2F;4bTnjqyBNTaNyn1Y57r6ghHzmbqyLyLnsJi4Wo2b1+9afX8yt9c&#x2F;Wf1v9YA2QN8Dcg3uNhDaQ20NzDY4AcN9Dbw2iNsjco20Z1NdxHylmCHAAwENhDgA4AHUB+gb+aAGMhMgfsblxbgBgEIAyjTeH0nOQMKAi2JFowxEBU0aMC3B9AHUGOXhOpYEuQYt+&#x2F;ni3QtxurkGOJVLcAR0tjIHmRe1xeNy3Yt+LcS2ZlwLc0I8t
+
+jATK2L81QYkmFlwoBK38t&#x2F;QGFghpg0jS2atjIEIhVFjreq2P4eLfmRXVwCei3+tuLYK3H+8YWa2utlQik2LkcCem2BtjIE82yF0wuqpFt8bf0BjwdKcOT6Ejbfi2zNJCAGJAoFLeYBsAOkC1Bv4PyxxAEgfYEawTFKol6RbQc7ZZBS83GAOAASc8iWhB0zRMC2jANgAMBlRBgAIB8UKMRuCB6fbYyA2t67xs4Ut0UBIBxNprfh3iAHUH79vxAFhI
+
+B9UNgG6htt3AH85qVDHcPGkYTeBZBOYDkBfQKdoGgRAsUZQGzAAETkH9HGdoKYh2qt1NHK3GQHrfuROAHxYz6sUfMFhRvU2&#x2F;jux8duaEQHsAdGAc2awO7D83Sl22HRRpcAiaVwdKTQFQgwjZgA6A7sOACx2cd4XeCBp2NhFmBCARgCQgAd&#x2F;ACB2mMMIGCBDdvVk+Q8CDFBUJVcHBY9yDnbCEN3jd03Y00MTaaCRTwgaAjH1GwIAA<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>%%</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Excalidraw-Data"><span class="nav-number">1.</span> <span class="nav-text">Excalidraw Data</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Text-Elements"><span class="nav-number">1.1.</span> <span class="nav-text">Text Elements</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Drawing"><span class="nav-number">1.2.</span> <span class="nav-text">Drawing</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://navigation-mu.vercel.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">103k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:34</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>

@@ -7,9 +7,13 @@ const $cardThankYou = document.querySelector('.card__thankyou');
 const $cardComet = document.querySelector('.card__cometOuter');
 
 const generateTranslate = (el, e, value) => {
-  // 根据屏幕尺寸调整比例
-  const scaleFactor = window.innerWidth > 767? 1 : 0.5;
-  el.style.transform = `translate(${e.clientX * value * scaleFactor}px, ${e.clientY * value * scaleFactor}px)`;
+  try {
+    // 根据屏幕尺寸调整比例
+    const scaleFactor = window.innerWidth > 767? 1 : 0.5;
+    el.style.transform = `translate(${e.clientX * value * scaleFactor}px, ${e.clientY * value * scaleFactor}px)`;
+  }catch (e) {
+
+  }
 };
 
 // http://stackoverflow.com/a/1480137
