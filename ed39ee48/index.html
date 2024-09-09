@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_fazj894cvd.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="15、线程信号传递（忙等待，wait、notify、notifyall，信号丢失，虚假唤醒）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="15、线程信号传递（忙等待，wait、notify、notifyall，信号丢失，虚假唤醒）">
+<meta property="og:url" content="https://seven-it-work.github.io/ed39ee48/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="15、线程信号传递（忙等待，wait、notify、notifyall，信号丢失，虚假唤醒）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026018429.png">
+<meta property="article:published_time" content="2024-09-08T11:01:10.000Z">
+<meta property="article:modified_time" content="2024-09-08T11:01:10.000Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="并发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ddkk.com/images/2023/9/18/1633/1695026018429.png">
+
+<link rel="canonical" href="https://seven-it-work.github.io/ed39ee48/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>15、线程信号传递（忙等待，wait、notify、notifyall，信号丢失，虚假唤醒） | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-力扣" id="力扣">
+      <a href="/leetCode/" rel="section"><i class="fa iconfont icon-likou fa-fw"></i>力扣</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa iconfont icon-jianli fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/ed39ee48/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          15、线程信号传递（忙等待，wait、notify、notifyall，信号丢失，虚假唤醒）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-08 19:01:10" itemprop="dateCreated datePublished" datetime="2024-09-08T19:01:10+08:00">2024-09-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">面试资料</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description">15、线程信号传递（忙等待，wait、notify、notifyall，信号丢失，虚假唤醒）</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>线程信号传递的目的是使线程能够相互发送信号。另外，线程信号传递使线程能够等待来自其他线程的信号。例如，线程B可能会等待线程a发出的的信号，指示数据已准备好待处理。</p>
+<h2 id="通过共享对象发送信号"><a href="#通过共享对象发送信号" class="headerlink" title="通过共享对象发送信号"></a>通过共享对象发送信号</h2><p>线程相互发送信号的一种简单方法是在某个共享对象变量中设置信号值。线程A可以在同步块内将布尔成员变量hasDataToProcess设置为true，线程B也可以在同步块内读取hasDataToProcess成员变量。下面是一个简单的对象示例，它可以保存这样的信号，并提供设置和检查它的方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MySignal</span><span class="token punctuation">&#123;</span>
+   
+     
+
+  <span class="token keyword">protected</span> <span class="token keyword">boolean</span> hasDataToProcess <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">boolean</span> <span class="token function">hasDataToProcess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>hasDataToProcess<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">setHasDataToProcess</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> hasData<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">this</span><span class="token punctuation">.</span>hasDataToProcess <span class="token operator">=</span> hasData<span class="token punctuation">;</span>  
+  <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>线程A和B必须引用共享MySignal实例，才能使信令工作。如果线程A和线程B引用不同的MySignal实例，它们将不会互相检测信号。要处理的数据可以位于共享缓冲区中，与MySignal实例分离。</p>
+<h2 id="忙等待"><a href="#忙等待" class="headerlink" title="忙等待"></a>忙等待</h2><p>处理数据的线程B正在等待数据可供处理。换言之，它正在等待来自线程a的信号，该信号会令hasDataToProcess（）返回true。这是线程B在等待此信号时运行的循环：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">protected</span> <span class="token class-name">MySignal</span> sharedSignal <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>sharedSignal<span class="token punctuation">.</span><span class="token function">hasDataToProcess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+  <span class="token comment">//do nothing... busy waiting</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意while循环一直执行，直到hasDataToProcess（）返回true。这叫忙等待。线程等待时处于忙碌状态。</p>
+<h2 id="wait-notify-和-notifyAll"><a href="#wait-notify-和-notifyAll" class="headerlink" title="wait(), notify() 和 notifyAll()"></a>wait(), notify() 和 notifyAll()</h2><p>在运行等待线程的计算机中，忙等待没有很有效地利用CPU。除非平均等待时间很短，否则更有效的做法是，等待的线程能够以某种方式休眠或变为非活动状态，直到接收到正在等待的信号。</p>
+<p>Java有一个内置的等待机制，使线程在等待信号时变为非活动状态。java.lang.Object类定义了三个方法，wait（）、notify（）和notifyAll（），以便实现。</p>
+<p>线程对某个对象调用wait（）使自己变为非活动线程，直到另一个线程对该对象调用notify（）为止。要调用wait（）或notify（），调用线程必须首先获取该对象的锁。换句话说，调用线程必须从同步块内部调用wait（）或notify（）。下面是MySignal的一个修改版本，名为MyWaitNotify，它使用wait（）和notify（）。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MonitorObject</span><span class="token punctuation">&#123;</span>
+   
+     
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyWaitNotify</span><span class="token punctuation">&#123;</span>
+   
+     
+
+  <span class="token class-name">MonitorObject</span> myMonitorObject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MonitorObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doWait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      <span class="token keyword">try</span><span class="token punctuation">&#123;</span>
+   
+     
+        myMonitorObject<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doNotify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      myMonitorObject<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>等待线程将调用doWait（），通知线程将调用doNotify（）。当线程调用对象的notify（）时，等待该对象的其中一个线程将被唤醒并允许执行。还有一个notifyAll（）方法，它将唤醒等待该对象的所有线程。</p>
+<p>等待和通知线程都从同步块中调用wait（）和notify（）。这是必须的！如果线程不持有调用该方法的对象的锁，则不能调用wait（）、notify（）或notifyAll（）。否则，会引发IllegalMonitorStateException。</p>
+<p>但是，这怎么可能呢？只要在同步块内执行，等待线程不就会保留monitor对象（myMonitorObject）上的锁吗？等待线程不会阻止通知线程进入doNotify（）中的synchronized块吗？不会阻止。一旦一个线程调用wait（），它就会释放在monitor对象上的锁。这允许其他线程也调用wait（）或notify（），因为这些方法必须在同步块内部调用。</p>
+<p>线程被唤醒时，它不能直接退出wait（），而需等调用notify（）的线程离开其同步块。换句话说：唤醒的线程必须重新获取monitor对象上的锁，然后才能退出wait（），因为wait（）嵌套在同步块中。如果使用notifyAll（）唤醒多个线程，则一次只能有一个唤醒的线程可以退出wait（）方法，因为每个线程在退出wait（）之前必须依次获取monitor对象上的锁。</p>
+<h2 id="信号丢失"><a href="#信号丢失" class="headerlink" title="信号丢失"></a>信号丢失</h2><p>如果方法notify（）和notifyAll（）在调用时没有线程在等待，也不会保存该方法调用。因而通知信号就丢失了。因此，如果线程在等待线程调用wait（）之前调用notify（），则等待线程将错过该信号。这可能是问题，也可能不是问题，但在某些情况下，这可能会导致等待线程永远等待，永远不会唤醒，因为唤醒信号丢失了。</p>
+<p>为了避免丢失信号，信号应该存储在发信号的类中。在MyWaitNotify示例中，通知信号应存储在MyWaitNotify实例内的成员变量中。这在下面的MyWaitNotify的修改版本中实现了：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyWaitNotify2</span><span class="token punctuation">&#123;</span>
+   
+     
+
+  <span class="token class-name">MonitorObject</span> myMonitorObject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MonitorObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">boolean</span> wasSignalled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doWait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>wasSignalled<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">try</span><span class="token punctuation">&#123;</span>
+   
+     
+          myMonitorObject<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span>
+      <span class="token comment">//clear signal and continue running.</span>
+      wasSignalled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doNotify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      wasSignalled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      myMonitorObject<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意，在调用notify（）之前，doNotify（）方法将wasSignaled变量设置为true。另外，注意doWait（）方法在调用wait（）之前检查wasSignaled变量。事实上，只有前一个doWait（）调用和此调用之间没有收到信号时，才调用wait（）。</p>
+<h2 id="虚假唤醒"><a href="#虚假唤醒" class="headerlink" title="虚假唤醒"></a>虚假唤醒</h2><p>使没有调用notify（）和notifyAll（），线程也有可能被莫名其妙地唤醒。这就是所谓的虚假唤醒，无缘无故地醒来。</p>
+<p>如果MyWaitNofity2类的doWait（）方法中出现虚假唤醒，则等待线程没有接收正确的信号就可以继续处理！这可能会导致应用程序出现严重问题。</p>
+<p>为了防止虚假唤醒，要在while循环中而不是在if语句中检查信号成员变量。这种while循环也称为自旋锁。线程唤醒后会旋转，直到自旋锁（while循环）中的条件变为false。下面是MyWaitNotify2的修改版本，展示了自旋锁的用法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyWaitNotify3</span><span class="token punctuation">&#123;</span>
+   
+     
+
+  <span class="token class-name">MonitorObject</span> myMonitorObject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MonitorObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">boolean</span> wasSignalled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doWait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>wasSignalled<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">try</span><span class="token punctuation">&#123;</span>
+   
+     
+          myMonitorObject<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span>
+      <span class="token comment">//clear signal and continue running.</span>
+      wasSignalled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doNotify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      wasSignalled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      myMonitorObject<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意wait（）调用现在是嵌套在while循环中而不是if语句中。如果等待的线程在没有收到信号的情况下唤醒，则成员变量wassignaled仍然为false，while循环将再次执行，从而导致唤醒的线程返回到等待状态。</p>
+<h2 id="多个线程等待同一个信号"><a href="#多个线程等待同一个信号" class="headerlink" title="多个线程等待同一个信号"></a>多个线程等待同一个信号</h2><p>如果有多个线程在等待，while循环也是一个不错的解决方案，这些线程都是使用notifyAll（）唤醒的，但是应该只允许其中一个线程继续。一次只能有一个线程能够获得monitor对象上的锁，这意味着只有一个线程可以退出wait（）并清除wassignaled标志。一旦这个线程在doWait（）方法中退出synchronized块，其他线程就可以退出wait（）并检查while循环中的wassignaled成员变量。但是，第一个线程唤醒时清除了该标志，因此其余唤醒的线程返回等待状态，直到下一个信号到达。</p>
+<h2 id="不要对常量字符串或全局对象调用wait（）"><a href="#不要对常量字符串或全局对象调用wait（）" class="headerlink" title="不要对常量字符串或全局对象调用wait（）"></a>不要对常量字符串或全局对象调用wait（）</h2><p>本文在以前有一个版本的MyWaitNotify示例类使用常量字符串（“”）作为监视对象，如下所示：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyWaitNotify</span><span class="token punctuation">&#123;</span>
+   
+     
+
+  <span class="token class-name">String</span> myMonitorObject <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+  <span class="token keyword">boolean</span> wasSignalled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doWait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>wasSignalled<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">try</span><span class="token punctuation">&#123;</span>
+   
+     
+          myMonitorObject<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span>
+      <span class="token comment">//clear signal and continue running.</span>
+      wasSignalled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doNotify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token keyword">synchronized</span><span class="token punctuation">(</span>myMonitorObject<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   
+     
+      wasSignalled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      myMonitorObject<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对空字符串或常量字符串调用wait（）和notify（）的问题是，JVM&#x2F;编译器在内部将常量字符串转换为同一个对象。这意味着，即使有两个不同的MyWaitNotify实例，它们都引用同一个空字符串实例。这也意味着在第一个MyWaitNotify实例上调用doWait（）的线程有可能错误地被第二个MyWaitNotify实例上的doNotify（）调用唤醒。</p>
+<p>这种情况如下图所示：</p>
+<p><img src="https://ddkk.com/images/2023/9/18/1633/1695026018429.png"></p>
+<p>请记住，即使4个线程对同一个共享字符串实例调用wait（）和notify（），来自doWait（）和doNotify（）的信号也分别存储在两个MyWaitNotify实例中。对MyWaitNotify 1的doNotify（）调用可能会唤醒在MyWaitNotify 2中等待的线程，但该信号将仅存储在MyWaitNotify 1中。</p>
+<p>起初，这似乎不是什么大问题。毕竟，如果在第二个MyWaitNotify实例上调用doNotify（），那么真正可能发生的是线程A和B被错误唤醒。此唤醒线程（A或B）将在while循环中检查其信号，并返回到waiting，因为在其等待的第一个MyWaitNotify实例上并未调用doNotify（）。这种情况相当于引起一次虚假觉醒。线程A或线程B在没有信号通知的情况下被唤醒。但是代码可以处理这个问题，所以线程返回到等待状态。</p>
+<p>问题是，由于doNotify（）只调用了notify（）而不调用notifyAll（），即使4个线程在同一个字符串实例（空字符串）上等待，也只有一个线程被唤醒。因此，如果一个线程A或B被唤醒，而信号真正要给的是C或D，那么被唤醒的线程（A或B）将检查其信号，发现没有收到信号，然后返回等待。C或D都没有唤醒来检查它们实际应接收的信号，因此信号丢失。这种情况等同于前面描述的丢失信号问题。C和D收到了一个信号，但没有回应。</p>
+<p>如果doNotify（）方法调用了notifyAll（）而不是notify（），则所有等待的线程都会依次被唤醒并检查信号。线程A和B会回到等待状态，但是C或D中的一个会注意到这个信号，并离开doWait（）方法。C和D中的另一个将返回等待，因为检测到信号的线程在离开doWait（）时已将信号清除。</p>
+<p>然后，你可能很想总是调用notifyAll（）而不是notify（），但这对性能不利。当只有一个线程可以响应信号时，没有理由唤醒所有等待的线程。</p>
+<p>所以：不要对wait（）&#x2F;notify（）机制使用全局对象、字符串常量等。对于使用对象的构造方法来说，对象应该是唯一的。例如，每个MyWaitNotify3（前面章节的示例）实例都有自己的MonitorObject实例，而不是使用空字符串进行wait（）&#x2F;notify（）调用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/554819f/" rel="prev" title="14、Java ThreadLocal（泛型类型，supplier接口，延后设置，InheritableThreadLocal）">
+      <i class="fa fa-chevron-left"></i> 14、Java ThreadLocal（泛型类型，supplier接口，延后设置，InheritableThreadLocal）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/3a180820/" rel="next" title="16、死锁（DeadLock，线程死锁，数据库死锁）">
+      16、死锁（DeadLock，线程死锁，数据库死锁） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%AF%B9%E8%B1%A1%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="nav-number">1.</span> <span class="nav-text">通过共享对象发送信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%99%E7%AD%89%E5%BE%85"><span class="nav-number">2.</span> <span class="nav-text">忙等待</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait-notify-%E5%92%8C-notifyAll"><span class="nav-number">3.</span> <span class="nav-text">wait(), notify() 和 notifyAll()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E4%B8%A2%E5%A4%B1"><span class="nav-number">4.</span> <span class="nav-text">信号丢失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%81%87%E5%94%A4%E9%86%92"><span class="nav-number">5.</span> <span class="nav-text">虚假唤醒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E7%BA%BF%E7%A8%8B%E7%AD%89%E5%BE%85%E5%90%8C%E4%B8%80%E4%B8%AA%E4%BF%A1%E5%8F%B7"><span class="nav-number">6.</span> <span class="nav-text">多个线程等待同一个信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E5%AF%B9%E5%B8%B8%E9%87%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%96%E5%85%A8%E5%B1%80%E5%AF%B9%E8%B1%A1%E8%B0%83%E7%94%A8wait%EF%BC%88%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">不要对常量字符串或全局对象调用wait（）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://seven-navigation.netlify.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">15:55</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>

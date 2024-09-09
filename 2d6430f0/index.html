@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_fazj894cvd.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="29、非阻塞算法（非阻塞并发数据结构、比较交换、乐观锁、共享意向修改、ABA问题、非阻塞算法模板）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="29、非阻塞算法（非阻塞并发数据结构、比较交换、乐观锁、共享意向修改、ABA问题、非阻塞算法模板）">
+<meta property="og:url" content="https://seven-it-work.github.io/2d6430f0/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="29、非阻塞算法（非阻塞并发数据结构、比较交换、乐观锁、共享意向修改、ABA问题、非阻塞算法模板）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026019634.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026019998.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026020381.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026020716.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026021065.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026021601.png">
+<meta property="article:published_time" content="2024-09-08T11:03:55.000Z">
+<meta property="article:modified_time" content="2024-09-08T11:03:55.000Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="并发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ddkk.com/images/2023/9/18/1633/1695026019634.png">
+
+<link rel="canonical" href="https://seven-it-work.github.io/2d6430f0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>29、非阻塞算法（非阻塞并发数据结构、比较交换、乐观锁、共享意向修改、ABA问题、非阻塞算法模板） | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-力扣" id="力扣">
+      <a href="/leetCode/" rel="section"><i class="fa iconfont icon-likou fa-fw"></i>力扣</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa iconfont icon-jianli fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/2d6430f0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          29、非阻塞算法（非阻塞并发数据结构、比较交换、乐观锁、共享意向修改、ABA问题、非阻塞算法模板）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-08 19:03:55" itemprop="dateCreated datePublished" datetime="2024-09-08T19:03:55+08:00">2024-09-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">面试资料</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+            <div class="post-description">29、非阻塞算法（非阻塞并发数据结构、比较交换、乐观锁、共享意向修改、ABA问题、非阻塞算法模板）</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>并发中所谓的非阻塞算法是允许线程访问共享状态（或以其他方式进行协作或通信）而不会阻塞所涉及线程的算法。 更笼统地说，如果一个线程的挂起不会导致该算法中涉及的其他线程挂起，则该算法称为非阻塞算法。</p>
+<p>为了更好地理解阻塞和非阻塞并发算法之间的区别，我将首先说明阻塞算法，接着再说明非阻塞算法。</p>
+<h2 id="阻塞并发算法"><a href="#阻塞并发算法" class="headerlink" title="阻塞并发算法"></a>阻塞并发算法</h2><p>符合下面两条之一的算法称为阻塞并发算法：</p>
+<ul>
+<li>A： 执行线程请求的操作</li>
+<li>B： 阻塞线程，直到可以安全地执行该操作</li>
+</ul>
+<p>许多类型的算法和并发数据结构都是阻塞的。例如java.util.concurrent.BlockingQueue接口都是阻塞数据结构。如果线程试图将元素插入到BlockingQueue中，而队列没有空间，则插入线程将被阻塞（挂起），直到BlockingQueue有空间容纳新元素。</p>
+<p>此图说明了保护共享数据结构的阻塞算法的行为：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026019634.png"></p>
+<h2 id="非阻塞并发算法"><a href="#非阻塞并发算法" class="headerlink" title="非阻塞并发算法"></a>非阻塞并发算法</h2><p>符合下面两条之一的算法称为非阻塞算法：</p>
+<ul>
+<li>A： 执行线程请求的操作</li>
+<li>B： 通知请求线程无法执行该操作</li>
+</ul>
+<p>Java也包含一些非阻塞数据结构。AtomicBoolean、AtomicInteger、AtomicLong和AtomicReference都是非阻塞数据结构的示例。</p>
+<p>此图说明了保护共享数据结构的非阻塞算法的行为：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026019998.png"></p>
+<h2 id="非阻塞算法与阻塞算法对比"><a href="#非阻塞算法与阻塞算法对比" class="headerlink" title="非阻塞算法与阻塞算法对比"></a>非阻塞算法与阻塞算法对比</h2><p>阻塞算法和非阻塞算法的主要区别在于其行为的第二步，如前两部分所述。换言之，区别在于当请求的操作无法执行时，阻塞和非阻塞算法的做法：</p>
+<p>阻塞算法阻塞线程，直到请求的操作可以执行为止。非阻塞算法通知请求操作的线程无法执行该操作。</p>
+<p>使用阻塞算法，线程可能会被阻塞，直到可以执行请求的操作为止。通常是另一个线程的操作使第一个线程能够执行请求的操作。如果由于某种原因，另一个线程在应用程序中的其他地方挂起（阻塞），因此无法使第一个线程的请求操作可以执行，则第一个线程将保持阻塞状态—或者无限期地阻塞，或者直到另一个线程最终执行必要的操作。</p>
+<p>例如，如果一个线程试图在一个满的BlockingQueue中插入一个元素，那么该线程将阻塞，直到另一个线程从BlockingQueue中取出一个元素。如果由于某种原因，本应从BlockingQueue获取元素的线程在应用程序中的其他地方被阻塞（挂起），则尝试插入新元素的线程将保持阻塞状态—或者无限期地阻塞，或者直到线程最终从BlockingQueue中获取到一个元素。</p>
+<h2 id="非阻塞并发数据结构"><a href="#非阻塞并发数据结构" class="headerlink" title="非阻塞并发数据结构"></a>非阻塞并发数据结构</h2><p>在多线程系统中，线程通常通过某种数据结构进行通信。这样的数据结构可以是任何东西，从简单的变量到更高级的数据结构，如队列、表、栈等。为了便于通过多个线程对数据结构进行正确、并发的访问，必须使用某种并发算法来保护数据结构。保护算法使数据结构成为并发数据结构。</p>
+<p>如果保护并发数据结构的算法是阻塞的（使用线程挂起），则称为阻塞算法。因此，数据结构被称为一个阻塞的、并发的数据结构。</p>
+<p>如果保护并发数据结构的算法是非阻塞的，则称为非阻塞算法。因此，该数据结构被称为非阻塞、并发的数据结构。</p>
+<p>每个并发数据结构都是为了支持某种通信方法而设计的。因此，使用哪种并发数据结构取决于通信需求。我将在下面几节讨论一些非阻塞并发数据结构，并解释在什么情况下可以使用它们。通过解释这些非阻塞数据结构的工作方式，可以让你了解如何设计和实现非阻塞数据结构。</p>
+<h2 id="Volatile变量"><a href="#Volatile变量" class="headerlink" title="Volatile变量"></a>Volatile变量</h2><p>Java Volatile变量是始终直接从主内存读取的变量。当一个新值被分配给一个Volatile变量时，该值总是立即写入主内存。这保证了volatile变量的最新值对运行在其他cpu上的线程始终可见。其他线程每次都会从主内存读取volatile的值，而不是从线程运行的CPU缓存中读取。</p>
+<p>Volatile变量是非阻塞的。将值写入Volatile变量是一个原子操作。它不能被打断。但是，对Volatile变量执行的读-更新-写入序列不是原子的。因此，如果由多个线程执行，此代码仍可能导致竞态条件：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">volatile</span> myVar <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">int</span> temp <span class="token operator">=</span> myVar<span class="token punctuation">;</span>
+temp<span class="token operator">++</span><span class="token punctuation">;</span>
+myVar <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>首先，将Volatile变量myVar的值从主内存读入一个temp 变量。然后temp变量递增1。然后temp变量的值赋值给volatile myVar变量，这意味着它将被写回主内存。</p>
+<p>如果两个线程执行此代码，并且两个线程都读取myVar的值，加1并将该值写回主内存，那么将面临这样的风险：没有将myVar变量加2，而是只加1（例如，两个线程都读取值19，增加为20，然后写回20）。</p>
+<p>你可能会认为你不会像上面这样编写代码，但实际上，上面的代码相当于如下代码：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">myVar<span class="token operator">++</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>执行时，myVar的值被读入CPU寄存器或本地CPU缓存中，加1，然后值从CPU寄存器或CPU高速缓存中写回主内存。</p>
+<h3 id="只有单个写线程的情况"><a href="#只有单个写线程的情况" class="headerlink" title="只有单个写线程的情况"></a>只有单个写线程的情况</h3><p>在某些情况下，只有一个线程写入共享变量，而多个线程读取该变量的值。当只有一个线程在更新一个变量时，无论有多少线程正在读取它，都不会发生竞态条件。因此，只要共享变量只有一个线程会写，就可以使用volatile变量。</p>
+<p>当多个线程对一个共享变量执行读-更新-写操作序列时，会出现竞态条件。如果只有一个线程执行读更新写操作序列，而所有其他线程只执行读操作，则没有竞态条件。</p>
+<p>以下是一个只有单个写入线程的计数器，没有使用同步但仍然是并发的：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SingleWriterCounter</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">long</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * Only one thread may ever call this method,
+     * or it will lead to race conditions.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">/**
+     * Many reading threads may call this method
+     * @return
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">long</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>多个线程可以访问此计数器的同一个实例，只要只有一个线程调用inc（）。我不是说同一时刻一个线程。我的意思是，只有同一个线程才允许调用inc（）。多个线程可以调用count（）。这不会造成任何竞态条件。</p>
+<p>下图说明线程将如何访问Volatile count变量：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026020381.png"></p>
+<h3 id="基于Volatile变量的更高级数据结构"><a href="#基于Volatile变量的更高级数据结构" class="headerlink" title="基于Volatile变量的更高级数据结构"></a>基于Volatile变量的更高级数据结构</h3><p>可以创建使用Volatile变量组合的数据结构，其中每个Volatile变量只由一个线程写入，并由多个线程读取。每个Volatile变量可以由不同的线程（但只能由一个线程）写入。使用这种数据结构，多个线程可以使用volatile变量以非阻塞的方式相互发送信息。</p>
+<p>下面是一个简单的两个写线程计数器类，它展示了该做法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DoubleWriterCounter</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">long</span> countA <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">long</span> countB <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * Only one (and the same from thereon) thread may ever call this method,
+     * or it will lead to race conditions.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">incA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>countA<span class="token operator">++</span><span class="token punctuation">;</span>  <span class="token punctuation">&#125;</span>
+    <span class="token comment">/**
+     * Only one (and the same from thereon) thread may ever call this method,
+     * or it will lead to race conditions.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">incB</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>countB<span class="token operator">++</span><span class="token punctuation">;</span>  <span class="token punctuation">&#125;</span>
+    <span class="token comment">/**
+     * Many reading threads may call this method
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">long</span> <span class="token function">countA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>countA<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+    <span class="token comment">/**
+     * Many reading threads may call this method
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">long</span> <span class="token function">countB</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>countB<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如你所见，DoubleWriterCounter现在包含两个Volatile变量，以及两对增量和读取方法。只有一个线程可以调用incA（），只有一个线程可以调用incB（）。调用incA（）和incB（）的线程可以不同。多个线程调用countA（）和countB（）是允许的。这不会造成竞态条件。</p>
+<p>DoubleWriterCounter可用于例如两个线程通信。这两个计数可以是产生的任务和消耗的任务。此图显示了两个线程通过与上述类似的数据结构进行通信：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026020716.png"><br>聪明的读者会发现，可以通过使用两个SingleWriterCounter实例来达到DoubleWriterCounter的效果。如果需要的话，你甚至可以使用更多的线程和SingleWriterCounter实例。</p>
+<h2 id="使用比较交换的乐观锁"><a href="#使用比较交换的乐观锁" class="headerlink" title="使用比较交换的乐观锁"></a>使用比较交换的乐观锁</h2><p>如果确实需要多个线程来写入同一个共享变量，那么Volatile变量是不够的。你需要对变量进行某种独占访问。使用Java中的同步块可以实现独占访问：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SynchronizedCounter</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">long</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">synchronized</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            count<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">long</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">synchronized</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意inc（）和count（）方法都包含一个同步块。这正是我们想要避免的——同步块和wait（）、notify（）调用等。</p>
+<p>我们可以使用Java的一个原子变量来代替这两个同步块。在这个例子中是AtomicLong。下面是使用AtomicLong替换该计数器类的方式：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>atomic<span class="token punctuation">.</span></span><span class="token class-name">AtomicLong</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AtomicCounter</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token class-name">AtomicLong</span> count <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicLong</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">inc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">boolean</span> updated <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>updated<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">long</span> prevCount <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            updated <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token punctuation">.</span><span class="token function">compareAndSet</span><span class="token punctuation">(</span>prevCount<span class="token punctuation">,</span> prevCount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">long</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个版本和以前的版本一样是线程安全的。这个版本的有趣之处在于inc（）方法的实现。inc（）方法不再包含同步块。相反，它包含以下行：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">boolean</span> updated <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>updated<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">long</span> prevCount <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    updated <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token punctuation">.</span><span class="token function">compareAndSet</span><span class="token punctuation">(</span>prevCount<span class="token punctuation">,</span> prevCount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码不是原子操作。这意味着，两个不同的线程可以调用inc（）方法并执行long prevCount &#x3D; this.count.get()语句，因此两者都获得计数器的前一个计数。但是，上面的代码不包含任何竞态条件。</p>
+<p>秘密就在while循环中的第二行。compareAndSet（）方法是一个原子操作。它将AtomicLong的内部值与预期值进行比较，如果这两个值相等，则为AtomicLong设置一个新的内部值。compareAndSet（）方法通常由CPU中的比较交换指令直接支持。因此，不需要同步，也不需要线程挂起。这样可以节省线程挂起开销。</p>
+<p>假设AtomicLong的内部值是20。然后两个线程读取该值，并尝试调用compareAndSet（20，20+1）。由于compareAndSet（）是一个原子操作，所以线程将按顺序执行此方法（一次执行一个）。</p>
+<p>第一个线程将比较预期值20（计数器的前一个值）与AtomicLong的内部值。由于这两个值相等，AtomicLong会将其内部值更新为21（20+1）。updated变量将被设置为true，while循环将停止。</p>
+<p>现在第二个线程调用compareAndSet（20，20+1）。由于AtomicLong的内部值不再为20，因此此调用将失败。AtomicLong的内部值不会设置为21。updated变量将被设置为false，线程将在while循环中再旋转一次。这次它将读取值21并尝试将其更新为22。如果在此期间没有其他线程调用inc（），则第二次迭代将成功地将AtomicLong更新为22。</p>
+<h3 id="为什么称为乐观锁"><a href="#为什么称为乐观锁" class="headerlink" title="为什么称为乐观锁"></a>为什么称为乐观锁</h3><p>上一节中展示的代码称为乐观锁。乐观锁不同于传统锁——有时也称为悲观锁。传统锁用同步块或某种锁来阻止对共享内存的访问。同步块或锁可能导致线程挂起。</p>
+<p>乐观锁允许所有线程在不阻塞的情况下创建共享内存的副本。然后，线程可以对其副本进行修改，并尝试将修改后的版本写回共享内存中。如果没有其他线程对共享内存进行任何修改，则比较交换操作允许线程将其更改写入共享内存。如果另一个线程已经更改了共享内存，则该线程将必须获得一个新的副本，进行更改并尝试再次将它们写入共享内存。</p>
+<p>之所以称之为乐观锁，是因为线程获取它们想要更改的数据的副本并应用它们的更改，乐观的假设没有其他线程同时对共享内存进行更改。当这个乐观的假设成立时，线程则在没有锁定的情况下成功地更新了共享内存。如果这个假设是错误的，虽然这项工作白费了，但是仍然没有应用锁定。</p>
+<p>乐观锁在共享内存上的低到中等争用情况下往往效果最好。如果共享内存上的争用非常高，那么线程将浪费大量的CPU周期来复制和修改共享内存，结果却无法将更改写回共享内存。但是，如果共享内存争用的很厉害，那么无论如何都应该考虑重新设计代码以降低争用。</p>
+<h3 id="乐观锁是非阻塞的"><a href="#乐观锁是非阻塞的" class="headerlink" title="乐观锁是非阻塞的"></a>乐观锁是非阻塞的</h3><p>我在这里展示的乐观锁机制是非阻塞的。如果一个线程获得了共享内存的副本，并且在试图修改它时被阻塞（无论出于什么原因），不会阻止其他线程访问共享内存。</p>
+<p>在传统的锁&#x2F;解锁范例中，当一个线程锁定一个锁时，该锁对于所有其他线程都保持锁定，直到拥有该锁的线程再次解锁它为止。如果锁定锁的线程在其他地方被阻塞，那么该锁将在很长一段时间内保持锁定，甚至可以永久锁定。</p>
+<h2 id="不可交换的数据结构"><a href="#不可交换的数据结构" class="headerlink" title="不可交换的数据结构"></a>不可交换的数据结构</h2><p>简单的比较交换乐观锁适用于共享数据结构，其中整个数据结构可以在单个比较交换操作中与新的数据结构交换。不过，用修改过的副本交换整个数据结构并非总是可行的。</p>
+<p>假设共享数据结构是一个队列。每个试图从队列中插入或获取元素的线程都必须复制整个队列并对副本进行所需的修改。这可以通过AtomicReference来实现。先复制引用，然后复制并修改队列，并尝试将AtomicReference中指向的引用交换到新创建的队列。</p>
+<p>然而，大的数据结构可能需要大量内存和CPU周期才能进行复制。这使应用程序花费更多的内存，并在复制上浪费大量时间。这将影响应用程序的性能，尤其是在数据结构争用激烈的情况下。此外，一个线程复制和修改数据结构所需的时间越长，其他线程修改数据结构的概率就越大。如你所知，如果另一个线程在复制共享数据结构后修改了它，那么所有其他线程都必须重新开始它们的复制修改操作。这将进一步增加对性能和内存消耗的影响。</p>
+<p>下一节将阐述一种实现非阻塞数据结构的方法，这种结构可以并发地更新，而不仅仅是复制和修改。</p>
+<h2 id="共享意向修改（Sharing-Intended-Modifications）"><a href="#共享意向修改（Sharing-Intended-Modifications）" class="headerlink" title="共享意向修改（Sharing Intended Modifications）"></a>共享意向修改（Sharing Intended Modifications）</h2><p>线程可以共享它对共享数据结构的意向修改，而不是复制和修改整个共享数据结构。一个线程想要修改共享数据结构的过程就变成了：</p>
+<ul>
+<li>检查另一个线程是否提交了对数据结构的意向修改。</li>
+<li>如果没有其他线程提交意向修改，则创建一个意向修改（用对象表示），并将该意向修改提交给数据结构（使用比较交换操作）。</li>
+<li>对共享数据结构进行修改。</li>
+<li>删除意向修改的引用，以向其他线程发出已执行意向修改的信号。</li>
+</ul>
+<p>如你所见，第二步可以阻止其他线程提交修改。因此，第二步实际上相当于共享数据结构的锁。如果一个线程成功地提交了意向修改，那么在执行第一个意向修改之前，其他线程都不能提交意向修改。</p>
+<p>如果一个线程提交了一个意向修改，然后在执行其他工作时被阻塞，那么共享数据结构实际上被锁定。共享数据结构不会直接阻止使用该数据结构的其他线程。其他线程可以检测到它们无法提交意向修改并决定执行其他操作。显然，我们需要解决这个问题。</p>
+<h2 id="可完成的意向修改（Completable-Intended-Modifications）"><a href="#可完成的意向修改（Completable-Intended-Modifications）" class="headerlink" title="可完成的意向修改（Completable Intended Modifications）"></a>可完成的意向修改（Completable Intended Modifications）</h2><p>为了避免提交的意向修改会锁定共享数据结构，提交的意向修改对象必须包含足够的信息，以便其他线程完成修改。因此，如果提交意向修改的线程无法完成修改，则另一个线程可以代表它完成修改，并保持共享数据结构可供其他线程使用。</p>
+<p>下图说明了上述非阻塞算法的蓝图：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026021065.png"><br>修改必须作为一个或多个比较交换操作执行。因此，如果两个线程试图完成意向修改，那么只有一个线程能够执行任何比较交换操作。一旦比较交换操作完成，进一步尝试完成该比较交换操作将失败。</p>
+<h2 id="A-B-A问题"><a href="#A-B-A问题" class="headerlink" title="A-B-A问题"></a>A-B-A问题</h2><p>上述算法可能会遇到A-B-A问题。A-B-A问题是指变量从A变为B，然后再变回A的情况。对于另一个线程，也就不可能检测到变量确实发生了更改。</p>
+<p>如果线程A检查正在进行的更新，复制数据并被线程调度程序挂起，则线程B可能同时能够访问共享数据结构。如果线程B执行数据结构的完全更新，并删除其意向修改，那么从线程a来看，自它复制数据结构以来没有发生任何修改。但是，修改确实发生了。当线程A继续基于其数据结构的过期副本执行更新时，数据结构中线程B的修改会被撤销。</p>
+<p>下图说明了上述情况下的A-B-A问题：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026021601.png"></p>
+<h3 id="A-B-A问题的对策"><a href="#A-B-A问题的对策" class="headerlink" title="A-B-A问题的对策"></a>A-B-A问题的对策</h3><p>A-B-A问题的一个常见对策是不仅仅交换指向意向修改对象的指针，而是将指针与计数器组合，并使用单个比较交换操作交换指针和计数器。在诸如C和C++这种支持指针的语言中，这是可能的。因此，即使当前修改指针被设置回指向“没有正在进行的修改”，指针+计数器中的计数器部分也将增加，使更新对其他线程可见。</p>
+<p>在Java中，不能将引用和计数器合并到一个变量中。作为替代，Java提供了AtomicStampedReference类，该类可以使用比较交换操作以原子方式交换引用和计数器。</p>
+<h2 id="非阻塞算法模板"><a href="#非阻塞算法模板" class="headerlink" title="非阻塞算法模板"></a>非阻塞算法模板</h2><p>下面是一个代码模板，旨在让你了解如何实现非阻塞算法。该模板基于本教程前面给出的描述。</p>
+<p>注意：我不是非阻塞算法的专家，所以下面的模板可能有一些错误。不要基于我的模板实现自己的非阻塞算法。该模板只是为了让你了解非阻塞算法的代码是怎样的。如果你想实现自己的非阻塞算法，请首先研究一些实际的、有效的非阻塞算法实现，以了解它们在实践中是如何实现的。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>atomic<span class="token punctuation">.</span></span><span class="token class-name">AtomicBoolean</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>atomic<span class="token punctuation">.</span></span><span class="token class-name">AtomicStampedReference</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">NonblockingTemplate</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">IntendedModification</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">public</span> <span class="token class-name">AtomicBoolean</span> completed <span class="token operator">=</span>
+                <span class="token keyword">new</span> <span class="token class-name">AtomicBoolean</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">AtomicStampedReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">IntendedModification</span><span class="token punctuation">></span></span>
+        ongoingMod <span class="token operator">=</span>
+            <span class="token keyword">new</span> <span class="token class-name">AtomicStampedReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">IntendedModification</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//declare the state of the data structure here.</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">modify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">attemptModifyASR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">attemptModifyASR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+
+        <span class="token keyword">boolean</span> modified <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    
+        <span class="token class-name">IntendedModification</span> currentlyOngoingMod <span class="token operator">=</span>
+        ongoingMod<span class="token punctuation">.</span><span class="token function">getReference</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> stamp <span class="token operator">=</span> ongoingMod<span class="token punctuation">.</span><span class="token function">getStamp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+        <span class="token keyword">if</span><span class="token punctuation">(</span>currentlyOngoingMod <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">//copy data structure state - for use</span>
+            <span class="token comment">//in intended modification</span>
+        
+            <span class="token comment">//prepare intended modification</span>
+            <span class="token class-name">IntendedModification</span> newMod <span class="token operator">=</span>
+            <span class="token keyword">new</span> <span class="token class-name">IntendedModification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+            <span class="token keyword">boolean</span> modSubmitted <span class="token operator">=</span> 
+                ongoingMod<span class="token punctuation">.</span><span class="token function">compareAndSet</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> newMod<span class="token punctuation">,</span> stamp<span class="token punctuation">,</span> stamp <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+            <span class="token keyword">if</span><span class="token punctuation">(</span>modSubmitted<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            
+                <span class="token comment">//complete modification via a series of compare-and-swap operations.</span>
+                <span class="token comment">//note: other threads may assist in completing the compare-and-swap</span>
+                <span class="token comment">// operations, so some CAS may fail</span>
+            
+                modified <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+    
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">//attempt to complete ongoing modification, so the data structure is freed up</span>
+            <span class="token comment">//to allow access from this thread.</span>
+        
+            modified <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    
+        <span class="token keyword">return</span> modified<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="非阻塞算法很难实现"><a href="#非阻塞算法很难实现" class="headerlink" title="非阻塞算法很难实现"></a>非阻塞算法很难实现</h2><p>非阻塞算法很难正确的设计和实现。在尝试实现自己的非阻塞算法之前，请看看是否有人已经为你的需要开发了非阻塞算法。</p>
+<p>Java已经提供了一些非阻塞的实现（例如ConcurrentLinkedQueue），并且很可能在未来的Java版本中提供更多的非阻塞算法实现。</p>
+<p>除了Java内置的非阻塞数据结构之外，还有一些开源的非阻塞数据结构可以使用。例如，LMAX中断器（类似队列的数据结构）和Cliff Click的非阻塞HashMap。</p>
+<h2 id="非阻塞算法的好处"><a href="#非阻塞算法的好处" class="headerlink" title="非阻塞算法的好处"></a>非阻塞算法的好处</h2><p>与阻塞算法相比，非阻塞算法有几个优点。本节将介绍这些好处。</p>
+<h3 id="提供选择"><a href="#提供选择" class="headerlink" title="提供选择"></a>提供选择</h3><p>非阻塞算法的第一个好处是，当请求的操作无法执行时，线程可以选择做什么。请求线程不是只能被阻塞，而是可以选择要做什么。有时候线程什么也做不了。在这种情况下，它可以选择阻塞或等待自己，从而释放CPU用于其他任务。但至少请求线程有选择。</p>
+<p>在单CPU系统上，挂起一个不能执行所需操作的线程，让其他可以执行其工作的线程在CPU上运行是有意义的。但即使在单CPU系统上，阻塞算法也可能导致死锁、饥饿和其他并发问题。</p>
+<h3 id="没有死锁"><a href="#没有死锁" class="headerlink" title="没有死锁"></a>没有死锁</h3><p>非阻塞算法的第二个好处是，一个线程的挂起不会导致其他线程的挂起。这意味着死锁不会发生。两个线程不会因等待彼此释放所需的锁而阻塞。由于线程在无法执行请求的操作时不会被阻塞，因此它们不会因相互等待而阻塞。非阻塞算法可能仍然会导致live lock，其中两个线程不断尝试某些操作，但不断被告知不可行（因为另一个线程的操作）。</p>
+<h3 id="没有挂起"><a href="#没有挂起" class="headerlink" title="没有挂起"></a>没有挂起</h3><p>挂起并重新激活一个线程开销很大。当然，随着操作系统和线程库的效率提高，挂起和重新激活的开销随着时间的推移而下降。然而，线程挂起和重新激活仍然需要付出高昂的代价。</p>
+<p>每当一个线程被阻塞时，它就会被挂起，从而导致线程挂起和重新激活的开销。由于非阻塞算法不会挂起线程，所以不会发生这种开销。这意味着cpu可能会花费更多的时间来执行实际的业务逻辑，而不是上下文切换。</p>
+<p>在多CPU系统上，阻塞算法可以对系统的整体性能产生更显著的影响。在CPU A上运行的线程在等待CPU B上运行的线程时可能会被阻塞。这会降低应用程序能够实现的并行级别。当然，CPU A可以调度另一个线程来运行，但是挂起和激活线程（上下文切换）的成本很高。需要挂起的线程越少越好。</p>
+<h3 id="减少线程延迟"><a href="#减少线程延迟" class="headerlink" title="减少线程延迟"></a>减少线程延迟</h3><p>本文所说的延迟是指从请求操作可执行到线程实际执行之间的时间。由于在非阻塞算法中线程不会挂起，所以不必支付昂贵的、缓慢的重新激活开销。这意味着当请求的操作可行时，线程可以更快地响应，从而减少响应延迟。</p>
+<p>非阻塞算法通常通过忙等待操作来获得较低的延迟。当然，在非阻塞数据结构上具有高线程争用的系统中，cpu可能会在这些忙等待期间消耗大量的周期。这点需铭记在心。如果数据结构具有高线程争用，则非阻塞算法未必是最好的。但是，总有一些方法可以重新设计应用程序以减少线程争用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/15b7ff2f/" rel="prev" title="28、同步器的结构">
+      <i class="fa fa-chevron-left"></i> 28、同步器的结构
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/9145304a/" rel="next" title="30、终章：阿姆达尔定律（Amdahl‘s Law）">
+      30、终章：阿姆达尔定律（Amdahl‘s Law） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E5%B9%B6%E5%8F%91%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">阻塞并发算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%B9%B6%E5%8F%91%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">非阻塞并发算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%AE%97%E6%B3%95%E4%B8%8E%E9%98%BB%E5%A1%9E%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">非阻塞算法与阻塞算法对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%B9%B6%E5%8F%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">非阻塞并发数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Volatile%E5%8F%98%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text">Volatile变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AA%E6%9C%89%E5%8D%95%E4%B8%AA%E5%86%99%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">5.1.</span> <span class="nav-text">只有单个写线程的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EVolatile%E5%8F%98%E9%87%8F%E7%9A%84%E6%9B%B4%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">5.2.</span> <span class="nav-text">基于Volatile变量的更高级数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%AF%94%E8%BE%83%E4%BA%A4%E6%8D%A2%E7%9A%84%E4%B9%90%E8%A7%82%E9%94%81"><span class="nav-number">6.</span> <span class="nav-text">使用比较交换的乐观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A7%B0%E4%B8%BA%E4%B9%90%E8%A7%82%E9%94%81"><span class="nav-number">6.1.</span> <span class="nav-text">为什么称为乐观锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E6%98%AF%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%9A%84"><span class="nav-number">6.2.</span> <span class="nav-text">乐观锁是非阻塞的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E4%BA%A4%E6%8D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">7.</span> <span class="nav-text">不可交换的数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E6%84%8F%E5%90%91%E4%BF%AE%E6%94%B9%EF%BC%88Sharing-Intended-Modifications%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">共享意向修改（Sharing Intended Modifications）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E5%AE%8C%E6%88%90%E7%9A%84%E6%84%8F%E5%90%91%E4%BF%AE%E6%94%B9%EF%BC%88Completable-Intended-Modifications%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">可完成的意向修改（Completable Intended Modifications）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-B-A%E9%97%AE%E9%A2%98"><span class="nav-number">10.</span> <span class="nav-text">A-B-A问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-B-A%E9%97%AE%E9%A2%98%E7%9A%84%E5%AF%B9%E7%AD%96"><span class="nav-number">10.1.</span> <span class="nav-text">A-B-A问题的对策</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF"><span class="nav-number">11.</span> <span class="nav-text">非阻塞算法模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%AE%97%E6%B3%95%E5%BE%88%E9%9A%BE%E5%AE%9E%E7%8E%B0"><span class="nav-number">12.</span> <span class="nav-text">非阻塞算法很难实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%AE%97%E6%B3%95%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="nav-number">13.</span> <span class="nav-text">非阻塞算法的好处</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E4%BE%9B%E9%80%89%E6%8B%A9"><span class="nav-number">13.1.</span> <span class="nav-text">提供选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E6%AD%BB%E9%94%81"><span class="nav-number">13.2.</span> <span class="nav-text">没有死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E6%8C%82%E8%B5%B7"><span class="nav-number">13.3.</span> <span class="nav-text">没有挂起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E7%BA%BF%E7%A8%8B%E5%BB%B6%E8%BF%9F"><span class="nav-number">13.4.</span> <span class="nav-text">减少线程延迟</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://seven-navigation.netlify.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">15:55</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>

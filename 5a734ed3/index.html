@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_fazj894cvd.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="给你一个链表的头节点 head ，该链表包含由 0 分隔开的一连串整数。链表的 开端 和 末尾 的节点都满足 Node.val &#x3D;&#x3D; 0...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2181. 合并零之间的节点">
+<meta property="og:url" content="https://seven-it-work.github.io/5a734ed3/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="给你一个链表的头节点 head ，该链表包含由 0 分隔开的一连串整数。链表的 开端 和 末尾 的节点都满足 Node.val &#x3D;&#x3D; 0...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2022/02/02/ex1-1.png">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2022/02/02/ex2-1.png">
+<meta property="article:published_time" content="2024-09-09T02:16:55.000Z">
+<meta property="article:modified_time" content="2024-09-09T02:17:00.000Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="算法练习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://assets.leetcode.com/uploads/2022/02/02/ex1-1.png">
+
+<link rel="canonical" href="https://seven-it-work.github.io/5a734ed3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>2181. 合并零之间的节点 | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-力扣" id="力扣">
+      <a href="/leetCode/" rel="section"><i class="fa iconfont icon-likou fa-fw"></i>力扣</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa iconfont icon-jianli fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/5a734ed3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2181. 合并零之间的节点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-09 10:16:55 / 修改时间：10:17:00" itemprop="dateCreated datePublished" datetime="2024-09-09T10:16:55+08:00">2024-09-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>84k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1:16</span>
+            </span>
+            <div class="post-description">给你一个链表的头节点 head ，该链表包含由 0 分隔开的一连串整数。链表的 开端 和 末尾 的节点都满足 Node.val == 0...</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly9sZWV0Y29kZS5jbi9wcm9ibGVtcy9tZXJnZS1ub2Rlcy1pbi1iZXR3ZWVuLXplcm9zL2Rlc2NyaXB0aW9uLz9lbnZUeXBlPWRhaWx5LXF1ZXN0aW9uJmVudklkPTIwMjQtMDktMDk=">https://leetcode.cn/problems/merge-nodes-in-between-zeros/description/?envType=daily-question&amp;envId=2024-09-09<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>给你一个链表的头节点 <code>head</code> ，该链表包含由 <code>0</code> 分隔开的一连串整数。链表的 <strong>开端</strong> 和 <strong>末尾</strong> 的节点都满足 <code>Node.val == 0</code> 。</p>
+<p>对于每两个相邻的 <code>0</code> ，请你将它们之间的所有节点合并成一个节点，其值是所有已合并节点的值之和。然后将所有 <code>0</code> 移除，修改后的链表不应该含有任何 <code>0</code> 。</p>
+<p> 返回修改后链表的头节点 <code>head</code> 。</p>
+<p>**示例 1：  **</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/02/02/ex1-1.png"></p>
+<p><strong>输入：</strong>head &#x3D; [0,3,1,0,4,5,2,0]<br><strong>输出：</strong>[4,11]<br><strong>解释：</strong><br>上图表示输入的链表。修改后的链表包含：</p>
+<ul>
+<li>标记为绿色的节点之和：3 + 1 &#x3D; 4</li>
+<li>标记为红色的节点之和：4 + 5 + 2 &#x3D; 11</li>
+</ul>
+<p>**示例 2：  **<br><img src="https://assets.leetcode.com/uploads/2022/02/02/ex2-1.png"></p>
+<p><strong>输入：</strong>head &#x3D; [0,1,0,3,0,2,2,0]<br><strong>输出：</strong>[1,3,4]<br><strong>解释：</strong><br>上图表示输入的链表。修改后的链表包含：</p>
+<ul>
+<li>标记为绿色的节点之和：1 &#x3D; 1</li>
+<li>标记为红色的节点之和：3 &#x3D; 3</li>
+<li>标记为黄色的节点之和：2 + 2 &#x3D; 4</li>
+</ul>
+<p><strong>提示：</strong></p>
+<ul>
+<li>列表中的节点数目在范围 <code>[3, 2 * 105]</code> 内</li>
+<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
+<li><strong>不</strong> 存在连续两个 <code>Node.val == 0</code> 的节点</li>
+<li>链表的 <strong>开端</strong> 和 <strong>末尾</strong> 节点都满足 <code>Node.val == 0</code></li>
+</ul>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+
+    <script
+            type="text/javascript"
+            src="https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.development.js"
+    ></script>
+    <div id="5a734ed3"></div>
+    <script>
+        const App = () => {
+            // 隐藏没用的样式
+            setTimeout(()=>{
+                let elementsByClassName = document.getElementsByClassName("App-bottom-bar");
+                if (elementsByClassName && elementsByClassName[0]){
+                    elementsByClassName[0].style.display='none'
+                }
+                 elementsByClassName = document.getElementsByClassName("layer-ui__wrapper__footer-right");
+                if (elementsByClassName && elementsByClassName[0]){
+                    elementsByClassName[0].style.display='none'
+                }
+                elementsByClassName = document.getElementsByClassName("LaserToolOverlay");
+                if (elementsByClassName && elementsByClassName[0]){
+                    elementsByClassName[0].style.display='none'
+                }
+            },200)
+            return React.createElement(
+                React.Fragment,
+                null,
+                React.createElement(
+                    "div",
+                    {
+                        style: { height: "400px" },
+                    },
+                    React.createElement(ExcalidrawLib.Excalidraw,{
+                        viewModeEnabled:true,
+                        gridModeEnabled:false,
+                        initialData: {"id":"5a734ed3","type":"excalidraw","version":2,"source":"https://github.com/zsviczian/obsidian-excalidraw-plugin/releases/tag/2.4.0","elements":[{"type":"ellipse","version":95,"versionNonce":366254858,"index":"a0","isDeleted":false,"id":"Gf10U5bNmANw4e9BTGHZQ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-287.2631578947369,"y":-289.9975328947369,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":43.54306220095695,"height":51.5,"seed":2051510742,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"rV9sww6W"},{"id":"xgX22fe-rD28BJawmvP3O","type":"arrow"}],"updated":1725862110708,"link":null,"locked":false},{"type":"text","version":142,"versionNonce":1241309322,"index":"a1","isDeleted":false,"id":"rV9sww6W","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-272.026423461869,"y":-276.9555325102905,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":1550409610,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862110708,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"Gf10U5bNmANw4e9BTGHZQ","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":153,"versionNonce":2146430166,"index":"a2","isDeleted":false,"id":"ZTPFjnWanmOLrdY35NQTf","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-204.97368421052636,"y":-289.05016447368416,"strokeColor":"#1e1e1e","backgroundColor":"#b2f2bb","width":46.81586346372019,"height":45.67505720823792,"seed":734950474,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"zcJM7Azi"},{"id":"xgX22fe-rD28BJawmvP3O","type":"arrow"},{"id":"VgVVVvqvhCc3Z_RuhdOcZ","type":"arrow"}],"updated":1725853349385,"link":null,"locked":false},{"type":"text","version":193,"versionNonce":1555747990,"index":"a3","isDeleted":false,"id":"zcJM7Azi","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-185.1176597398163,"y":-271.9637713136436,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":7,"height":11.2051282051282,"seed":927816458,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853349385,"link":null,"locked":false,"fontSize":8.96410256410256,"fontFamily":5,"text":"3","rawText":"3","textAlign":"center","verticalAlign":"middle","containerId":"ZTPFjnWanmOLrdY35NQTf","originalText":"3","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":536,"versionNonce":2118605962,"index":"a4","isDeleted":false,"id":"7k05rrQh1pGB2iPS1bXjC","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-126.6578947368422,"y":-289.2475328947368,"strokeColor":"#1e1e1e","backgroundColor":"#b2f2bb","width":39.54446460980037,"height":49,"seed":1986208842,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"SQTfN2iZ"},{"id":"VgVVVvqvhCc3Z_RuhdOcZ","type":"arrow"},{"id":"DmrqqC8kBzNYcB9O4fhrf","type":"arrow"}],"updated":1725853339364,"link":null,"locked":false},{"type":"text","version":281,"versionNonce":2087895766,"index":"a5","isDeleted":false,"id":"SQTfN2iZ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-111.13673861699905,"y":-277.07164903380726,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":8.539993286132812,"height":25,"seed":734792458,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725848441150,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"1","rawText":"1","textAlign":"center","verticalAlign":"middle","containerId":"7k05rrQh1pGB2iPS1bXjC","originalText":"1","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":405,"versionNonce":699024970,"index":"a6","isDeleted":false,"id":"hZ7wT6fwAP2aM2_Cj0Xb5","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-53.63067150635217,"y":-289.264002281054,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":42.70235934664247,"height":49,"seed":1994751690,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"5sOxA5kX"},{"id":"DmrqqC8kBzNYcB9O4fhrf","type":"arrow"},{"id":"O_3BMPIT3-dDzHLnWnWd_","type":"arrow"}],"updated":1725853343067,"link":null,"locked":false},{"type":"text","version":266,"versionNonce":1218399510,"index":"a7","isDeleted":false,"id":"5sOxA5kX","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-39.01705515601719,"y":-277.08811842012443,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":1344214410,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725848432304,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"hZ7wT6fwAP2aM2_Cj0Xb5","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":437,"versionNonce":687329610,"index":"a8","isDeleted":false,"id":"vN_RDrWoyVvWxNi4kgBCq","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":20.634301270417353,"y":-289.264002281054,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":42.70235934664247,"height":49,"seed":88910166,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"w4DtJiUX"},{"id":"O_3BMPIT3-dDzHLnWnWd_","type":"arrow"},{"id":"jMm8OEU7-BghMh-wqvIBa","type":"arrow"}],"updated":1725853347842,"link":null,"locked":false},{"type":"text","version":302,"versionNonce":1043754186,"index":"a9","isDeleted":false,"id":"w4DtJiUX","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":36.037918536279676,"y":-277.08811842012443,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":11.699996948242188,"height":25,"seed":265883286,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725848432304,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"4","rawText":"4","textAlign":"center","verticalAlign":"middle","containerId":"vN_RDrWoyVvWxNi4kgBCq","originalText":"4","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":463,"versionNonce":1612726358,"index":"aA","isDeleted":false,"id":"fkciQH15yL1S0GMdbTX_H","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":92.42377495462787,"y":-289.25576758789543,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":42.70235934664247,"height":49,"seed":426043542,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"QnEW2TMQ"},{"id":"jMm8OEU7-BghMh-wqvIBa","type":"arrow"},{"id":"BWZpb4tLJaQAX2kzRD8HJ","type":"arrow"}],"updated":1725853347842,"link":null,"locked":false},{"type":"text","version":331,"versionNonce":1807638358,"index":"aB","isDeleted":false,"id":"QnEW2TMQ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":107.49739801883004,"y":-277.0798837269659,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":12.3599853515625,"height":25,"seed":1294427606,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725848432304,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"5","rawText":"5","textAlign":"center","verticalAlign":"middle","containerId":"fkciQH15yL1S0GMdbTX_H","originalText":"5","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":489,"versionNonce":549812426,"index":"aE","isDeleted":false,"id":"S4j_14Vv9SA9uXPNU7b5X","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":153.69237749546272,"y":-289.25576758789543,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":42.70235934664247,"height":49,"seed":2083366742,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"5njyCdSe"},{"id":"BWZpb4tLJaQAX2kzRD8HJ","type":"arrow"},{"id":"y_HKYs3QDzFU7-QWpcQR_","type":"arrow"}],"updated":1725853353794,"link":null,"locked":false},{"type":"text","version":360,"versionNonce":1759981194,"index":"aF","isDeleted":false,"id":"5njyCdSe","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":167.94599323544614,"y":-277.0798837269659,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":14,"height":25,"seed":1038765206,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725848432304,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"2","rawText":"2","textAlign":"center","verticalAlign":"middle","containerId":"S4j_14Vv9SA9uXPNU7b5X","originalText":"2","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":62,"versionNonce":1256280790,"index":"aK","isDeleted":false,"id":"xgX22fe-rD28BJawmvP3O","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-234.18204876937972,"y":-263.1836387850623,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":28.47137516014135,"height":0.4609934650164291,"seed":2016659914,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651696,"link":null,"locked":false,"startBinding":{"elementId":"Gf10U5bNmANw4e9BTGHZQ","focus":0.021626942975459477,"gap":9.552274621120443,"fixedPoint":null},"endBinding":{"elementId":"ZTPFjnWanmOLrdY35NQTf","focus":-0.16991321980612167,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[28.47137516014135,0.4609934650164291]],"elbowed":false},{"type":"arrow","version":38,"versionNonce":717165910,"index":"aL","isDeleted":false,"id":"VgVVVvqvhCc3Z_RuhdOcZ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-157.0911594567779,"y":-269.03223289351155,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":29.474007930531002,"height":1.0526431403761194,"seed":1000455894,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651698,"link":null,"locked":false,"startBinding":{"elementId":"ZTPFjnWanmOLrdY35NQTf","focus":-0.16162945510799825,"gap":1.2362771973586852,"fixedPoint":null},"endBinding":{"elementId":"7k05rrQh1pGB2iPS1bXjC","focus":0.1016576419346211,"gap":1.1261395808694061,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[29.474007930531002,1.0526431403761194]],"elbowed":false},{"type":"arrow","version":41,"versionNonce":317601750,"index":"aM","isDeleted":false,"id":"DmrqqC8kBzNYcB9O4fhrf","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-84.45957585129251,"y":-264.82170641136076,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":29.473700537670652,"height":1.0526321620596946,"seed":1127746506,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651700,"link":null,"locked":false,"startBinding":{"elementId":"7k05rrQh1pGB2iPS1bXjC","focus":-0.03570375166223451,"gap":2.6539379434870476,"fixedPoint":null},"endBinding":{"elementId":"hZ7wT6fwAP2aM2_Cj0Xb5","focus":-0.07367331624855086,"gap":1.3720120733372916,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[29.473700537670652,1.0526321620596946]],"elbowed":false},{"type":"arrow","version":34,"versionNonce":1721154134,"index":"aN","isDeleted":false,"id":"O_3BMPIT3-dDzHLnWnWd_","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-9.928340636813502,"y":-264.7232968156849,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":28.626681203869094,"height":0.9542227067956901,"seed":1040159254,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651702,"link":null,"locked":false,"startBinding":{"elementId":"hZ7wT6fwAP2aM2_Cj0Xb5","focus":-0.028736159898514486,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"vN_RDrWoyVvWxNi4kgBCq","focus":-0.07226201434660802,"gap":1.952449877514546,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[28.626681203869094,0.9542227067956901]],"elbowed":false},{"type":"arrow","version":31,"versionNonce":1591778518,"index":"aO","isDeleted":false,"id":"jMm8OEU7-BghMh-wqvIBa","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":66.06674018497127,"y":-264.82170639925056,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":23.15789496357371,"height":0,"seed":1184255434,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651704,"link":null,"locked":false,"startBinding":{"elementId":"vN_RDrWoyVvWxNi4kgBCq","focus":-0.0023552701304721756,"gap":2.7301336389525908,"fixedPoint":null},"endBinding":{"elementId":"fkciQH15yL1S0GMdbTX_H","focus":0.002691380055311203,"gap":3.1992093687909176,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[23.15789496357371,0]],"elbowed":false},{"type":"arrow","version":31,"versionNonce":183754582,"index":"aP","isDeleted":false,"id":"BWZpb4tLJaQAX2kzRD8HJ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":136.59303929481365,"y":-263.76907482030316,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":16.116076704326474,"height":0,"seed":1027009302,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651706,"link":null,"locked":false,"startBinding":{"elementId":"fkciQH15yL1S0GMdbTX_H","focus":0.04027317418743976,"gap":1.4833749317382967,"fixedPoint":null},"endBinding":{"elementId":"S4j_14Vv9SA9uXPNU7b5X","focus":-0.04027317418743976,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[16.116076704326474,0]],"elbowed":false},{"type":"ellipse","version":445,"versionNonce":1495253066,"index":"aQ","isDeleted":false,"id":"6kEuTPS0D9lz9BMcDiX7c","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":225.76819218289262,"y":-290.3743379781979,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":42.70235934664247,"height":49,"seed":732421194,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"NxP3tM4i"},{"id":"y_HKYs3QDzFU7-QWpcQR_","type":"arrow"}],"updated":1725853546611,"link":null,"locked":false},{"type":"text","version":306,"versionNonce":1378858442,"index":"aR","isDeleted":false,"id":"NxP3tM4i","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":240.3818085332276,"y":-278.19845411726834,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":1203356426,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853546611,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"6kEuTPS0D9lz9BMcDiX7c","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":44,"versionNonce":1341686230,"index":"aS","isDeleted":false,"id":"y_HKYs3QDzFU7-QWpcQR_","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":199.76949678185036,"y":-265.0447940063285,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":25.00171714714878,"height":0.4102493808022132,"seed":385885270,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651707,"link":null,"locked":false,"startBinding":{"elementId":"S4j_14Vv9SA9uXPNU7b5X","focus":0.004762798648707854,"gap":3.3760890751319934,"fixedPoint":null},"endBinding":{"elementId":"6kEuTPS0D9lz9BMcDiX7c","focus":-0.0021461912140435385,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[25.00171714714878,-0.4102493808022132]],"elbowed":false},{"type":"arrow","version":33,"versionNonce":1348981642,"index":"aT","isDeleted":false,"id":"LbMq_IbFPBG3erMcePlXb","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-257.09115445957565,"y":-381.6638116624084,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":1.0526315789473983,"height":65.26315789473682,"seed":1221777046,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"GuuEL2Nj"}],"updated":1725853373389,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[1.0526315789473983,65.26315789473682]],"elbowed":false},{"type":"text","version":4,"versionNonce":693666326,"index":"aU","isDeleted":false,"id":"GuuEL2Nj","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-278.6348231061371,"y":-361.53223271504,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":44.13996887207031,"height":25,"seed":1742563466,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853373389,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"next","rawText":"next","textAlign":"center","verticalAlign":"middle","containerId":"LbMq_IbFPBG3erMcePlXb","originalText":"next","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":122,"versionNonce":899094870,"index":"aV","isDeleted":false,"id":"VqU33Qf3T2ghFgWeVQpHt","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-286.60672514619864,"y":-214.3913301990391,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":42.22222222222223,"height":49,"seed":631266634,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"QI2lzyck"},{"id":"nLTzw3fupn2NlqSB8rG_2","type":"arrow"}],"updated":1725862383385,"link":null,"locked":false},{"type":"text","version":71,"versionNonce":1021332298,"index":"aW","isDeleted":false,"id":"QI2lzyck","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-272.06342324978533,"y":-202.2154463381095,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":577982730,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853546612,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"VqU33Qf3T2ghFgWeVQpHt","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"text","version":19,"versionNonce":1699625430,"index":"aX","isDeleted":false,"id":"Z7ed8QTy","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-357.71783625730984,"y":-276.61355242126126,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":50.97996520996094,"height":25,"seed":131544598,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853409274,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"head:","rawText":"head:","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"head:","autoResize":true,"lineHeight":1.25},{"type":"text","version":57,"versionNonce":1692272534,"index":"aY","isDeleted":false,"id":"9tDU0EOg","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-373.27339181286544,"y":-197.72466353237246,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":61.239959716796875,"height":25,"seed":1257430026,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853416665,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"result:","rawText":"result:","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"result:","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":51,"versionNonce":1407933590,"index":"aZ","isDeleted":false,"id":"svge4CLMoTc8--miw5Kcj","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-258.8289473684209,"y":-58.835774643483546,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":5.555555555555543,"height":94.44444444444446,"seed":436779530,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"g4yQzQ5I"}],"updated":1725862213014,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-5.555555555555543,-94.44444444444446]],"elbowed":false},{"type":"text","version":20,"versionNonce":1220302538,"index":"aa","isDeleted":false,"id":"g4yQzQ5I","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-312.61669676485104,"y":-118.55799686570577,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":102.01994323730469,"height":25,"seed":62909322,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853432978,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"resultNext","rawText":"resultNext","textAlign":"center","verticalAlign":"middle","containerId":"svge4CLMoTc8--miw5Kcj","originalText":"resultNext","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":203,"versionNonce":1064829770,"index":"ab","isDeleted":false,"id":"Nv_TMHbRbN-DClgjSss1L","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-728.8289473684212,"y":-385.5024413101503,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":95.55555555555546,"height":60.55555555555559,"seed":527554634,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"gZ5dATKi"},{"id":"YY9wEyxkVb3t-qBo-Ac28","type":"arrow"}],"updated":1725853562841,"link":null,"locked":false},{"type":"text","version":154,"versionNonce":440164490,"index":"ac","isDeleted":false,"id":"gZ5dATKi","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-707.5051431574902,"y":-367.63428551829855,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":53.3399658203125,"height":25,"seed":1498580822,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853477443,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"start","rawText":"start","textAlign":"center","verticalAlign":"middle","containerId":"Nv_TMHbRbN-DClgjSss1L","originalText":"start","autoResize":true,"lineHeight":1.25},{"type":"diamond","version":140,"versionNonce":147282838,"index":"ad","isDeleted":false,"id":"dTXjfThSOhDE5cB3MgfSZ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-772.1622807017543,"y":-236.61355242126137,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":179.99999999999994,"height":170,"seed":1631450774,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"8afeaoYi"},{"id":"YY9wEyxkVb3t-qBo-Ac28","type":"arrow"},{"id":"muuzmU-qYlGccyBOFFfE8","type":"arrow"},{"id":"EKn2fPPrOu937_R-acfeX","type":"arrow"},{"id":"1QluZSFtRigqMO7w15Zu1","type":"arrow"}],"updated":1725853669346,"link":null,"locked":false},{"type":"text","version":140,"versionNonce":2007325898,"index":"ae","isDeleted":false,"id":"8afeaoYi","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-722.1622807017543,"y":-176.61355242126137,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":75.53994750976562,"height":50,"seed":732562186,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862014891,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"next.val\n==0","rawText":"next.val==0","textAlign":"left","verticalAlign":"middle","containerId":"dTXjfThSOhDE5cB3MgfSZ","originalText":"next.val==0","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":105,"versionNonce":1460110538,"index":"af","isDeleted":false,"id":"oImhvd91faeNlgugxvfpo","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-762.1622807017543,"y":263.3864475787385,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":180,"height":116.66666666666663,"seed":2146583510,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"vZB6CvkE"},{"id":"I3wWpn82FFnG6zmczejSD","type":"arrow"},{"id":"k06Iz0Djldv7iWVevy0HW","type":"arrow"}],"updated":1725853709802,"link":null,"locked":false},{"type":"text","version":77,"versionNonce":1780060618,"index":"afV","isDeleted":false,"id":"vZB6CvkE","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-757.1622807017543,"y":271.7197809120718,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":162.63990783691406,"height":100,"seed":1860297802,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862011707,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"初始化游标值，方\n便赋值\nresultNext.next=\nnew ListNode()","rawText":"初始化游标值，方便赋值\nresultNext.next=new ListNode()","textAlign":"left","verticalAlign":"middle","containerId":"oImhvd91faeNlgugxvfpo","originalText":"初始化游标值，方便赋值\nresultNext.next=new ListNode()","autoResize":true,"lineHeight":1.25},{"type":"diamond","version":182,"versionNonce":1891099862,"index":"ai","isDeleted":false,"id":"l8F9_8WdFSTIxyseEdRAC","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-768.828947368421,"y":6.164225356516397,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":179.99999999999994,"height":170,"seed":554012054,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"xEYNNJlU"},{"id":"1QluZSFtRigqMO7w15Zu1","type":"arrow"},{"id":"I3wWpn82FFnG6zmczejSD","type":"arrow"},{"id":"ym9QdBcWuYL2Q53TrLDcr","type":"arrow"}],"updated":1725862155593,"link":null,"locked":false},{"type":"text","version":210,"versionNonce":938199510,"index":"aj","isDeleted":false,"id":"xEYNNJlU","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-718.828947368421,"y":53.6642253565164,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":79.39996337890625,"height":75,"seed":1131113174,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862155593,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"resultNe\nxt.next\n==null","rawText":"resultNext.next==null","textAlign":"left","verticalAlign":"middle","containerId":"l8F9_8WdFSTIxyseEdRAC","originalText":"resultNext.next==null","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":66,"versionNonce":867142038,"index":"am","isDeleted":false,"id":"YY9wEyxkVb3t-qBo-Ac28","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-684.3845096319071,"y":-323.28073559858535,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":1.1111178190418514,"height":85.55607206621283,"seed":1052144150,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651713,"link":null,"locked":false,"startBinding":{"elementId":"Nv_TMHbRbN-DClgjSss1L","focus":0.07844796234763432,"gap":1.7387767803007783,"fixedPoint":null},"endBinding":{"elementId":"dTXjfThSOhDE5cB3MgfSZ","focus":0.00008016674683594296,"gap":1.5707074283482854,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[1.1111178190418514,85.55607206621283]],"elbowed":false},{"type":"rectangle","version":64,"versionNonce":138013642,"index":"an","isDeleted":false,"id":"R-_xjvvC8y9Y_1Ev6AkP0","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1157.71783625731,"y":-209.94688575459475,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":238.8888888888889,"height":115.55555555555554,"seed":2137022986,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"W2QqkP4J"},{"id":"muuzmU-qYlGccyBOFFfE8","type":"arrow"},{"id":"JUTkevbbXq_f4Nys0Krfc","type":"arrow"}],"updated":1725853647922,"link":null,"locked":false},{"type":"text","version":34,"versionNonce":1711788438,"index":"ao","isDeleted":false,"id":"W2QqkP4J","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1108.2133561072992,"y":-164.66910797681697,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":139.8799285888672,"height":25,"seed":690469270,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862155595,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"给tempSum+val","rawText":"给tempSum+val","textAlign":"center","verticalAlign":"middle","containerId":"R-_xjvvC8y9Y_1Ev6AkP0","originalText":"给tempSum+val","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":40,"versionNonce":1856057558,"index":"ap","isDeleted":false,"id":"muuzmU-qYlGccyBOFFfE8","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-774.3339691325946,"y":-149.94688575459475,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":143.49497823582647,"height":0,"seed":86914890,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"qAhpqjDF"}],"updated":1725862651719,"link":null,"locked":false,"startBinding":{"elementId":"dTXjfThSOhDE5cB3MgfSZ","focus":-0.019607843137254458,"gap":2.7375186608356685,"fixedPoint":null},"endBinding":{"elementId":"R-_xjvvC8y9Y_1Ev6AkP0","focus":0.038461538461538575,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-143.49497823582647,0]],"elbowed":false},{"type":"text","version":4,"versionNonce":1139523286,"index":"apV","isDeleted":false,"id":"qAhpqjDF","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-856.0814582505078,"y":-162.44688575459475,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":20,"height":25,"seed":619438026,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725861911328,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"否","rawText":"否","textAlign":"center","verticalAlign":"middle","containerId":"muuzmU-qYlGccyBOFFfE8","originalText":"否","autoResize":true,"lineHeight":1.25},{"type":"rectangle","version":71,"versionNonce":59410442,"index":"aq","isDeleted":false,"id":"AW60Jy5UL9DGve7Ty_Fwv","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1148.8289473684208,"y":-362.169107976817,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":229.9999999999999,"height":106.66666666666663,"seed":1054957846,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"type":"text","id":"WrcWWC7f"},{"id":"JUTkevbbXq_f4Nys0Krfc","type":"arrow"},{"id":"EKn2fPPrOu937_R-acfeX","type":"arrow"},{"id":"k06Iz0Djldv7iWVevy0HW","type":"arrow"},{"id":"jTu3DX77QEPrym26uXroj","type":"arrow"}],"updated":1725862079578,"link":null,"locked":false},{"type":"text","version":29,"versionNonce":62288138,"index":"ar","isDeleted":false,"id":"WrcWWC7f","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1108.2788985402958,"y":-321.33577464348366,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":148.89990234375,"height":25,"seed":312556490,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725853644360,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"next=next.next","rawText":"next=next.next","textAlign":"center","verticalAlign":"middle","containerId":"AW60Jy5UL9DGve7Ty_Fwv","originalText":"next=next.next","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":46,"versionNonce":715092822,"index":"as","isDeleted":false,"id":"JUTkevbbXq_f4Nys0Krfc","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1036.6067251461986,"y":-214.3913301990392,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":1.0555555555556566,"height":40.11111111111114,"seed":1939634646,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651721,"link":null,"locked":false,"startBinding":{"elementId":"R-_xjvvC8y9Y_1Ev6AkP0","focus":0.027314479091131043,"gap":4.444444444444457,"fixedPoint":null},"endBinding":{"elementId":"AW60Jy5UL9DGve7Ty_Fwv","focus":0.045214770158251684,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-1.0555555555556566,-40.11111111111114]],"elbowed":false},{"type":"arrow","version":68,"versionNonce":1413650582,"index":"at","isDeleted":false,"id":"EKn2fPPrOu937_R-acfeX","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-914.3845029239765,"y":-312.169107976817,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":223.33333333333337,"height":78.88888888888886,"seed":976590230,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651721,"link":null,"locked":false,"startBinding":{"elementId":"AW60Jy5UL9DGve7Ty_Fwv","focus":-0.48454093489836103,"gap":4.4444444444444,"fixedPoint":null},"endBinding":{"elementId":"dTXjfThSOhDE5cB3MgfSZ","focus":0.9238448281468485,"gap":3.679943117844722,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[223.33333333333337,78.88888888888886]],"elbowed":false},{"type":"arrow","version":42,"versionNonce":142401814,"index":"au","isDeleted":false,"id":"1QluZSFtRigqMO7w15Zu1","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-679.940058479532,"y":-64.39133019903922,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":0,"height":63.825298746517376,"seed":142942474,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"5QZRkByX"}],"updated":1725862651717,"link":null,"locked":false,"startBinding":{"elementId":"dTXjfThSOhDE5cB3MgfSZ","focus":-0.024691358024692068,"gap":3.141414856696734,"fixedPoint":null},"endBinding":{"elementId":"l8F9_8WdFSTIxyseEdRAC","focus":-0.012345679012344141,"gap":6.821357974541421,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[0,63.825298746517376]],"elbowed":false},{"type":"text","version":4,"versionNonce":1207855690,"index":"auV","isDeleted":false,"id":"5QZRkByX","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-690.940058479532,"y":-44.97868082578053,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":22,"height":25,"seed":600024342,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725861908036,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"是","rawText":"是","textAlign":"center","verticalAlign":"middle","containerId":"1QluZSFtRigqMO7w15Zu1","originalText":"是","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":70,"versionNonce":2007780950,"index":"av","isDeleted":false,"id":"I3wWpn82FFnG6zmczejSD","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-682.1622807017543,"y":177.8308920231829,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":3.3333333333333712,"height":78.88888888888897,"seed":1479139478,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"w46EG1x8"}],"updated":1725862651717,"link":null,"locked":false,"startBinding":{"elementId":"l8F9_8WdFSTIxyseEdRAC","focus":0.07772561293688009,"gap":3.500433697461922,"fixedPoint":null},"endBinding":{"elementId":"oImhvd91faeNlgugxvfpo","focus":-0.0423965473470417,"gap":6.666666666666629,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[3.3333333333333712,78.88888888888897]],"elbowed":false},{"type":"text","version":4,"versionNonce":835943958,"index":"avV","isDeleted":false,"id":"w46EG1x8","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-691.4956140350876,"y":204.7753364676274,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":22,"height":25,"seed":174763146,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725861916597,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"是","rawText":"是","textAlign":"center","verticalAlign":"middle","containerId":"I3wWpn82FFnG6zmczejSD","originalText":"是","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":199,"versionNonce":1087313366,"index":"aw","isDeleted":false,"id":"k06Iz0Djldv7iWVevy0HW","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-745.4956140350876,"y":253.3864475787385,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":167.77777777777783,"height":515.5555555555558,"seed":1783176278,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651722,"link":null,"locked":false,"startBinding":{"elementId":"oImhvd91faeNlgugxvfpo","focus":-0.4688375465541671,"gap":10,"fixedPoint":null},"endBinding":{"elementId":"AW60Jy5UL9DGve7Ty_Fwv","focus":-0.796099290780142,"gap":5.5555555555556,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-167.77777777777783,-515.5555555555558]],"elbowed":false},{"type":"rectangle","version":138,"versionNonce":1300112010,"index":"ax","isDeleted":false,"id":"WeNACmDEm7f7coojkjpy2","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1244.982793522267,"y":39.96764415993516,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":356.99999999999994,"height":227.3076923076924,"seed":1250334154,"groupIds":[],"frameId":null,"roundness":{"type":3},"boundElements":[{"id":"ym9QdBcWuYL2Q53TrLDcr","type":"arrow"},{"type":"text","id":"H2FChhN7"},{"id":"jTu3DX77QEPrym26uXroj","type":"arrow"}],"updated":1725862079578,"link":null,"locked":false},{"type":"text","version":151,"versionNonce":889960342,"index":"axV","isDeleted":false,"id":"H2FChhN7","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1239.982793522267,"y":53.621490313781365,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":329.71978759765625,"height":200,"seed":509258902,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862073700,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"已经加完了，进行赋值\nresultNext.next.val = tempSum;\n游标移动\nresultNext = resultNext.next;\n节点赋值，方便下次进行赋值\nresultNext.next = new ListNode();\n计数清空\ntempSum = 0;","rawText":"已经加完了，进行赋值\nresultNext.next.val = tempSum;\n游标移动\nresultNext = resultNext.next;\n节点赋值，方便下次进行赋值\nresultNext.next = new ListNode();\n计数清空\ntempSum = 0;","textAlign":"left","verticalAlign":"middle","containerId":"WeNACmDEm7f7coojkjpy2","originalText":"已经加完了，进行赋值\nresultNext.next.val = tempSum;\n游标移动\nresultNext = resultNext.next;\n节点赋值，方便下次进行赋值\nresultNext.next = new ListNode();\n计数清空\ntempSum = 0;","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":142,"versionNonce":475535446,"index":"ay","isDeleted":false,"id":"ym9QdBcWuYL2Q53TrLDcr","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-754.9477210126797,"y":105.64976340395421,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":130.80151717864192,"height":24.13113981015175,"seed":462807562,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"c97nRPfJ"}],"updated":1725862651723,"link":null,"locked":false,"startBinding":{"elementId":"l8F9_8WdFSTIxyseEdRAC","focus":-0.00520833333333175,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"WeNACmDEm7f7coojkjpy2","focus":0.06482496528539189,"gap":2.2335553309453964,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-130.80151717864192,24.13113981015175]],"elbowed":false},{"type":"text","version":4,"versionNonce":1210602198,"index":"az","isDeleted":false,"id":"c97nRPfJ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-830.3485759357628,"y":105.2151809960143,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":20,"height":25,"seed":1896837270,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725861919198,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"否","rawText":"否","textAlign":"center","verticalAlign":"middle","containerId":"ym9QdBcWuYL2Q53TrLDcr","originalText":"否","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":225,"versionNonce":832478614,"index":"b00","isDeleted":false,"id":"jTu3DX77QEPrym26uXroj","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-1229.2351419753866,"y":35.94010919490023,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":124.61538461538453,"height":343.0769230769231,"seed":866228054,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651723,"link":null,"locked":false,"startBinding":{"elementId":"WeNACmDEm7f7coojkjpy2","focus":-0.696194001141809,"gap":4.027534965034988,"fixedPoint":null},"endBinding":{"elementId":"AW60Jy5UL9DGve7Ty_Fwv","focus":0.569979806735823,"gap":9.636963837735095,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-53.84615384615381,-275.3846153846154],[70.76923076923072,-343.0769230769231]],"elbowed":false},{"type":"arrow","version":49,"versionNonce":1466630870,"index":"b01","isDeleted":false,"id":"dlSQ86pyESw6eYNy3_ocy","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":-178.46591120615597,"y":-45.30989080509971,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":1.25,"height":106.25,"seed":1904402134,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862192639,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[1.25,-106.25]],"elbowed":false},{"type":"ellipse","version":267,"versionNonce":43334614,"index":"b02","isDeleted":false,"id":"rpJQJSu-9cL8VCWoeWMPG","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":-215.82702231726705,"y":-209.8098908050997,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":73.25,"height":42,"seed":1968123210,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"VzYXkrzy"},{"id":"nLTzw3fupn2NlqSB8rG_2","type":"arrow"}],"updated":1725862383385,"link":null,"locked":false},{"type":"text","version":121,"versionNonce":1601326102,"index":"b02V","isDeleted":false,"id":"VzYXkrzy","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":-198.83979841259935,"y":-198.65913321001722,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":39.47998046875,"height":20,"seed":303313686,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862194324,"link":null,"locked":false,"fontSize":16,"fontFamily":5,"text":"NULL","rawText":"NULL","textAlign":"center","verticalAlign":"middle","containerId":"rpJQJSu-9cL8VCWoeWMPG","originalText":"NULL","autoResize":true,"lineHeight":1.25},{"type":"text","version":55,"versionNonce":1510432726,"index":"b04","isDeleted":false,"id":"OZ7VRyi0","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":-124.06980830088253,"y":-197.8098908050997,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":246.20779418945312,"height":20,"seed":652539210,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862226823,"link":null,"locked":false,"fontSize":16,"fontFamily":5,"text":"resultNext.next=new ListNode()","rawText":"resultNext.next=new ListNode()","textAlign":"center","verticalAlign":"top","containerId":null,"originalText":"resultNext.next=new ListNode()","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":154,"versionNonce":347467914,"index":"b05","isDeleted":false,"id":"kj6BnHJqdjDjXHC4yPMqi","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-288.32764895922753,"y":67.96876438932435,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":43.54306220095695,"height":51.5,"seed":928967894,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"kievP46C"},{"id":"FyaH3dfJsjKta3GP3XehY","type":"arrow"}],"updated":1725862240296,"link":null,"locked":false},{"type":"text","version":202,"versionNonce":1034343946,"index":"b06","isDeleted":false,"id":"kievP46C","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-273.09091452635965,"y":81.01076477377075,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":1574363670,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862240296,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"kj6BnHJqdjDjXHC4yPMqi","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":212,"versionNonce":2145720918,"index":"b07","isDeleted":false,"id":"Z-qZ63GVSUk3-JJUh-gLx","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-206.03817527501707,"y":68.91613281037706,"strokeColor":"#1e1e1e","backgroundColor":"#b2f2bb","width":46.81586346372019,"height":45.67505720823792,"seed":1948135254,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"V69w5JoH"},{"id":"FyaH3dfJsjKta3GP3XehY","type":"arrow"},{"id":"iQN8iH8AQCLLlRASRiLRF","type":"arrow"},{"id":"ebct9KnXb4ITy8Q4rpda1","type":"arrow"}],"updated":1725862256218,"link":null,"locked":false},{"type":"text","version":251,"versionNonce":987450378,"index":"b08","isDeleted":false,"id":"V69w5JoH","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-186.182150804307,"y":86.00252597041765,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":7,"height":11.2051282051282,"seed":1988744342,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862232995,"link":null,"locked":false,"fontSize":8.96410256410256,"fontFamily":5,"text":"3","rawText":"3","textAlign":"center","verticalAlign":"middle","containerId":"Z-qZ63GVSUk3-JJUh-gLx","originalText":"3","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":594,"versionNonce":977047626,"index":"b09","isDeleted":false,"id":"rGiNKwZ6qIEyEsU92rPBC","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-127.7223858013329,"y":68.7187643893244,"strokeColor":"#1e1e1e","backgroundColor":"#b2f2bb","width":39.54446460980037,"height":49,"seed":248435158,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"9WZHg2Yx"},{"id":"iQN8iH8AQCLLlRASRiLRF","type":"arrow"},{"id":"mENNMLiFV_NEaJx6zbay4","type":"arrow"}],"updated":1725862232995,"link":null,"locked":false},{"type":"text","version":340,"versionNonce":160954122,"index":"b0A","isDeleted":false,"id":"9WZHg2Yx","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-112.20122968148976,"y":80.894648250254,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":8.539993286132812,"height":25,"seed":1744971542,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862232995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"1","rawText":"1","textAlign":"center","verticalAlign":"middle","containerId":"rGiNKwZ6qIEyEsU92rPBC","originalText":"1","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":463,"versionNonce":18160458,"index":"b0B","isDeleted":false,"id":"4RYwaka1NYc_24p6V2Eds","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-54.69516257084291,"y":68.70229500300724,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":42.70235934664247,"height":49,"seed":43570262,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"rJDB4qoI"},{"id":"mENNMLiFV_NEaJx6zbay4","type":"arrow"},{"id":"N2Pgjt2q0Pr6sfOE5lGo4","type":"arrow"}],"updated":1725862232995,"link":null,"locked":false},{"type":"text","version":325,"versionNonce":455549450,"index":"b0C","isDeleted":false,"id":"rJDB4qoI","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-40.08154622050793,"y":80.87817886393682,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":141023638,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862232995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"4RYwaka1NYc_24p6V2Eds","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":496,"versionNonce":768616010,"index":"b0D","isDeleted":false,"id":"AOq2MfvwR3CKfh5lDO-cX","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":19.56981020592667,"y":68.70229500300724,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":42.70235934664247,"height":49,"seed":547632854,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"0fI1z0MI"},{"id":"N2Pgjt2q0Pr6sfOE5lGo4","type":"arrow"},{"id":"BH9X717PPEJ4z5BHfRm5x","type":"arrow"}],"updated":1725862232995,"link":null,"locked":false},{"type":"text","version":362,"versionNonce":843631882,"index":"b0E","isDeleted":false,"id":"0fI1z0MI","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":34.973427471788995,"y":80.87817886393682,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":11.699996948242188,"height":25,"seed":1138945046,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862232995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"4","rawText":"4","textAlign":"center","verticalAlign":"middle","containerId":"AOq2MfvwR3CKfh5lDO-cX","originalText":"4","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":521,"versionNonce":2066592074,"index":"b0F","isDeleted":false,"id":"GD3tI70vvlCYwjyJk4rwW","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":91.35928389013714,"y":68.71052969616579,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":42.70235934664247,"height":49,"seed":270072150,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"z3wgssOT"},{"id":"BH9X717PPEJ4z5BHfRm5x","type":"arrow"},{"id":"fi0e94BEOppJxaGoGVBEm","type":"arrow"}],"updated":1725862232995,"link":null,"locked":false},{"type":"text","version":391,"versionNonce":1143337034,"index":"b0G","isDeleted":false,"id":"z3wgssOT","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":106.4329069543393,"y":80.88641355709538,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":12.3599853515625,"height":25,"seed":479944342,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862240303,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"5","rawText":"5","textAlign":"center","verticalAlign":"middle","containerId":"GD3tI70vvlCYwjyJk4rwW","originalText":"5","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":547,"versionNonce":1139653706,"index":"b0H","isDeleted":false,"id":"__E7TUcfGDWibAWl2pbDO","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":152.627886430972,"y":68.71052969616579,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":42.70235934664247,"height":49,"seed":1310661590,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"Rv9iA7XO"},{"id":"fi0e94BEOppJxaGoGVBEm","type":"arrow"},{"id":"Mjir6tW3_kZUkWIZl-ANm","type":"arrow"}],"updated":1725862232995,"link":null,"locked":false},{"type":"text","version":420,"versionNonce":1870568586,"index":"b0I","isDeleted":false,"id":"Rv9iA7XO","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":166.88150217095543,"y":80.88641355709538,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":14,"height":25,"seed":716779798,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862240305,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"2","rawText":"2","textAlign":"center","verticalAlign":"middle","containerId":"__E7TUcfGDWibAWl2pbDO","originalText":"2","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":232,"versionNonce":2115386710,"index":"b0J","isDeleted":false,"id":"FyaH3dfJsjKta3GP3XehY","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-235.24661859481776,"y":94.78265722374323,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":28.47145392108868,"height":0.46099474027207066,"seed":769564246,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651726,"link":null,"locked":false,"startBinding":{"elementId":"kj6BnHJqdjDjXHC4yPMqi","focus":0.021626942975459695,"gap":9.552195853784355,"fixedPoint":null},"endBinding":{"elementId":"Z-qZ63GVSUk3-JJUh-gLx","focus":-0.16991321980612137,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[28.47145392108868,0.46099474027207066]],"elbowed":false},{"type":"arrow","version":208,"versionNonce":1426912534,"index":"b0K","isDeleted":false,"id":"iQN8iH8AQCLLlRASRiLRF","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-158.15565551845467,"y":88.93406421207871,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":29.4743315693307,"height":1.0526546989047176,"seed":476341142,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651728,"link":null,"locked":false,"startBinding":{"elementId":"Z-qZ63GVSUk3-JJUh-gLx","focus":-0.16162945510799917,"gap":1.2362722575701106,"fixedPoint":null},"endBinding":{"elementId":"rGiNKwZ6qIEyEsU92rPBC","focus":0.10165764193462135,"gap":1.12582137943334,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[29.4743315693307,1.0526546989047176]],"elbowed":false},{"type":"arrow","version":211,"versionNonce":1335306134,"index":"b0L","isDeleted":false,"id":"mENNMLiFV_NEaJx6zbay4","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-85.52406725486873,"y":93.14459086059027,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":29.473716864675822,"height":1.052632745167017,"seed":1484751062,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651729,"link":null,"locked":false,"startBinding":{"elementId":"rGiNKwZ6qIEyEsU92rPBC","focus":-0.03570375166223502,"gap":2.6539376044297036,"fixedPoint":null},"endBinding":{"elementId":"4RYwaka1NYc_24p6V2Eds","focus":-0.07367331624855021,"gap":1.371996113656948,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[29.473716864675822,1.052632745167017]],"elbowed":false},{"type":"arrow","version":204,"versionNonce":102152726,"index":"b0M","isDeleted":false,"id":"N2Pgjt2q0Pr6sfOE5lGo4","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-10.992831701304247,"y":93.24300046837641,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":28.62670254613688,"height":0.9542234182045775,"seed":902100502,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651731,"link":null,"locked":false,"startBinding":{"elementId":"4RYwaka1NYc_24p6V2Eds","focus":-0.028736159898514985,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"AOq2MfvwR3CKfh5lDO-cX","focus":-0.0722620143466072,"gap":1.952428570332497,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[28.62670254613688,0.9542234182045775]],"elbowed":false},{"type":"arrow","version":201,"versionNonce":1119071382,"index":"b0N","isDeleted":false,"id":"BH9X717PPEJ4z5BHfRm5x","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":65.00224902818526,"y":93.14459088481067,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":23.15789519030524,"height":0,"seed":1294582614,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651740,"link":null,"locked":false,"startBinding":{"elementId":"AOq2MfvwR3CKfh5lDO-cX","focus":-0.002355270130472175,"gap":2.7301335466574272,"fixedPoint":null},"endBinding":{"elementId":"GD3tI70vvlCYwjyJk4rwW","focus":0.0026913800553112033,"gap":3.199209234354967,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[23.15789519030524,0]],"elbowed":false},{"type":"arrow","version":201,"versionNonce":1704328982,"index":"b0O","isDeleted":false,"id":"fi0e94BEOppJxaGoGVBEm","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":135.52853145855474,"y":94.19722246375807,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":16.116093476094676,"height":0,"seed":1359145110,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651742,"link":null,"locked":false,"startBinding":{"elementId":"GD3tI70vvlCYwjyJk4rwW","focus":0.04027317418743975,"gap":1.4833581691378015,"fixedPoint":null},"endBinding":{"elementId":"__E7TUcfGDWibAWl2pbDO","focus":-0.04027317418743977,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[16.116093476094676,0]],"elbowed":false},{"type":"ellipse","version":503,"versionNonce":1424541642,"index":"b0P","isDeleted":false,"id":"KaqTqgNjpyZmZHOUS5KNL","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":224.7037011184019,"y":67.59195930586333,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":42.70235934664247,"height":49,"seed":1627743702,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"d5STYOsb"},{"id":"Mjir6tW3_kZUkWIZl-ANm","type":"arrow"}],"updated":1725862232995,"link":null,"locked":false},{"type":"text","version":366,"versionNonce":1731494410,"index":"b0Q","isDeleted":false,"id":"d5STYOsb","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":239.3173174687369,"y":79.76784316679291,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":1581660950,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862240307,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"KaqTqgNjpyZmZHOUS5KNL","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":214,"versionNonce":1692774806,"index":"b0R","isDeleted":false,"id":"Mjir6tW3_kZUkWIZl-ANm","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":198.7049024246468,"y":92.91078455265968,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":25.001747961339248,"height":0.404589365249592,"seed":1060792406,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651743,"link":null,"locked":false,"startBinding":{"elementId":"__E7TUcfGDWibAWl2pbDO","focus":0.004096706810978507,"gap":3.3760861970987115,"fixedPoint":null},"endBinding":{"elementId":"KaqTqgNjpyZmZHOUS5KNL","focus":-0.002146191214043604,"gap":1,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[25.001747961339248,-0.404589365249592]],"elbowed":false},{"type":"arrow","version":159,"versionNonce":144400342,"index":"b0S","isDeleted":false,"id":"ebct9KnXb4ITy8Q4rpda1","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dotted","roughness":1,"opacity":100,"angle":0,"x":-185.65564552406636,"y":-11.197514378347133,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":2.302631612523726,"height":67.76315888284101,"seed":1672932758,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"96tuWcG3"}],"updated":1725862651726,"link":null,"locked":false,"startBinding":null,"endBinding":{"elementId":"Z-qZ63GVSUk3-JJUh-gLx","focus":0.02019312351107677,"gap":12.35767563132817,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[2.302631612523726,67.76315888284101]],"elbowed":false},{"type":"text","version":8,"versionNonce":55498710,"index":"b0T","isDeleted":false,"id":"96tuWcG3","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-206.57431415383965,"y":10.184065063073373,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":44.13996887207031,"height":25,"seed":1760611030,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862230280,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"next","rawText":"next","textAlign":"center","verticalAlign":"middle","containerId":"ebct9KnXb4ITy8Q4rpda1","originalText":"next","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":181,"versionNonce":675238794,"index":"b0U","isDeleted":false,"id":"8roNP6EbzaJkkaiurFAGm","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-287.6712162106893,"y":143.57496708502214,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":42.22222222222223,"height":49,"seed":2105344022,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"1q6RoFoa"},{"id":"iZdkUtjDOepkSLwMCeStZ","type":"arrow"}],"updated":1725862381819,"link":null,"locked":false},{"type":"text","version":131,"versionNonce":1942947722,"index":"b0V","isDeleted":false,"id":"1q6RoFoa","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-273.127914314276,"y":155.75085094595173,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":894471510,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862240309,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"8roNP6EbzaJkkaiurFAGm","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"text","version":77,"versionNonce":202854154,"index":"b0W","isDeleted":false,"id":"ahHoJxec","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-358.78232732180055,"y":81.35274486279997,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":50.97996520996094,"height":25,"seed":1572893334,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862232995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"head:","rawText":"head:","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"head:","autoResize":true,"lineHeight":1.25},{"type":"text","version":115,"versionNonce":925687242,"index":"b0X","isDeleted":false,"id":"qNl4FtvM","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-374.3378828773561,"y":160.24163375168877,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":61.239959716796875,"height":25,"seed":1367453654,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862232995,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"result:","rawText":"result:","textAlign":"left","verticalAlign":"top","containerId":null,"originalText":"result:","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":164,"versionNonce":1116942666,"index":"b0Y","isDeleted":false,"id":"h19mf76VGcWGPNCR4CdCQ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-254.89343843291164,"y":305.3805226405777,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":5.555555555555543,"height":94.44444444444446,"seed":1286161686,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"MIvYRtO3"}],"updated":1725862318414,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-5.555555555555543,-94.44444444444446]],"elbowed":false},{"type":"text","version":24,"versionNonce":1867471446,"index":"b0Z","isDeleted":false,"id":"MIvYRtO3","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-308.68118782934175,"y":245.65830041835545,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":102.01994323730469,"height":25,"seed":1085026902,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862230281,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"resultNext","rawText":"resultNext","textAlign":"center","verticalAlign":"middle","containerId":"h19mf76VGcWGPNCR4CdCQ","originalText":"resultNext","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":355,"versionNonce":309557514,"index":"b0b","isDeleted":false,"id":"dzZw4HYHCT4FWYaJex9hj","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":-216.89151338175776,"y":148.15640647896151,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":49.5,"height":42,"seed":1542984918,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"G45Ad40k"},{"id":"iZdkUtjDOepkSLwMCeStZ","type":"arrow"}],"updated":1725862381819,"link":null,"locked":false},{"type":"text","version":200,"versionNonce":76530378,"index":"b0c","isDeleted":false,"id":"G45Ad40k","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":-200.6424062161248,"y":159.307164074044,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":17,"height":20,"seed":1695222294,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862332395,"link":null,"locked":false,"fontSize":16,"fontFamily":5,"text":"空","rawText":"空","textAlign":"center","verticalAlign":"middle","containerId":"dzZw4HYHCT4FWYaJex9hj","originalText":"空","autoResize":true,"lineHeight":1.25},{"type":"text","version":217,"versionNonce":1644315722,"index":"b0d","isDeleted":false,"id":"x2XEfsRF","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":-130.83631047377168,"y":160.15640647896151,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":180.11181640625,"height":20,"seed":1384994646,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862333815,"link":null,"locked":false,"fontSize":16,"fontFamily":5,"text":"resultNext.next.val=3+1","rawText":"resultNext.next.val=3+1","textAlign":"center","verticalAlign":"top","containerId":null,"originalText":"resultNext.next.val=3+1","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":151,"versionNonce":662918678,"index":"b0e","isDeleted":false,"id":"-v_d4FoQugKiipkvN702e","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-36.49222699562955,"y":-12.663703676449089,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":1.0526315789473983,"height":65.26315789473682,"seed":228734358,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"0hOF3otI"}],"updated":1725862263059,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[1.0526315789473983,65.26315789473682]],"elbowed":false},{"type":"text","version":12,"versionNonce":1786925834,"index":"b0f","isDeleted":false,"id":"0hOF3otI","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-58.03589564219101,"y":7.467875270919322,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":44.13996887207031,"height":25,"seed":1177752278,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862240178,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"next","rawText":"next","textAlign":"center","verticalAlign":"middle","containerId":"-v_d4FoQugKiipkvN702e","originalText":"next","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":176,"versionNonce":340762058,"index":"b0g","isDeleted":false,"id":"Af0Xu-OeFC9uzIXU5WJ1g","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dotted","roughness":1,"opacity":100,"angle":0,"x":-109.61722699562955,"y":-10.917747307248366,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":2.3026315789473983,"height":67.76315789473682,"seed":1782140554,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"z78mGm2U"}],"updated":1725862260873,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[2.3026315789473983,67.76315789473682]],"elbowed":false},{"type":"text","version":12,"versionNonce":608978646,"index":"b0h","isDeleted":false,"id":"z78mGm2U","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-130.535895642191,"y":10.463831640120048,"strokeColor":"#1e1e1e","backgroundColor":"#ffc9c9","width":44.13996887207031,"height":25,"seed":266530122,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862258143,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"next","rawText":"next","textAlign":"center","verticalAlign":"middle","containerId":"Af0Xu-OeFC9uzIXU5WJ1g","originalText":"next","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":224,"versionNonce":337469526,"index":"b0k","isDeleted":false,"id":"rBJNnfW0RAqqvLzolYaiX","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":78.56571353158654,"y":154.0088353063107,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":42.22222222222223,"height":49,"seed":773919830,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"32JEXQra"},{"id":"wuBOmqmEMj3miPcJWY4Fh","type":"arrow"}],"updated":1725862379986,"link":null,"locked":false},{"type":"text","version":176,"versionNonce":1194033302,"index":"b0l","isDeleted":false,"id":"32JEXQra","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":93.10901542799988,"y":166.18471916724027,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":13.279998779296875,"height":25,"seed":417864086,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862397661,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"0","rawText":"0","textAlign":"center","verticalAlign":"middle","containerId":"rBJNnfW0RAqqvLzolYaiX","originalText":"0","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":233,"versionNonce":1384106454,"index":"b0m","isDeleted":false,"id":"h1sfXnTG66a9b-k9whHfi","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":178.84349130936425,"y":308.31439086186623,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":5.555555555555543,"height":94.44444444444446,"seed":924612310,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"m4IXkCZ0"}],"updated":1725862369065,"link":null,"locked":false,"startBinding":null,"endBinding":null,"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[-5.555555555555543,-94.44444444444446]],"elbowed":false},{"type":"text","version":28,"versionNonce":911344470,"index":"b0n","isDeleted":false,"id":"m4IXkCZ0","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":125.05574191293414,"y":248.592168639644,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":102.01994323730469,"height":25,"seed":1632840726,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862339248,"link":null,"locked":false,"fontSize":20,"fontFamily":5,"text":"resultNext","rawText":"resultNext","textAlign":"center","verticalAlign":"middle","containerId":"h1sfXnTG66a9b-k9whHfi","originalText":"resultNext","autoResize":true,"lineHeight":1.25},{"type":"ellipse","version":405,"versionNonce":298532374,"index":"b0o","isDeleted":false,"id":"S07F1C-OQxeSck9t253nm","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":149.34541636051813,"y":154.84027470025006,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":49.5,"height":42,"seed":360790358,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"EDlPVv4C"},{"id":"wuBOmqmEMj3miPcJWY4Fh","type":"arrow"},{"id":"7lwI5HCrVfcFBo89H9_lH","type":"arrow"}],"updated":1725862390594,"link":null,"locked":false},{"type":"text","version":248,"versionNonce":1591969226,"index":"b0p","isDeleted":false,"id":"EDlPVv4C","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":169.41453085036983,"y":165.99103229533256,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":9.3599853515625,"height":20,"seed":1258004118,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862372186,"link":null,"locked":false,"fontSize":16,"fontFamily":5,"text":"4","rawText":"4","textAlign":"center","verticalAlign":"middle","containerId":"S07F1C-OQxeSck9t253nm","originalText":"4","autoResize":true,"lineHeight":1.25},{"type":"text","version":36,"versionNonce":2101100618,"index":"b0r","isDeleted":false,"id":"OOX8sd5d","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dotted","roughness":1,"opacity":100,"angle":0,"x":301.53408879384415,"y":165.9401091949003,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":65,"height":20,"seed":1253810762,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862387083,"link":null,"locked":false,"fontSize":16,"fontFamily":5,"text":"游标下移","rawText":"游标下移","textAlign":"center","verticalAlign":"top","containerId":null,"originalText":"游标下移","autoResize":true,"lineHeight":1.25},{"type":"arrow","version":14,"versionNonce":1064122006,"index":"b0s","isDeleted":false,"id":"wuBOmqmEMj3miPcJWY4Fh","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":122.78393274252794,"y":180.94011740812746,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":23.751216178388333,"height":1.2500640093888649,"seed":491038602,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651747,"link":null,"locked":false,"startBinding":{"elementId":"rBJNnfW0RAqqvLzolYaiX","focus":0.14872246975410358,"gap":2.093177432841202,"fixedPoint":null},"endBinding":{"elementId":"S07F1C-OQxeSck9t253nm","focus":-0.11403027494193818,"gap":3.1667608483137926,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[23.751216178388333,-1.2500640093888649]],"elbowed":false},{"type":"arrow","version":17,"versionNonce":1288356886,"index":"b0t","isDeleted":false,"id":"iZdkUtjDOepkSLwMCeStZ","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-243.4659783968841,"y":169.69011314729607,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":21.250115687943236,"height":1.2500068051731432,"seed":892910666,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651745,"link":null,"locked":false,"startBinding":{"elementId":"8roNP6EbzaJkkaiurFAGm","focus":0.12121679923548953,"gap":2.02594580695785,"fixedPoint":null},"endBinding":{"elementId":"dzZw4HYHCT4FWYaJex9hj","focus":0.11806800815018724,"gap":5.33547983265802,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[21.250115687943236,-1.2500068051731432]],"elbowed":false},{"type":"arrow","version":15,"versionNonce":2120383190,"index":"b0u","isDeleted":false,"id":"nLTzw3fupn2NlqSB8rG_2","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-243.3874817570564,"y":-190.3098908050997,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":23.67453908171842,"height":0,"seed":1399124438,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651724,"link":null,"locked":false,"startBinding":{"elementId":"VqU33Qf3T2ghFgWeVQpHt","focus":-0.017084106369821363,"gap":1,"fixedPoint":null},"endBinding":{"elementId":"rpJQJSu-9cL8VCWoeWMPG","focus":0.07142857142857142,"gap":3.9592769269216674,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[23.67453908171842,0]],"elbowed":false},{"type":"arrow","version":46,"versionNonce":1962215702,"index":"b0v","isDeleted":false,"id":"7lwI5HCrVfcFBo89H9_lH","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":205.31067302589207,"y":175.6797512776957,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":28.601322859793072,"height":0.23871230000736432,"seed":678930070,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1725862651747,"link":null,"locked":false,"startBinding":{"elementId":"S07F1C-OQxeSck9t253nm","focus":0.0046321084445012884,"gap":6.465789804650409,"fixedPoint":null},"endBinding":{"elementId":"4OPbD_j-7ec1fn5ALWz6f","focus":-0.06897100086413781,"gap":1.6609227060606067,"fixedPoint":null},"lastCommittedPoint":null,"startArrowhead":null,"endArrowhead":"arrow","points":[[0,0],[28.601322859793072,0.23871230000736432]],"elbowed":false},{"type":"ellipse","version":406,"versionNonce":1164729290,"index":"b0w","isDeleted":false,"id":"4OPbD_j-7ec1fn5ALWz6f","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":235.53408879384415,"y":153.6901091949003,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":49.5,"height":42,"seed":577590026,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[{"type":"text","id":"4ZyOMKch"},{"id":"7lwI5HCrVfcFBo89H9_lH","type":"arrow"}],"updated":1725862405852,"link":null,"locked":false},{"type":"text","version":250,"versionNonce":1136808586,"index":"b0x","isDeleted":false,"id":"4ZyOMKch","fillStyle":"solid","strokeWidth":2,"strokeStyle":"dashed","roughness":1,"opacity":100,"angle":0,"x":251.7831959594771,"y":164.84086678998278,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":17,"height":20,"seed":472015306,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1725862405852,"link":null,"locked":false,"fontSize":16,"fontFamily":5,"text":"空","rawText":"空","textAlign":"center","verticalAlign":"middle","containerId":"4OPbD_j-7ec1fn5ALWz6f","originalText":"空","autoResize":true,"lineHeight":1.25}],"appState":{"theme":"light","viewBackgroundColor":"#ffffff","currentItemStrokeColor":"#1e1e1e","currentItemBackgroundColor":"transparent","currentItemFillStyle":"solid","currentItemStrokeWidth":2,"currentItemStrokeStyle":"solid","currentItemRoughness":1,"currentItemOpacity":100,"currentItemFontFamily":5,"currentItemFontSize":16,"currentItemTextAlign":"center","currentItemStartArrowhead":null,"currentItemEndArrowhead":"arrow","currentItemArrowType":"round","scrollX":1411.774461773513,"scrollY":1045.5371635323727,"zoom":{"value":0.45},"currentItemRoundness":"round","gridSize":20,"gridStep":5,"gridModeEnabled":false,"gridColor":{"Bold":"#C9C9C9","Regular":"#EDEDED"},"currentStrokeOptions":null,"frameRendering":{"enabled":true,"clip":true,"name":true,"outline":true},"objectsSnapModeEnabled":false,"activeTool":{"type":"selection","customType":null,"locked":false,"lastActiveTool":null}},"prevTextMode":"parsed","files":{}}
+                    }),
+                ),
+            );
+        };
+        const excalidrawWrapper = document.getElementById("5a734ed3");
+        const root = ReactDOM.createRoot(excalidrawWrapper);
+        root.render(React.createElement(App));
+    </script>
+<p>[[Excalidraw&#x2F;2181合并零之间的节点]]</p>
+<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">ListNode</span> <span class="token function">mergeNodes</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token keyword">int</span> tempSum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+    <span class="token class-name">ListNode</span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token comment">// 结果listNode的指向游标  </span>
+    <span class="token class-name">ListNode</span> resultNext <span class="token operator">=</span> result<span class="token punctuation">;</span>  
+    <span class="token comment">// 遍历的指向游标  </span>
+    <span class="token class-name">ListNode</span> next <span class="token operator">=</span> head<span class="token punctuation">;</span>  
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>next <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>next<span class="token punctuation">.</span>val <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>resultNext<span class="token punctuation">.</span>next <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                resultNext<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>  
+                resultNext<span class="token punctuation">.</span>next<span class="token punctuation">.</span>val <span class="token operator">=</span> tempSum<span class="token punctuation">;</span>  
+                resultNext <span class="token operator">=</span> resultNext<span class="token punctuation">.</span>next<span class="token punctuation">;</span>  
+                resultNext<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                tempSum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+            <span class="token punctuation">&#125;</span>  
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>  
+            tempSum <span class="token operator">+=</span> next<span class="token punctuation">.</span>val<span class="token punctuation">;</span>  
+        <span class="token punctuation">&#125;</span>  
+        next <span class="token operator">=</span> next<span class="token punctuation">.</span>next<span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span>  
+    <span class="token comment">// 移除最后的0  </span>
+    resultNext<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>  
+    <span class="token keyword">return</span> result<span class="token punctuation">.</span>next<span class="token punctuation">;</span>  
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h1><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Solution2181</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mergeNodes</span><span class="token punctuation">(</span><span class="token class-name">TransformUtils</span><span class="token punctuation">.</span><span class="token function">arrays2ListNode</span><span class="token punctuation">(</span><span class="token string">"[0,3,1,0,4,5,2,0]"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h1 id="额外补充"><a href="#额外补充" class="headerlink" title="额外补充"></a>额外补充</h1>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/" rel="tag"># 算法练习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2a1105ec/" rel="prev" title="20、JUC线程池（ScheduledThreadPoolExecutor）">
+      <i class="fa fa-chevron-left"></i> 20、JUC线程池（ScheduledThreadPoolExecutor）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99"><span class="nav-number">3.</span> <span class="nav-text">代码编写</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%9D%E5%A4%96%E8%A1%A5%E5%85%85"><span class="nav-number">5.</span> <span class="nav-text">额外补充</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://seven-navigation.netlify.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">15:55</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>

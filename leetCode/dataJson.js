@@ -1745,7 +1745,7 @@ var LEET_CODE_DATA = [
   {
     title: "3176. 求出最长好子序列 I",
     link: "https://leetcode.cn/problems/find-the-maximum-length-of-a-good-subsequence-i/description/?envType=daily-question&envId=2024-09-06",
-    questionType: ["数组","哈希表","动态规划"],
+    questionType: ["数组", "哈希表", "动态规划"],
     difficulty: "中等",
     creationTime: "2024-9-6 09:33:13",
     recordOfTheSolution: [
@@ -1757,6 +1757,42 @@ var LEET_CODE_DATA = [
         link: "/abd1696f",
         key: 0,
         remark: "理解错了题目意思",
+      },
+    ],
+  },
+  {
+    title: "977. 有序数组的平方",
+    link: "https://leetcode.cn/problems/squares-of-a-sorted-array/submissions/562701078/",
+    questionType: ["数组", "双指针", "排序"],
+    difficulty: "简单",
+    creationTime: "2024-9-8 15:52:09",
+    recordOfTheSolution: [
+      {
+        startTime: "2024-9-8 15:52:09",
+        endTime: "2024-9-8 15:55:03",
+        passageSituation: "通过",
+        numberOfSubmissions: 1,
+        link: "/b14e4c6",
+        key: 0,
+        remark: "",
+      },
+    ],
+  },
+  {
+    title: "2181. 合并零之间的节点",
+    link: "https://leetcode.cn/problems/merge-nodes-in-between-zeros/description/?envType=daily-question&envId=2024-09-09",
+    questionType: ["数组", "双指针", "排序"],
+    difficulty: "中等",
+    creationTime: "2024-9-8 15:52:09",
+    recordOfTheSolution: [
+      {
+        startTime: "2024-9-9 09:57:29",
+        endTime: "2024-9-9 10:11:19",
+        passageSituation: "通过",
+        numberOfSubmissions: 1,
+        link: "/5a734ed3",
+        key: 0,
+        remark: "",
       },
     ],
   },

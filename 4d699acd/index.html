@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_fazj894cvd.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="10、Java并发 并发编程实战">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10、Java并发 并发编程实战">
+<meta property="og:url" content="https://seven-it-work.github.io/4d699acd/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="10、Java并发 并发编程实战">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-08T10:29:08.000Z">
+<meta property="article:modified_time" content="2024-09-08T10:29:08.000Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="并发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://seven-it-work.github.io/4d699acd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>10、Java并发 并发编程实战 | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-力扣" id="力扣">
+      <a href="/leetCode/" rel="section"><i class="fa iconfont icon-likou fa-fw"></i>力扣</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa iconfont icon-jianli fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/4d699acd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          10、Java并发 并发编程实战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-08 18:29:08" itemprop="dateCreated datePublished" datetime="2024-09-08T18:29:08+08:00">2024-09-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">面试资料</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+            <div class="post-description">10、Java并发 并发编程实战</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>应聘Java 岗，总是免不了几个 Java 并发编程的面试题，不过大多数都局限在 java.util.concurrent 包下的知识和实现问题。本文针对 Java 并发相关的常见的面试题做一些解释。</p>
+<h2 id="Q1-进程和线程的区别？"><a href="#Q1-进程和线程的区别？" class="headerlink" title="Q1: 进程和线程的区别？"></a>Q1: 进程和线程的区别？</h2><blockquote>
+<p>这是一个非常基础的面试题，如果这道题没有回答的比较满意，一般情况下，面试官会认为应聘者在并发方面的基础只是不牢固，就不会继续深入询问其它并发问题了。</p>
+</blockquote>
+<p><strong>1、</strong> 进程和线程都是并发单元，但它们有一个根本区别：** 进程不共享公共内存，而线程则共享**；<br><strong>2、</strong> 从操作系统的角度来看，进程是一个独立的软件，在其自己的虚拟内存空间中运行任何一个多任务操作系统（这几乎意味着任何现代操作系统）都必须将内存中的进程分开，这样一个失败的进程就不会通过加扰公共内存来拖累所有其它进程因此，进程通常是隔离的，它们通过进程间通信进行协作，进程间通信由操作系统定义为一种中间API；<br><strong>3、</strong> 相反，线程是应用程序的一部分，它与同一应用程序的其他线程共享公共内存使用公共内存可以减少大量开销，因此使用线程可以更快的交换数据和进行线程间协作；</p>
+<blockquote>
+<p>关于进程间通讯那一块可以不用回答，如果你不懂的话，不必然会导致接下来的某个问题是 进程间通讯的的原理.</p>
+</blockquote>
+<h2 id="Q2-如何创建一个线程实例并且运行它？"><a href="#Q2-如何创建一个线程实例并且运行它？" class="headerlink" title="Q2: 如何创建一个线程实例并且运行它？"></a>Q2: 如何创建一个线程实例并且运行它？</h2><blockquote>
+<p>这道题考察的是对 Runnable 的理解。</p>
+</blockquote>
+<p>创建一个线程的实例，有两种方法可供选择:</p>
+<p><strong>1、</strong> 把Runnable的实例传递给Thread的构造函数并调用start()方法；</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Thread</span> thread1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span>
+  <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hello World from Runnable!"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+thread1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>Runnable是一个函数接口，因此可以作为 lambda 表达式传递<br><strong>2、</strong> 因为线程本身也实现了Runnable接口，所以另一种创建线程的方法是创建一个匿名子类，覆写它的run()方法，然后调用start()；</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Thread</span> thread2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hello World from subclass!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+thread2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Q3-描述线程的不同状态以及何时发生状态转换-？"><a href="#Q3-描述线程的不同状态以及何时发生状态转换-？" class="headerlink" title="Q3: 描述线程的不同状态以及何时发生状态转换 ？"></a>Q3: 描述线程的不同状态以及何时发生状态转换 ？</h2><blockquote>
+<p>这道题考察的是对线程生命周期的理解。</p>
+</blockquote>
+<p><strong>1、</strong> 一般情况下，我们会使用Thread.getState()方法检查线程(Thread)的状态；<br><strong>2、</strong> 线程的不同状态都定义在Thread.State枚举中；<br><strong>3、</strong> 线程的所有状态如下所示；</p>
+<p><strong>1、</strong> <strong>NEW</strong>:一个尚未调用Thread.start()方法启动的新Thread实例；<br><strong>2、</strong> <strong>RUNNABLE</strong>:一个正在运行的线程它被称为runnable，因为在任何给定时间，它要么正在运行要么在等待线程调度当调用Thread.start()方法时，会将一个NEW线程进入RUNNABLE状态；<br><strong>3、</strong> <strong>BLOCKED</strong>:如果正在运行的线程需要进入同步部分但由于另一个线程持有此部分的监视器而无法执行此操作，则该线程将被阻塞；<br><strong>4、</strong> <strong>WAITING</strong>:如果线程等待另一个线程执行特定操作，则该线程进入此状态例如，一个线程在它持有的监视器上调用Object.wait()法时进入此状态，或者在另一个线程上调用Thread.join()方法也会进入此状态；<br><strong>5、</strong> <strong>IMED_WAITING</strong>:跟<strong>WAITING</strong>状态差不多但线程在调用Thread.sleep()、Object.wait()、或Thread.join()和其他一些方法的定时版本后进入此状态；<br><strong>6、</strong> <strong>TERMINATED</strong>：当一个线程已经完成它的Runnable.run()方法的执行并终止时进入此状态；</p>
+<h2 id="Q4-Runnable-和-Callable-接口有什么区别？它们是如何使用的？"><a href="#Q4-Runnable-和-Callable-接口有什么区别？它们是如何使用的？" class="headerlink" title="Q4: Runnable 和 Callable 接口有什么区别？它们是如何使用的？"></a>Q4: Runnable 和 Callable 接口有什么区别？它们是如何使用的？</h2><p><strong>1、</strong> Runnable接口表示必须在单独的线程中运行的计算单位，它只有一个run()方法Runnable接口不允许此方法返回值或抛出未经检查的异常；<br><strong>2、</strong> Callable接口表示具有返回值的任务，它只有一个call()方法call()方法可以返回一个值(可以是Void)，也可以抛出一个异常Callable通常在ExecutorService实例中用于启动异步任务，然后调用返回的Future实例以获取其值；</p>
+<h2 id="Q5-什么是守护线程，它的使用场景是什么？如何创建守护线程-？"><a href="#Q5-什么是守护线程，它的使用场景是什么？如何创建守护线程-？" class="headerlink" title="Q5: 什么是守护线程，它的使用场景是什么？如何创建守护线程 ？"></a>Q5: 什么是守护线程，它的使用场景是什么？如何创建守护线程 ？</h2><p><strong>1、</strong> 守护线程是一个不阻止Java虚拟机(JVM)退出的线程当所有非守护线程终止时，JVM只是放弃所有剩余的守护线程；<br><strong>2、</strong> 守护线程通常用于为其他线程执行一些支持或服务任务，但我们应该考虑到它们可能随时被放弃；<br><strong>3、</strong> 要将一个线程作为守护线程启动，应该在调用start()之前使用setDaemon()方法设置为守护线程如下所示；</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Thread</span> daemon <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token operator">-></span> <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hello from daemon!"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+daemon<span class="token punctuation">.</span><span class="token function">setDaemon</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+daemon<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>奇怪的是，如果将上面的代码放在 main() 内运行，则可能无法打印该消息。而发生这种情况的原因，是因为 main() 线程在守护线程运行到打印消息之前就已经终止。</p>
+<p>我们不应该在守护线程中执行任何 I&#x2F;O 操作，因为它们甚至无法执行其 finally 块并在被放弃时关闭资源。</p>
+<h2 id="Q6-什么是-Thread-的中断标志？怎么设置和检查它？它与-InterruptedException-有什么关系？"><a href="#Q6-什么是-Thread-的中断标志？怎么设置和检查它？它与-InterruptedException-有什么关系？" class="headerlink" title="Q6: 什么是 Thread 的中断标志？怎么设置和检查它？它与 InterruptedException 有什么关系？"></a>Q6: 什么是 Thread 的中断标志？怎么设置和检查它？它与 InterruptedException 有什么关系？</h2><p><strong>1、</strong> 中断(interrupt)标志或中断状态是线程中断时设置的内部线程标志(flag属性）；<br><strong>2、</strong> 要设置一个线程的中断标志，只需要简单的在线程对象上调用thread.interrupt()方法；<br><strong>3、</strong> 如果在某个方法内部的一个线程抛出了InterruptedException（wait、join、sleep等），那么此方法会立即抛出InterruptedException线程可以根据自己的逻辑自由处理此异常如果一个线程不在这样的方法中并且调用了thread.interrupt()，则不会发生任何特殊情况；<br><strong>4、</strong> 线程的中断状态可以通过使用静态Thread.interrupted()方法或实例的isInterrupted()方法定期检查这两个方法的区别是静态Thread.interrupt()会清除了中断标志，而isInterrupted()则不会；</p>
+<h2 id="Q7-什么是-Executor-和-ExecutorService-？这两个接口有什么区别？"><a href="#Q7-什么是-Executor-和-ExecutorService-？这两个接口有什么区别？" class="headerlink" title="Q7: 什么是 Executor 和 ExecutorService ？这两个接口有什么区别？"></a>Q7: 什么是 Executor 和 ExecutorService ？这两个接口有什么区别？</h2><p><strong>1、</strong> Executor和ExecutorService是java.util.concurrent框架提供的两个相关接口；<br><strong>2、</strong> Executor是一个非常简单的接口，只有一个execute()方法接受Runnable实例来执行在大多数情况下，这是我们的任务执行代码应该依赖的接口；<br><strong>3、</strong> ExecutorService扩展了Executor接口，并且添加了许多其它方法以处理和检查并发任务执行服务的生命周期（在关闭时终止任务）和更复杂的异步任务处理，包括Futures；</p>
+<blockquote>
+<p>更多 Executor 和 ExecutorService 的知识，可以访问 一文秒懂 Java ExecutorService。</p>
+</blockquote>
+<h2 id="Q8-java-util-concurrent-标准库中-ExecutorService-的可用实现是什么-？"><a href="#Q8-java-util-concurrent-标准库中-ExecutorService-的可用实现是什么-？" class="headerlink" title="Q8: java.util.concurrent 标准库中 ExecutorService 的可用实现是什么 ？"></a>Q8: java.util.concurrent 标准库中 ExecutorService 的可用实现是什么 ？</h2><blockquote>
+<p>这是一个非常变 tai 的问题。问这个问题的面试官，你想咋样啊 ？</p>
+</blockquote>
+<p>ExecutorService 接口有三个标准实现</p>
+<p><strong>1、</strong> ThreadPoolExecutor:使用线程池执行任务一旦某个线程完成执行任务，它就会回到线程池中如果池中的所有线程都忙，则任务必须等待轮到它；<br><strong>2、</strong> ScheduledThreadPoolExecutor:允许安排任务执行，而不是简单的在线程可用时立即运行任务它还可以按固定频率或固定延迟安排任务；<br><strong>3、</strong> ForkJoinPool:是一个特殊的ExecutorService，用于处理递归算法任务如果你使用常规ThreadPoolExecutor进行递归算法，那么你很快发现所有线程都在忙着等待较低级别的递归完成ForkJoinPool实现了所谓的工作窃取算法，允许它更有效地使用可用线程；</p>
+<h2 id="Q9-什么是-Java-内存模型（-JMM-）？描述下其目的和基本思想"><a href="#Q9-什么是-Java-内存模型（-JMM-）？描述下其目的和基本思想" class="headerlink" title="Q9: 什么是 Java 内存模型（ JMM ）？描述下其目的和基本思想"></a>Q9: 什么是 Java 内存模型（ JMM ）？描述下其目的和基本思想</h2><p>Java 内存模式是 Java 语言规范的一部分，在 [第 17.4 章][17.4] 中描述。</p>
+<p>JMM规定了多个线程如何访问并发 Java 应用程序中的公共内存，以及一个线程的数据更改如何对其他线程可见。</p>
+<p>是不是很简单，虽然简短又简洁，但如果没有强大的数学背景，JMM 可能很难掌握。</p>
+<p>对内存模型的需求源于这样一个事实：** Java 代码访问数据的方式并不像它在底层实际发生的那样**。</p>
+<p>在保证内存读写的可观察结果是相同的情况下，Java 编译器，JIT 编译器甚至 CPU 都可以对内存读写进行重新排序或优化。</p>
+<p>当我们的应用程序扩展到多个线程时，这会导致反直觉的结果，因为大多数这些优化只会考虑单个执行线程（ 跨线程优化器仍然非常难以实现 ）。</p>
+<p>另一个可怕的问题是现代系统中的内存是多层的：** 处理器的多个内核可能会在其缓存或读&#x2F;写缓冲区中保留一些非刷新数据，这也会影响从其它内核观察到的内存状态**。</p>
+<p>更糟糕的是，不同内存访问架构的存在将打破Java 「 一次编写，随处运行 」 的承诺。</p>
+<p>但另所有 Java 程序员高兴的是，JMM 指定了在设计多线程应用程序时可能依赖的一些保证。坚持这些保证有助于程序员编写在各种体系结构之间稳定且可移植的多线程代码。</p>
+<p>JMM的主要概念是：</p>
+<ul>
+<li><strong>动作 ( Action )</strong> : 这些是线程间的动作，可以由一个线程执行并由另一个线程检测，如读取或写入变量，锁定&#x2F;解锁监视器等等。</li>
+<li><strong>同步动作 ( Synchronization actions )</strong> : 某个动作子集，例如读取&#x2F;写入易失性变量，或锁定&#x2F;解锁监视器。</li>
+<li><strong>程序顺序 ( Program Order )</strong> : 俗称 PO，单个线程内可观察的动作总顺序。</li>
+<li><strong>同步顺序 ( Synchronization Order )</strong> : 俗称 SO，所有同步操作之间的总顺序 – 它必须与程序顺序一致，也就是说，如果两个同步操作在PO 中一个接一个地出现，它们在 SO 中以相同的顺序出现 。</li>
+<li><strong>同步与（ synchronizes-with）</strong> : 俗称 SW ，某些同步操作之间的关系，例如解锁监视器和锁定同一监视器（ 在另一个或同一个线程中 ）。</li>
+<li><strong>发生在顺序之前 ( Happens-before Order )</strong> : 将 PO 与 SW 结合（ 在集合论中称为传递闭包 ），以创建线程之间所有动作的部分排序。如果一个动作发生在另一个动作之前，则第二个动作可以观察到第一个动作的结果（ 例如，在一个线程中写入变量并在另一个线程中读取 ）。</li>
+<li><strong>发生在一致性之前 ( Happens-before consistency )</strong> : 如果每次读取都遵循先前发生的顺序中对该位置的最后一次写入，或者通过数据竞争进行其他一些写入操作，则一组操作是 HB 一致的。</li>
+<li><strong>执行 ( Execution )</strong> : 它们之间有一组有序的动作和一致性规则</li>
+</ul>
+<p>对于给定的程序，我们可以观察到具有各种结果的多个不同的执行.但是如果一个程序正确同步，那么它的所有执行似乎都是顺序一致的，这意味着我们可以将多线程程序推断为一系列按顺序发生的动作。这样可以省去考虑引擎盖下重新排序，优化或数据缓存的麻烦。</p>
+<blockquote>
+<p>如果你了解协程，相关的概念和协程很相像的。</p>
+</blockquote>
+<h2 id="Q10-什么是易失-（-volatile-）-字段，JMM-对这样的领域有什么保证？"><a href="#Q10-什么是易失-（-volatile-）-字段，JMM-对这样的领域有什么保证？" class="headerlink" title="Q10: 什么是易失 （ volatile ） 字段，JMM 对这样的领域有什么保证？"></a>Q10: 什么是易失 （ volatile ） 字段，JMM 对这样的领域有什么保证？</h2><p>根据Java 内存模型 （ 参见 Q9 ） ，volatile 字段具有特殊属性。volatile 变量的读取和写入是同步操作，这意味着它们具有总排序（ 所有线程将遵循这些操作的一致顺序 ）。根据此顺序，保证读取 volatile 变量可以观察到对此变量的最后一次写入。</p>
+<p>如果你有一个从多个线程访问的字段，且至少有一个线程写入它，那么你应该考虑使它变得 volatile ，否则某个线程从这个字段读取的内容并不会得到一丝的保证。</p>
+<p>volatile 的另一个保证是写入和读取 64 位值（ long 类型和 double 类型 ）的原子性。如果没有 volatile 修饰符，读取此类字段可能会观察到另一个线程部分写入的值。</p>
+<h2 id="Q11-以下哪项操作是原子操作"><a href="#Q11-以下哪项操作是原子操作" class="headerlink" title="Q11: 以下哪项操作是原子操作 ?"></a>Q11: 以下哪项操作是原子操作 ?</h2><ul>
+<li>写入一个非 volatile int 类型</li>
+<li>写入一个 volatile int 类型</li>
+<li>写入一个非 volatile long 类型</li>
+<li>写入一个 volatile long 类型</li>
+<li>递增一个 volatile long 类型</li>
+</ul>
+<p>是不是瞬间蒙了？我们来解释一下</p>
+<p><strong>1、</strong> 对int类型（32位）变量的写入保证是原子的，无论它是否是易失性的；<br><strong>2、</strong> long类型（64位）变量可能需要在两个单独的步骤中写入，例如，在32位体系结构上，因此默认情况下，没有原子性保证但是，如果添加了volatile修饰符，则保证以原子方式访问long变量；<br><strong>3、</strong> 递增操作通常由多个步骤完成（检索值，更改它并写回），因此它永远不会保证是原子的，变量是易变的如果要实现值的原子增量，则应使用类AtomicInteger，AtomicLong等；</p>
+<h2 id="Q12-JMM-对添加了-final-修饰符的类的字段有什么特殊保证-？"><a href="#Q12-JMM-对添加了-final-修饰符的类的字段有什么特殊保证-？" class="headerlink" title="Q12: JMM 对添加了 final 修饰符的类的字段有什么特殊保证 ？"></a>Q12: JMM 对添加了 final 修饰符的类的字段有什么特殊保证 ？</h2><p>JVM基本上会保证在任何线程获取对象之前初始化类的 final 字段。</p>
+<p>如果没有这种保证，由于重新排序或其他优化，在初始化该对象的所有字段之前，可以向另一个线程发布对象的引用，即变得可见。这可能会导致对这些字段的访问。</p>
+<p>这就是为什么在创建不可变对象时，应始终将其所有字段设为 final，即使它们不能通过 getter 方法访问。</p>
+<h2 id="Q13-方法定义中-synchronized-关键字的含义是什么？静态方法？在一个块之前-？"><a href="#Q13-方法定义中-synchronized-关键字的含义是什么？静态方法？在一个块之前-？" class="headerlink" title="Q13: 方法定义中 synchronized 关键字的含义是什么？静态方法？在一个块之前 ？"></a>Q13: 方法定义中 synchronized 关键字的含义是什么？静态方法？在一个块之前 ？</h2><p>块(block ) 之前的 synchronized 关键字表示进入该块的任何线程都必须获取监视器（ 括号中的对象 ）。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">synchronized</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">&#125;</span>
+
+
+如果监视器已被另一个线程获取，则前一个线程将进入 <span class="token constant">BLOCKED</span> 状态并等待监视器被释放。
+
+同步实例方法具有相同的语义，但会使用实例本身充当监视器。
+
+```java
+<span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">instanceMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对于静态同步方法，监视器是表示声明类的 Class 对象。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">staticMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Q14-如果两个线程同时在不同的对象实例上调用-synchronized-方法，这些线程中的一个是否会阻塞？如果该方法是静态的，该怎么办"><a href="#Q14-如果两个线程同时在不同的对象实例上调用-synchronized-方法，这些线程中的一个是否会阻塞？如果该方法是静态的，该怎么办" class="headerlink" title="Q14: 如果两个线程同时在不同的对象实例上调用 synchronized 方法，这些线程中的一个是否会阻塞？如果该方法是静态的，该怎么办?"></a>Q14: 如果两个线程同时在不同的对象实例上调用 synchronized 方法，这些线程中的一个是否会阻塞？如果该方法是静态的，该怎么办?</h2><p>如果方法是实例方法，则实例充当方法的监视器。在不同实例上调用该方法的两个线程获取不同的监视器，因此它们都不会被阻塞。</p>
+<p>如果方法是静态的，则监视器是 Class 对象。对于两个线程，监视器是相同的，因此其中一个可能会阻塞并等待另一个退出 synchronized 方法。</p>
+<h2 id="Q15-Object类的-wait，notify-和-notifyAll-方法的目的是什么-？"><a href="#Q15-Object类的-wait，notify-和-notifyAll-方法的目的是什么-？" class="headerlink" title="Q15: Object类的 wait，notify 和 notifyAll 方法的目的是什么 ？"></a>Q15: Object类的 wait，notify 和 notifyAll 方法的目的是什么 ？</h2><p>拥有对象监视器的线程（ 例如，已进入由对象保护的同步部分的线程 ）可以调用 object.wait() 来临时释放监视器并为其他线程提供获取监视器的机会。例如，这可以在等待某个条件的情况下完成。</p>
+<p>当另一个获取监视器的线程满足条件时，它可以调用 object.notify() 或 object.notifyAll() 并释放监视器。notify() 方法唤醒处于等待状态的单个线程，notifyAll() 方法唤醒等待此监视器的所有线程，并且它们都竞争重新获取锁定。</p>
+<p>下面的BlockingQueue 实现演示了多个线程如何通过 wait-notify 模式一起工作。如果我们将一个元素放入一个空队列，那么在 take() 方法中等待的所有线程都会唤醒并尝试接收该值。如果我们将一个元素放入一个已经满了的队列，put() 方法将等待对 get() 方法的调用。get() 方法删除一个元素，并通知在 put() 方法中等待队列对新项目有空位置的线程。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> queue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">int</span> limit <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token class-name">T</span> item<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>queue<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> limit<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>queue<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">notifyAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        queue<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token class-name">T</span> <span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>queue<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>queue<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> limit<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">notifyAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> queue<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Q16-描述死锁，存活锁和饥饿的条件。描述这些情况的可能原因"><a href="#Q16-描述死锁，存活锁和饥饿的条件。描述这些情况的可能原因" class="headerlink" title="Q16: 描述死锁，存活锁和饥饿的条件。描述这些情况的可能原因 ?"></a>Q16: 描述死锁，存活锁和饥饿的条件。描述这些情况的可能原因 ?</h2><ul>
+<li>死锁 （ DeadLock ） 是一组无法进行的线程中的条件，因为组中的每个线程都必须获取已由组中的另一个线程获取的某些资源。最简单的情况是两个线程需要锁定两个资源才能进行，第一个资源已被一个线程锁定，第二个资源已被另一个线程锁定。因为这些线程永远不会获得对两个资源的锁定，因此永远不会进展。</li>
+<li>存活锁 ( LiveLock ) 是多线程对自己生成的条件或事件做出反应的一种情况。事件发生在一个线程中，必须由另一个线程处理。在此处理期间，发生的新事件必须在第一个线程中处理，依此类推。这样的线程是活着的并且没有被阻挡，但是仍然没有取得任何进展，因为它们用无用的工作压倒了对方</li>
+<li>饥饿锁 ( Starvation ) 是线程无法获取资源的情况，因为其他线程（或多个线程）占用它太长时间或具有更高的优先级。线程无法取得进展，因此无法完成有用的工作。</li>
+</ul>
+<h2 id="Q17-描述-fork-join-框架的用途和用例"><a href="#Q17-描述-fork-join-框架的用途和用例" class="headerlink" title="Q17: 描述 fork&#x2F;join 框架的用途和用例"></a>Q17: 描述 fork&#x2F;join 框架的用途和用例</h2><p>fork&#x2F;join 框架允许并行化递归算法。使用 ThreadPoolExecutor 之类的并行递归的主要问题是，可能会快速耗尽线程，因为每个递归步骤都需要自己的线程，而堆栈中的线程将处于空闲状态并等待。</p>
+<p>fork&#x2F;join 框架入口点是 ForkJoinPool 类，它是 ExecutorService 的一个实现。它实现了工作窃取算法，空闲线程会试图从忙线程中 「 窃取 」 工作。这允许在不同线程之间传播计算并在使用比通常的线程池所需的更少的线程时取得进展</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/282ab54f/" rel="prev" title="09、Java并发 Java CompletableFuture ( 下 )">
+      <i class="fa fa-chevron-left"></i> 09、Java并发 Java CompletableFuture ( 下 )
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/6e47afb8/" rel="next" title="11、Java并发 Java CountDownLatch">
+      11、Java并发 Java CountDownLatch <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q1-%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">Q1: 进程和线程的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q2-%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%AE%9E%E4%BE%8B%E5%B9%B6%E4%B8%94%E8%BF%90%E8%A1%8C%E5%AE%83%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">Q2: 如何创建一个线程实例并且运行它？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q3-%E6%8F%8F%E8%BF%B0%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%8D%E5%90%8C%E7%8A%B6%E6%80%81%E4%BB%A5%E5%8F%8A%E4%BD%95%E6%97%B6%E5%8F%91%E7%94%9F%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2-%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">Q3: 描述线程的不同状态以及何时发生状态转换 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q4-Runnable-%E5%92%8C-Callable-%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F%E5%AE%83%E4%BB%AC%E6%98%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%9A%84%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">Q4: Runnable 和 Callable 接口有什么区别？它们是如何使用的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q5-%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%AE%83%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B-%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">Q5: 什么是守护线程，它的使用场景是什么？如何创建守护线程 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q6-%E4%BB%80%E4%B9%88%E6%98%AF-Thread-%E7%9A%84%E4%B8%AD%E6%96%AD%E6%A0%87%E5%BF%97%EF%BC%9F%E6%80%8E%E4%B9%88%E8%AE%BE%E7%BD%AE%E5%92%8C%E6%A3%80%E6%9F%A5%E5%AE%83%EF%BC%9F%E5%AE%83%E4%B8%8E-InterruptedException-%E6%9C%89%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">Q6: 什么是 Thread 的中断标志？怎么设置和检查它？它与 InterruptedException 有什么关系？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q7-%E4%BB%80%E4%B9%88%E6%98%AF-Executor-%E5%92%8C-ExecutorService-%EF%BC%9F%E8%BF%99%E4%B8%A4%E4%B8%AA%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">Q7: 什么是 Executor 和 ExecutorService ？这两个接口有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q8-java-util-concurrent-%E6%A0%87%E5%87%86%E5%BA%93%E4%B8%AD-ExecutorService-%E7%9A%84%E5%8F%AF%E7%94%A8%E5%AE%9E%E7%8E%B0%E6%98%AF%E4%BB%80%E4%B9%88-%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">Q8: java.util.concurrent 标准库中 ExecutorService 的可用实现是什么 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q9-%E4%BB%80%E4%B9%88%E6%98%AF-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%EF%BC%88-JMM-%EF%BC%89%EF%BC%9F%E6%8F%8F%E8%BF%B0%E4%B8%8B%E5%85%B6%E7%9B%AE%E7%9A%84%E5%92%8C%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-number">9.</span> <span class="nav-text">Q9: 什么是 Java 内存模型（ JMM ）？描述下其目的和基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q10-%E4%BB%80%E4%B9%88%E6%98%AF%E6%98%93%E5%A4%B1-%EF%BC%88-volatile-%EF%BC%89-%E5%AD%97%E6%AE%B5%EF%BC%8CJMM-%E5%AF%B9%E8%BF%99%E6%A0%B7%E7%9A%84%E9%A2%86%E5%9F%9F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BF%9D%E8%AF%81%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">Q10: 什么是易失 （ volatile ） 字段，JMM 对这样的领域有什么保证？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q11-%E4%BB%A5%E4%B8%8B%E5%93%AA%E9%A1%B9%E6%93%8D%E4%BD%9C%E6%98%AF%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="nav-number">11.</span> <span class="nav-text">Q11: 以下哪项操作是原子操作 ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q12-JMM-%E5%AF%B9%E6%B7%BB%E5%8A%A0%E4%BA%86-final-%E4%BF%AE%E9%A5%B0%E7%AC%A6%E7%9A%84%E7%B1%BB%E7%9A%84%E5%AD%97%E6%AE%B5%E6%9C%89%E4%BB%80%E4%B9%88%E7%89%B9%E6%AE%8A%E4%BF%9D%E8%AF%81-%EF%BC%9F"><span class="nav-number">12.</span> <span class="nav-text">Q12: JMM 对添加了 final 修饰符的类的字段有什么特殊保证 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q13-%E6%96%B9%E6%B3%95%E5%AE%9A%E4%B9%89%E4%B8%AD-synchronized-%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%90%AB%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%EF%BC%9F%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%9D%97%E4%B9%8B%E5%89%8D-%EF%BC%9F"><span class="nav-number">13.</span> <span class="nav-text">Q13: 方法定义中 synchronized 关键字的含义是什么？静态方法？在一个块之前 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q14-%E5%A6%82%E6%9E%9C%E4%B8%A4%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%97%B6%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E4%B8%8A%E8%B0%83%E7%94%A8-synchronized-%E6%96%B9%E6%B3%95%EF%BC%8C%E8%BF%99%E4%BA%9B%E7%BA%BF%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E4%B8%AA%E6%98%AF%E5%90%A6%E4%BC%9A%E9%98%BB%E5%A1%9E%EF%BC%9F%E5%A6%82%E6%9E%9C%E8%AF%A5%E6%96%B9%E6%B3%95%E6%98%AF%E9%9D%99%E6%80%81%E7%9A%84%EF%BC%8C%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">14.</span> <span class="nav-text">Q14: 如果两个线程同时在不同的对象实例上调用 synchronized 方法，这些线程中的一个是否会阻塞？如果该方法是静态的，该怎么办?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q15-Object%E7%B1%BB%E7%9A%84-wait%EF%BC%8Cnotify-%E5%92%8C-notifyAll-%E6%96%B9%E6%B3%95%E7%9A%84%E7%9B%AE%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88-%EF%BC%9F"><span class="nav-number">15.</span> <span class="nav-text">Q15: Object类的 wait，notify 和 notifyAll 方法的目的是什么 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q16-%E6%8F%8F%E8%BF%B0%E6%AD%BB%E9%94%81%EF%BC%8C%E5%AD%98%E6%B4%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF%E7%9A%84%E6%9D%A1%E4%BB%B6%E3%80%82%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%BA%9B%E6%83%85%E5%86%B5%E7%9A%84%E5%8F%AF%E8%83%BD%E5%8E%9F%E5%9B%A0"><span class="nav-number">16.</span> <span class="nav-text">Q16: 描述死锁，存活锁和饥饿的条件。描述这些情况的可能原因 ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q17-%E6%8F%8F%E8%BF%B0-fork-join-%E6%A1%86%E6%9E%B6%E7%9A%84%E7%94%A8%E9%80%94%E5%92%8C%E7%94%A8%E4%BE%8B"><span class="nav-number">17.</span> <span class="nav-text">Q17: 描述 fork&#x2F;join 框架的用途和用例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://seven-navigation.netlify.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">15:55</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>

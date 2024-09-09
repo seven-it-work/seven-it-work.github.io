@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_fazj894cvd.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="15、JUC阻塞队列（SynchronousQueue、LinkedTransferQueue）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="15、JUC阻塞队列（SynchronousQueue、LinkedTransferQueue）">
+<meta property="og:url" content="https://seven-it-work.github.io/d2630939/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="15、JUC阻塞队列（SynchronousQueue、LinkedTransferQueue）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116615721.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116616949.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116617620.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116618075.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116618602.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116619357.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116620286.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116620915.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116621376.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116621862.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116622388.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116623065.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116624348.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116625359.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116626328.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/19/1743/1695116626821.png">
+<meta property="article:published_time" content="2024-09-08T14:13:02.000Z">
+<meta property="article:modified_time" content="2024-09-08T14:13:02.000Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="并发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ddkk.com/images/2023/9/19/1743/1695116615721.png">
+
+<link rel="canonical" href="https://seven-it-work.github.io/d2630939/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>15、JUC阻塞队列（SynchronousQueue、LinkedTransferQueue） | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-力扣" id="力扣">
+      <a href="/leetCode/" rel="section"><i class="fa iconfont icon-likou fa-fw"></i>力扣</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa iconfont icon-jianli fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/d2630939/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          15、JUC阻塞队列（SynchronousQueue、LinkedTransferQueue）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-08 22:13:02" itemprop="dateCreated datePublished" datetime="2024-09-08T22:13:02+08:00">2024-09-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">面试资料</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>19k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+            <div class="post-description">15、JUC阻塞队列（SynchronousQueue、LinkedTransferQueue）</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、SynchronousQueue"><a href="#一、SynchronousQueue" class="headerlink" title="一、SynchronousQueue"></a>一、SynchronousQueue</h2><h2 id="1-1-API介绍"><a href="#1-1-API介绍" class="headerlink" title="1.1 API介绍"></a>1.1 API介绍</h2><p>SynchronousQueue是一个没有数据缓冲的BlockingQueue，生产者线程对其的插入操作put必须等待消费者的移除操作take，反过来也一样。</p>
+<p>SynchronousQueue内部并没有数据缓存空间，你不能调用peek()方法来看队列中是否有数据元素，因为数据元素只有当你试着取走的时候才可能存在，不取走而只想偷窥一下是不行的，当然遍历这个队列的操作也是不允许的。</p>
+<p>数据是在配对的生产者和消费者线程之间直接传递的，并不会将数据缓冲到队列中。</p>
+<p>SynchronousQueue支持公平访问队列，默认情况下，线程采用非公平策略，如果使用公平策略，等待的线程采用先进先出的顺序访问队列。</p>
+<p>SynchronousQueue适合传递性场景，一个使用场景是在线程池里。Executors.newCachedThreadPool()就使用了SynchronousQueue，这个线程池根据需要（新任务到来时）创建新的线程，如果有空闲线程则会重复使用，线程空闲了60秒后会被回收。</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116615721.png"></p>
+<ul>
+<li>插入操作会阻塞，直到这个元素被另一个线程消费。消费元素的操作也同理，反之亦然。</li>
+<li>peek方法获取但不删除该队列的头，如果该队列为空，则返回null，由于上面描述的特性SynchronousQueue队列的peek方法总是返回null，没用。</li>
+<li>构造器有一个可选参数控制是否公平</li>
+</ul>
+<h2 id="1-2-源码简析"><a href="#1-2-源码简析" class="headerlink" title="1.2 源码简析"></a>1.2 源码简析</h2><h3 id="底层实现Transferer"><a href="#底层实现Transferer" class="headerlink" title="底层实现Transferer"></a>底层实现Transferer</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SynchronousQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">AbstractQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">implements</span> <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token punctuation">,</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span>Serializable</span> <span class="token punctuation">&#123;</span>
+   
+     
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+	<span class="token comment">//有两个构造：</span>
+    <span class="token comment">/**
+     * Creates a &#123;@code SynchronousQueue&#125; with nonfair access policy.
+     */</span>
+    <span class="token keyword">public</span> <span class="token class-name">SynchronousQueue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">/**
+     * Creates a &#123;@code SynchronousQueue&#125; with the specified fairness policy.
+     *
+     * @param fair if true, waiting threads contend in FIFO order for
+     *        access; otherwise the order is unspecified.
+     */</span>
+    <span class="token keyword">public</span> <span class="token class-name">SynchronousQueue</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> fair<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+	    <span class="token comment">//公平用TransferQueue，不公平用TransferStack</span>
+        transferer <span class="token operator">=</span> fair <span class="token operator">?</span> <span class="token keyword">new</span> <span class="token class-name">TransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">TransferStack</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+	<span class="token comment">//TransferQueue和TransferStack都继承自Transferer这个内部类抽象类：</span>
+    <span class="token comment">/**
+     * Shared internal API for dual stacks and queues.
+     */</span>
+    <span class="token keyword">abstract</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Transferer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
+   
+     
+	    <span class="token comment">//定义了一个transfer方法，无论是往队列插入还是删除元素最终都会调用这个transfer方法</span>
+        <span class="token comment">/**
+         * Performs a put or take.
+         *
+         * @param e if non-null, the item to be handed to a consumer;
+         *          if null, requests that transfer return an item
+         *          offered by producer.
+         *          非空时,表示这个元素要传递给消费者（提供者-put）;
+         *          为空时, 则表示当前操作要请求消费一个数据（消费者-take）。
+         * @param timed if this operation should timeout 决定是否存在timeout时间
+         * @param nanos the timeout, in nanoseconds 超时时长
+         * @return if non-null, the item provided or received; if null,
+         *         the operation failed due to timeout or interrupt --
+         *         the caller can distinguish which of these occurred
+         *         by checking Thread.interrupted.
+         *         如果返回非空, 代表数据已经被消费或者正常提供; 如果为空,
+         *         则表示由于超时或中断导致失败。可通过Thread.interrupted来检
+         *         查是那种。
+         */</span>
+        <span class="token keyword">abstract</span> <span class="token class-name">E</span> <span class="token function">transfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">,</span> <span class="token keyword">boolean</span> timed<span class="token punctuation">,</span> <span class="token keyword">long</span> nanos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>看到有两个实现，一个是队列的实现，一个是栈的实现，分别对应公平和非公平实现：</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116616949.png"></p>
+<p>我们可以先看下SynchronousQueue的put、take、offer、poll方法，可以看到都调用了transferer.transfer：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SynchronousQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">AbstractQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">implements</span> <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token punctuation">,</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span>Serializable</span> <span class="token punctuation">&#123;</span>
+   
+     
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment">/**
+     * Adds the specified element to this queue, waiting if necessary for
+     * another thread to receive it.
+     *
+     * @throws InterruptedException &#123;@inheritDoc&#125;
+     * @throws NullPointerException &#123;@inheritDoc&#125;
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//入队，要放入元素,false代表会一直阻塞直到成功</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>transferer<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+            <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">/**
+     * Inserts the specified element into this queue, waiting if necessary
+     * up to the specified wait time for another thread to receive it.
+     *
+     * @return &#123;@code true&#125; if successful, or &#123;@code false&#125; if the
+     *         specified waiting time elapses before a consumer appears
+     * @throws InterruptedException &#123;@inheritDoc&#125;
+     * @throws NullPointerException &#123;@inheritDoc&#125;
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">offer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">,</span> <span class="token keyword">long</span> timeout<span class="token punctuation">,</span> <span class="token class-name">TimeUnit</span> unit<span class="token punctuation">)</span>
+        <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//入队，要放入元素,true代表允许超时，最多等待指定的时间</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>transferer<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> unit<span class="token punctuation">.</span><span class="token function">toNanos</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">/**
+     * Retrieves and removes the head of this queue, waiting if necessary
+     * for another thread to insert it.
+     *
+     * @return the head of this queue
+     * @throws InterruptedException &#123;@inheritDoc&#125;
+     */</span>
+    <span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+   
+     
+    	<span class="token comment">//出队，不需要放入元素，false代表会一直阻塞直到成功</span>
+        <span class="token class-name">E</span> e <span class="token operator">=</span> transferer<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> e<span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">/**
+     * Retrieves and removes the head of this queue, if another thread
+     * is currently making an element available.
+     *
+     * @return the head of this queue, or &#123;@code null&#125; if no
+     *         element is available
+     */</span>
+    <span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+    	<span class="token comment">//出队，不需要放入元素,true代表允许超时，0代表不会阻塞。</span>
+        <span class="token keyword">return</span> transferer<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="非公平实现TransferStack-原理图解"><a href="#非公平实现TransferStack-原理图解" class="headerlink" title="非公平实现TransferStack 原理图解"></a>非公平实现TransferStack 原理图解</h3><p>先来简单看一下非公平模式的简单原理，它采用的栈这种<code>FILO先进后出的方式进行非公平处理</code>，它内部有三种状态，分别是REQUEST，DATA，FULFILLING，其中REQUEST代表的数据请求的操作也就是take操作，而DATA表示的是数据也就是Put操作将数据存放到栈中，用于消费者进行获取操作，而FULFILLING代表的是可以进行互补操作的状态。</p>
+<p>当有相同模式情况下进行入栈操作，相同操作指的是REQUEST和DATA两种类型中任意一种进行操作时，模式相同则进行入栈操作，如下图所示：</p>
+<p>同REQUEST进行获取数据时的入栈情况：</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116617620.png"></p>
+<p>同样的put的操作，进行数据操作时为DATA类型的操作，此时队列情况为：</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116618075.png"></p>
+<p>不同模式下又是如何进行操作的？当有不同模式进来的时候，他不是将当前的模式压入栈顶，而是将FullFill模式和当前模式进行按位或之后压入栈顶，也就是压入一个进行FullFill请求的模式进入栈顶，请求配对操作，如下图所示：</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116618602.png"></p>
+<p>通过上图可见，本来栈中有一个DATA模式的数据等待消费者进行消费，这时候来了一个REQUEST模式的请求操作来进行消费数据，这时候并没有将REQUEST模式直接压入栈顶，而是将其转换为FULLFILLING模式，并且保留了原有的类型，这是进行FULLFILLING的请求，请求和栈顶下方元素进行匹配，当匹配成功后将栈顶和匹配元素同时进行出栈操作。</p>
+<h3 id="非公平实现TransferStack-核心流程代码分析"><a href="#非公平实现TransferStack-核心流程代码分析" class="headerlink" title="非公平实现TransferStack 核心流程代码分析"></a>非公平实现TransferStack 核心流程代码分析</h3><p>我们看下transferer.transfer做了什么事，看栈实现的Transferer，主要做了三件事：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SynchronousQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">AbstractQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">implements</span> <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token punctuation">,</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span>Serializable</span> <span class="token punctuation">&#123;</span>
+   
+     
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+	<span class="token comment">//先看下TransferQueue，内部类</span>
+	<span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">TransferStack</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">Transferer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        <span class="token comment">/* Modes for SNodes, ORed together in node fields */</span>
+        <span class="token comment">/** Node represents an unfulfilled consumer */</span>
+        <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">REQUEST</span>    <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//消费者模式</span>
+        <span class="token comment">/** Node represents an unfulfilled producer */</span>
+        <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">DATA</span>       <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment">//提供者模式 </span>
+        <span class="token comment">/** Node is fulfilling another unfulfilled DATA or REQUEST */</span>
+        <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">FULFILLING</span> <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span><span class="token comment">//互补模式</span>
+        
+        <span class="token comment">/**
+         * Puts or takes an item.
+         */</span>
+        <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">"unchecked"</span><span class="token punctuation">)</span>
+        <span class="token class-name">E</span> <span class="token function">transfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">,</span> <span class="token keyword">boolean</span> timed<span class="token punctuation">,</span> <span class="token keyword">long</span> nanos<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+            <span class="token comment">/*
+             * Basic algorithm is to loop trying one of three actions:
+             * 基本算法是循环尝试以下三种操作之一:
+             * 
+             * 1. If apparently empty or already containing nodes of same
+             *    mode, try to push node on stack and wait for a match,
+             *    returning it, or null if cancelled.
+             *    如果显然是空的或者已经包含了相同模式的节点，尝试将node推入堆栈并等
+             *    待匹配，并返回匹配，如果取消则返回null。
+             *
+             * 2. If apparently containing node of complementary mode,
+             *    try to push a fulfilling node on to stack, match
+             *    with corresponding waiting node, pop both from
+             *    stack, and return matched item. The matching or
+             *    unlinking might not actually be necessary because of
+             *    other threads performing action 3:
+             *    如果显然包含互补模式的节点，尝试将一个互补模式节点推到堆栈上，
+             *    与相应的等待节点匹配，从堆栈中弹出两个节点，并返回匹配的项目。
+             *    因为其他线程执行操作3，所以匹配或取消链接可能实际上是不必要的:
+             *  
+             * 3. If top of stack already holds another fulfilling node,
+             *    help it out by doing its match and/or pop
+             *    operations, and then continue. The code for helping
+             *    is essentially the same as for fulfilling, except
+             *    that it doesn't return the item.
+             *    如果top of stack已经拥有另一个互补模式节点，通过执行匹配和/或弹出
+             *    操作帮助它解决问题，然后继续。帮助的代码本质上和满足的代码是一样
+             *    的，除了它不返回项目。
+             */</span>
+
+            <span class="token class-name">SNode</span> s <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// constructed/reused as needed</span>
+            <span class="token keyword">int</span> mode <span class="token operator">=</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token constant">REQUEST</span> <span class="token operator">:</span> <span class="token constant">DATA</span><span class="token punctuation">;</span><span class="token comment">//节点模式，消费模式 或 生产模式</span>
+
+		    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		        <span class="token class-name">SNode</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span>
+		        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h<span class="token punctuation">.</span>mode <span class="token operator">==</span> mode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+       <span class="token comment">// 栈顶指针为空或者是模式相同</span>
+		            <span class="token keyword">if</span> <span class="token punctuation">(</span>timed <span class="token operator">&amp;&amp;</span> nanos <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+           <span class="token comment">// 制定了timed并且时间小于等于0则取消操作。</span>
+		                <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> h<span class="token punctuation">.</span><span class="token function">isCancelled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+		                    <span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> h<span class="token punctuation">.</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// 判断头结点是否被取消了取消了就弹出队列，将头结点指向下一个节点</span>
+		                <span class="token keyword">else</span>
+		                    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+		            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> s <span class="token operator">=</span> <span class="token function">snode</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> e<span class="token punctuation">,</span> h<span class="token punctuation">,</span> mode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     <span class="token comment">// 初始化新节点并且修改栈顶指针</span>
+		                <span class="token class-name">SNode</span> m <span class="token operator">=</span> <span class="token function">awaitFulfill</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> timed<span class="token punctuation">,</span> nanos<span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">// 进行等待操作</span>
+		                <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">==</span> s<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+                    <span class="token comment">// 返回内容是本身则进行清理操作</span>
+		                    <span class="token function">clean</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		                    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+		                <span class="token punctuation">&#125;</span>
+		                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>h <span class="token operator">=</span> head<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> h<span class="token punctuation">.</span>next <span class="token operator">==</span> s<span class="token punctuation">)</span>
+		                    <span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> s<span class="token punctuation">.</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// help s's fulfiller</span>
+		                <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token class-name">E</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>mode <span class="token operator">==</span> <span class="token constant">REQUEST</span><span class="token punctuation">)</span> <span class="token operator">?</span> m<span class="token punctuation">.</span>item <span class="token operator">:</span> s<span class="token punctuation">.</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		            <span class="token punctuation">&#125;</span>
+		        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isFulfilling</span><span class="token punctuation">(</span>h<span class="token punctuation">.</span>mode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+      <span class="token comment">// 尝试去匹配</span>
+		            <span class="token keyword">if</span> <span class="token punctuation">(</span>h<span class="token punctuation">.</span><span class="token function">isCancelled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>            <span class="token comment">// 判断是否已经被取消了</span>
+		                <span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> h<span class="token punctuation">.</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>         <span class="token comment">// 弹出取消的节点并且从新进入主循环</span>
+		            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> s<span class="token operator">=</span><span class="token function">snode</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> e<span class="token punctuation">,</span> h<span class="token punctuation">,</span> <span class="token constant">FULFILLING</span><span class="token operator">|</span>mode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     <span class="token comment">//新建一个Full节点压入栈顶</span>
+		                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+      <span class="token comment">// 循环直到匹配</span>
+		                    <span class="token class-name">SNode</span> m <span class="token operator">=</span> s<span class="token punctuation">.</span>next<span class="token punctuation">;</span>       <span class="token comment">// s的下一个节点为匹配节点</span>
+		                    <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+             <span class="token comment">// 代表没有等待内容了</span>
+		                        <span class="token function">casHead</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 弹出full节点</span>
+		                        s <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>           <span class="token comment">// 设置为null用于下次生成新的节点</span>
+		                        <span class="token keyword">break</span><span class="token punctuation">;</span>              <span class="token comment">// 退回到主循环中</span>
+		                    <span class="token punctuation">&#125;</span>
+		                    <span class="token class-name">SNode</span> mn <span class="token operator">=</span> m<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+		                    <span class="token keyword">if</span> <span class="token punctuation">(</span>m<span class="token punctuation">.</span><span class="token function">tryMatch</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		                        <span class="token function">casHead</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> mn<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// 弹出s节点和m节点两个节点</span>
+		                        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token class-name">E</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>mode <span class="token operator">==</span> <span class="token constant">REQUEST</span><span class="token punctuation">)</span> <span class="token operator">?</span> m<span class="token punctuation">.</span>item <span class="token operator">:</span> s<span class="token punctuation">.</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		                    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span>                  <span class="token comment">// 如果失去了匹配</span>
+		                        s<span class="token punctuation">.</span><span class="token function">casNext</span><span class="token punctuation">(</span>m<span class="token punctuation">,</span> mn<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 帮助取消连接</span>
+		                <span class="token punctuation">&#125;</span>
+		            <span class="token punctuation">&#125;</span>
+		        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+   
+                                 <span class="token comment">// 这里是帮助进行fillull</span>
+		            <span class="token class-name">SNode</span> m <span class="token operator">=</span> h<span class="token punctuation">.</span>next<span class="token punctuation">;</span>               <span class="token comment">// m是头结点的匹配节点</span>
+		            <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>                  <span class="token comment">// 如果m不存在则直接将头节点赋值为nll</span>
+		                <span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">// 弹出fulfill节点</span>
+		            <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+   
+     
+		                <span class="token class-name">SNode</span> mn <span class="token operator">=</span> m<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+		                <span class="token keyword">if</span> <span class="token punctuation">(</span>m<span class="token punctuation">.</span><span class="token function">tryMatch</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">)</span>          <span class="token comment">// h节点尝试匹配m节点</span>
+		                    <span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> mn<span class="token punctuation">)</span><span class="token punctuation">;</span>         <span class="token comment">// 弹出h和m节点</span>
+		                <span class="token keyword">else</span>                        <span class="token comment">// 丢失匹配则直接将头结点的下一个节点赋值为头结点的下下节点</span>
+		                    h<span class="token punctuation">.</span><span class="token function">casNext</span><span class="token punctuation">(</span>m<span class="token punctuation">,</span> mn<span class="token punctuation">)</span><span class="token punctuation">;</span>       
+		            <span class="token punctuation">&#125;</span>
+		        <span class="token punctuation">&#125;</span>
+		    <span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>源码中可以发现同步队列里面没有用到锁，是没有锁机制的。底层是通过大量自旋CAS完成的。好处是性能的提升，代价就是代码的复杂性。</p>
+<p>举个例子，如果等待的某个线程中途取消了，会执行tryCancel方法：<br><img src="https://ddkk.com/images/2023/9/19/1743/1695116619357.png"></p>
+</blockquote>
+<h3 id="公平模式TransferQueue-原理图解"><a href="#公平模式TransferQueue-原理图解" class="headerlink" title="公平模式TransferQueue 原理图解"></a>公平模式TransferQueue 原理图解</h3><p>TransferQueue内部是如何进行工作的，这里先大致讲解下，队列采用了互补模式进行等待，队列中的元素QNode中有一个字段是isData，代表是生产模式还是消费模式，如果模式相同或空队列时进行等待操作，互补的情况下就进行消费操作。</p>
+<p>入队操作相同模式</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116620286.png"></p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116620915.png"></p>
+<p>不同模式时进行出队列操作：</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116621376.png"></p>
+<p>这时候来了一个isData&#x3D;false的互补模式，队列就会变成如下状态：</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116621862.png"></p>
+<h3 id="公平模式TransferQueue-核心流程代码分析"><a href="#公平模式TransferQueue-核心流程代码分析" class="headerlink" title="公平模式TransferQueue 核心流程代码分析"></a>公平模式TransferQueue 核心流程代码分析</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">E</span> <span class="token function">transfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">,</span> <span class="token keyword">boolean</span> timed<span class="token punctuation">,</span> <span class="token keyword">long</span> nanos<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token comment">/* Basic algorithm is to loop trying to take either of
+     * two actions:
+     *
+     * 1. If queue apparently empty or holding same-mode nodes,
+     *    try to add node to queue of waiters, wait to be
+     *    fulfilled (or cancelled) and return matching item.
+     *
+     * 2. If queue apparently contains waiting items, and this
+     *    call is of complementary mode, try to fulfill by CAS'ing
+     *    item field of waiting node and dequeuing it, and then
+     *    returning matching item.
+     *
+     * In each case, along the way, check for and try to help
+     * advance head and tail on behalf of other stalled/slow
+     * threads.
+     *
+     * The loop starts off with a null check guarding against
+     * seeing uninitialized head or tail values. This never
+     * happens in current SynchronousQueue, but could if
+     * callers held non-volatile/final ref to the
+     * transferer. The check is here anyway because it places
+     * null checks at top of loop, which is usually faster
+     * than having them implicitly interspersed.
+     */</span>
+
+    <span class="token class-name">QNode</span> s <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// constructed/reused as needed</span>
+    <span class="token comment">// 分为两种状态1.有数据=true 2.无数据=false</span>
+    <span class="token keyword">boolean</span> isData <span class="token operator">=</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 循环内容</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token comment">// 尾部节点。</span>
+        <span class="token class-name">QNode</span> t <span class="token operator">=</span> tail<span class="token punctuation">;</span>
+        <span class="token comment">// 头部节点。</span>
+        <span class="token class-name">QNode</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token comment">// 判断头部和尾部如果有一个为null则自旋转。</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>         <span class="token comment">// 还未进行初始化的值。</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>                       <span class="token comment">// 自旋</span>
+        <span class="token comment">// 头结点和尾节点相同或者尾节点的模式和当前节点模式相同。</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">==</span> t <span class="token operator">||</span> t<span class="token punctuation">.</span>isData <span class="token operator">==</span> isData<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+      <span class="token comment">// 空或同模式。</span>
+            <span class="token comment">// tn为尾节点的下一个节点信息。</span>
+            <span class="token class-name">QNode</span> tn <span class="token operator">=</span> t<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            <span class="token comment">// 这里我认为是阅读不一致，原因是当前线程还没有阻塞的时候其他线程已经修改了尾节点tail会导致当前线程的tail节点不一致。</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">!=</span> tail<span class="token punctuation">)</span>                  <span class="token comment">// inconsistent read</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>tn <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+                    <span class="token comment">// lagging tail</span>
+                <span class="token function">advanceTail</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> tn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>timed <span class="token operator">&amp;&amp;</span> nanos <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span>        <span class="token comment">// 这里如果指定timed判断时间小于等于0直接返回。</span>
+                <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token comment">// 判断新增节点是否为null,为null直接构建新节点。</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+                s <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">QNode</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> isData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>t<span class="token punctuation">.</span><span class="token function">casNext</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">)</span>        <span class="token comment">// 如果next节点不为null说明已经有其他线程进行tail操作</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token comment">// 将t节点替换为s节点</span>
+            <span class="token function">advanceTail</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 等待有消费者消费线程。</span>
+            <span class="token class-name">Object</span> x <span class="token operator">=</span> <span class="token function">awaitFulfill</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> e<span class="token punctuation">,</span> timed<span class="token punctuation">,</span> nanos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 如果返回的x，指的是s.item,如果s.item指向自己的话清除操作。</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">==</span> s<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+                <span class="token function">clean</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">// 如果没有取消联系</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>s<span class="token punctuation">.</span><span class="token function">isOffList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+                <span class="token comment">// 将当前节点替换头结点</span>
+                <span class="token function">advanceHead</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment">// unlink if head</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>              <span class="token comment">// 取消item值，这里是take方法时会进行item赋值为this</span>
+                    s<span class="token punctuation">.</span>item <span class="token operator">=</span> s<span class="token punctuation">;</span>
+                <span class="token comment">// 将等待线程设置为null</span>
+                s<span class="token punctuation">.</span>waiter <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token punctuation">(</span><span class="token class-name">E</span><span class="token punctuation">)</span>x <span class="token operator">:</span> e<span class="token punctuation">;</span>
+
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+   
+                                 <span class="token comment">// complementary-mode</span>
+            <span class="token comment">// 获取头结点下一个节点</span>
+            <span class="token class-name">QNode</span> m <span class="token operator">=</span> h<span class="token punctuation">.</span>next<span class="token punctuation">;</span>               <span class="token comment">// node to fulfill</span>
+            <span class="token comment">// 如果当前线程尾节点和全局尾节点不一致,重新开始</span>
+            <span class="token comment">// 头结点的next节点为空，代表无下一个节点，则重新开始，</span>
+            <span class="token comment">// 当前线程头结点和全局头结点不相等，则重新开始</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">!=</span> tail <span class="token operator">||</span> m <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h <span class="token operator">!=</span> head<span class="token punctuation">)</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>                   <span class="token comment">// inconsistent read</span>
+
+            <span class="token class-name">Object</span> x <span class="token operator">=</span> m<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>isData <span class="token operator">==</span> <span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">||</span>    <span class="token comment">// m already fulfilled</span>
+                x <span class="token operator">==</span> m <span class="token operator">||</span>                   <span class="token comment">// m cancelled</span>
+                <span class="token operator">!</span>m<span class="token punctuation">.</span><span class="token function">casItem</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+              <span class="token comment">// lost CAS</span>
+                <span class="token function">advanceHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> m<span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment">// dequeue and retry</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token function">advanceHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> m<span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment">// successfully fulfilled</span>
+            <span class="token class-name">LockSupport</span><span class="token punctuation">.</span><span class="token function">unpark</span><span class="token punctuation">(</span>m<span class="token punctuation">.</span>waiter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token punctuation">(</span><span class="token class-name">E</span><span class="token punctuation">)</span>x <span class="token operator">:</span> e<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>更多详细分析，推荐博文</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZHdsc3hqL3AvVGhyZWFkLmh0bWw=">SynchronousQueue原理详解-公平模式<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZHdsc3hqL3Avc3luY2hyb25vdXNxdWV1ZS11bmZhaXItcGF0dGVybi5odG1s">SynchronousQueue原理详解-非公平模式<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="1-3-案例演示"><a href="#1-3-案例演示" class="headerlink" title="1.3 案例演示"></a>1.3 案例演示</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SynchronousQueueDemo</span> <span class="token punctuation">&#123;</span>
+   
+     
+
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> blockingQueue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SynchronousQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">Producer</span> producer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Producer</span><span class="token punctuation">(</span>blockingQueue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">Consumer</span> consumer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Consumer</span><span class="token punctuation">(</span>blockingQueue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>producer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>consumer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Producer</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
+   
+     
+
+	<span class="token keyword">private</span> <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> blockingQueue<span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> element <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token keyword">public</span> <span class="token class-name">Producer</span><span class="token punctuation">(</span><span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> blockingQueue<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">this</span><span class="token punctuation">.</span>blockingQueue <span class="token operator">=</span> blockingQueue<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token keyword">while</span><span class="token punctuation">(</span>element <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+				<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产元素："</span><span class="token operator">+</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				blockingQueue<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>element<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产者在等待空闲空间的时候发生异常！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产者终止了生产过程！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Consumer</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
+   
+     
+
+	<span class="token keyword">private</span> <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> blockingQueue<span class="token punctuation">;</span>
+		<span class="token keyword">public</span> <span class="token class-name">Consumer</span><span class="token punctuation">(</span><span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> blockingQueue<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">this</span><span class="token punctuation">.</span>blockingQueue <span class="token operator">=</span> blockingQueue<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+				<span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000l</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//每消费一次睡眠一秒</span>
+				<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"消费元素："</span><span class="token operator">+</span>blockingQueue<span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"消费者在等待新产品的时候发生异常！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"消费者终止了消费过程！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116622388.png"></p>
+<blockquote>
+<p>和前面的阻塞队列最大区别就是：前面队列的阻塞是队列为空或者满了才会发生阻塞，而同步队列入队的操作只要没有对应的出队线程进行出队操作则会一直阻塞，反之亦然。</p>
+</blockquote>
+<h2 id="二、LinkedTransferQueue"><a href="#二、LinkedTransferQueue" class="headerlink" title="二、LinkedTransferQueue"></a>二、LinkedTransferQueue</h2><h2 id="2-1-API介绍"><a href="#2-1-API介绍" class="headerlink" title="2.1 API介绍"></a>2.1 API介绍</h2><p>LinkedTransferQueue是一个由链表结构组成的无界阻塞TransferQueue队列。<code>相对于其他阻塞队列LinkedTransferQueue多了tryTransfer和transfer方法。</code></p>
+<ul>
+<li><strong>transfer方法</strong>。如果当前有消费者正在等待接收元素（消费者使用take()方法或带时间限制的poll()方法时），transfer方法可以把生产者传入的元素立刻transfer（传输）给消费者。如果没有消费者在等待接收元素，transfer方法会将元素存放在队列的tail节点，并等到该元素被消费者消费了才返回。transfer方法的关键代码如下：</li>
+</ul>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Node</span> pred <span class="token operator">=</span> <span class="token function">tryAppend</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> haveData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token function">awaitMatch</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> pred<span class="token punctuation">,</span> e<span class="token punctuation">,</span> <span class="token punctuation">(</span>how <span class="token operator">==</span> <span class="token constant">TIMED</span><span class="token punctuation">)</span><span class="token punctuation">,</span> nanos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>第一行代码是试图把存放当前元素的s节点作为tail节点。第二行代码是让CPU自旋等待消费者消费元素。因为自旋会消耗CPU，所以自旋一定的次数后使用Thread.yield()方法来暂停当前正在执行的线程，并执行其他线程。</p>
+<ul>
+<li><strong>tryTransfer方法</strong>。则是用来试探下生产者传入的元素是否能直接传给消费者。如果没有消费者等待接收元素，则返回false。和transfer方法的区别是tryTransfer方法无论消费者是否接收，方法立即返回。而transfer方法是必须等到消费者消费了才返回。</li>
+</ul>
+<p>对于带有时间限制的tryTransfer(E e, long timeout, TimeUnit unit)方法，则是试图把生产者传入的元素直接传给消费者，但是如果没有消费者消费该元素则等待指定的时间再返回，如果超时还没消费元素，则返回false，如果在超时时间内消费了元素，则返回true。</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116623065.png"></p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116624348.png"></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">TransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
+   
+     
+    <span class="token comment">// 如果存在一个消费者已经等待接收它，则立即传送指定的元素，否则返回false，并且不进入队列。</span>
+    <span class="token keyword">boolean</span> <span class="token function">tryTransfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 如果存在一个消费者已经等待接收它，则立即传送指定的元素，否则等待直到元素被消费者接收。</span>
+    <span class="token keyword">void</span> <span class="token function">transfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">;</span>
+    <span class="token comment">// 在上述方法的基础上设置超时时间</span>
+    <span class="token keyword">boolean</span> <span class="token function">tryTransfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">,</span> <span class="token keyword">long</span> timeout<span class="token punctuation">,</span> <span class="token class-name">TimeUnit</span> unit<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">;</span>
+    <span class="token comment">// 如果至少有一位消费者在等待，则返回true</span>
+    <span class="token keyword">boolean</span> <span class="token function">hasWaitingConsumer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 获取所有等待获取元素的消费线程数量</span>
+    <span class="token keyword">int</span> <span class="token function">getWaitingConsumerCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>该集合既能满足单链表的阻塞队列，又能满足同步队列</p>
+</blockquote>
+<blockquote>
+<p>和SynchronousQueue相比，LinkedTransferQueue多了一个可以存储的队列，与LinkedBlockingQueue相比，LinkedTransferQueue多了直接传递元素，少了用锁来同步。</p>
+</blockquote>
+<h2 id="2-2-源码简析"><a href="#2-2-源码简析" class="headerlink" title="2.2 源码简析"></a>2.2 源码简析</h2><h3 id="入队、出队方法"><a href="#入队、出队方法" class="headerlink" title="入队、出队方法"></a>入队、出队方法</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">AbstractQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">implements</span> <span class="token class-name">TransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token punctuation">,</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span>Serializable</span> <span class="token punctuation">&#123;</span>
+   
+     
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+	<span class="token comment">//看到入队都会调用xfer方法</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token function">xfer</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token constant">ASYNC</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">offer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token function">xfer</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token constant">ASYNC</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token function">xfer</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token constant">ASYNC</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment">//TransferQueue接口定义的方法也会调用xfer方法</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">transfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">xfer</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token constant">SYNC</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+            <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// failure possible only due to interrupt</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+	
+	<span class="token comment">//出队也是调用xfer方法</span>
+    <span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token class-name">E</span> e <span class="token operator">=</span> <span class="token function">xfer</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token constant">SYNC</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> e<span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token class-name">E</span> <span class="token function">poll</span><span class="token punctuation">(</span><span class="token keyword">long</span> timeout<span class="token punctuation">,</span> <span class="token class-name">TimeUnit</span> unit<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token class-name">E</span> e <span class="token operator">=</span> <span class="token function">xfer</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token constant">TIMED</span><span class="token punctuation">,</span> unit<span class="token punctuation">.</span><span class="token function">toNanos</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">||</span> <span class="token operator">!</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> e<span class="token punctuation">;</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们可以看到，这些出队、入队方法都会调用xfer方法，因为LinkedTransferQueue是无界的，入队操作都会成功，所以入队操作都是ASYNC的，而出队方法，则是根据不同的要求传入不同的值，比如需要阻塞的出队方法就传入SYNC，需要加入超时控制的就传入TIMED。</p>
+<h3 id="核心流程xfer方法流程图解"><a href="#核心流程xfer方法流程图解" class="headerlink" title="核心流程xfer方法流程图解"></a>核心流程xfer方法流程图解</h3><p><img src="https://ddkk.com/images/2023/9/19/1743/1695116625359.png"></p>
+<h3 id="核心流程xfer方法分析"><a href="#核心流程xfer方法分析" class="headerlink" title="核心流程xfer方法分析"></a>核心流程xfer方法分析</h3><p>xfer方法是实现LinkedTransferQueue的关键方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">AbstractQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span> <span class="token keyword">implements</span> <span class="token class-name">TransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token punctuation">,</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span>Serializable</span> <span class="token punctuation">&#123;</span>
+   
+     
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment">/*
+     * Possible values for "how" argument in xfer method.
+     */</span>
+	<span class="token comment">// xfer方法的how参数的可能取值</span>
+	<span class="token comment">// 用于无等待的poll、tryTransfer</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">NOW</span>   <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// for untimed poll, tryTransfer</span>
+	<span class="token comment">// 用于offer、put、add</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">ASYNC</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// for offer, put, add</span>
+	<span class="token comment">// 用于无超时的阻塞transfer、take</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">SYNC</span>  <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// for transfer, take</span>
+	<span class="token comment">// 用于超时等待的poll、tryTransfer</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">TIMED</span> <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// for timed poll, tryTransfer</span>
+    <span class="token comment">/**
+     * Implements all queuing methods. See above for explanation.
+     *
+     * @param e the item or null for take //元素，入队的话就是入队元素，出队就是null
+     * @param haveData true if this is a put, else a take //是否有数据，true代表有数据是入队，false代表没有数据是出队
+     * @param how NOW, ASYNC, SYNC, or TIMED //now，同步，异步，超时
+     * @param nanos timeout in nanosecs, used only if mode is TIMED
+     * @return an item if matched, else e
+     * @throws NullPointerException if haveData mode but e is null
+     */</span>
+	<span class="token keyword">private</span> <span class="token class-name">E</span> <span class="token function">xfer</span><span class="token punctuation">(</span><span class="token class-name">E</span> e<span class="token punctuation">,</span> <span class="token keyword">boolean</span> haveData<span class="token punctuation">,</span> <span class="token keyword">int</span> how<span class="token punctuation">,</span> <span class="token keyword">long</span> nanos<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+	    <span class="token comment">// 如果haveData但是e为null，则抛出NullPointerException异常</span>
+	    <span class="token keyword">if</span> <span class="token punctuation">(</span>haveData <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	    <span class="token comment">// s是将要被添加的节点，如果需要</span>
+	    <span class="token class-name">Node</span> s <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>                        <span class="token comment">// the node to append, if needed</span>
+	 
+	    retry<span class="token operator">:</span>
+	    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+                                 <span class="token comment">// restart on append race</span>
+	        <span class="token comment">// 从首节点开始匹配</span>
+	        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">,</span> p <span class="token operator">=</span> h<span class="token punctuation">;</span> p <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+      <span class="token comment">// find &amp; match first node</span>
+	            <span class="token keyword">boolean</span> isData <span class="token operator">=</span> p<span class="token punctuation">.</span>isData<span class="token punctuation">;</span>
+	            <span class="token class-name">Object</span> item <span class="token operator">=</span> p<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+	            <span class="token comment">// 判断节点是否被匹配过</span>
+	            <span class="token comment">// item != null有2种情况：一是put操作，二是take的item被修改了(匹配成功)</span>
+	            <span class="token comment">// (itme != null) == isData 要么表示p是一个put操作，要么表示p是一个还没匹配成功的take操作</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token operator">!=</span> p <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>item <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">==</span> isData<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+      <span class="token comment">// unmatched</span>
+	                <span class="token comment">// 节点与此次操作模式一致，无法匹配</span>
+	                <span class="token keyword">if</span> <span class="token punctuation">(</span>isData <span class="token operator">==</span> haveData<span class="token punctuation">)</span>   <span class="token comment">// can't match</span>
+	                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+	                <span class="token comment">// 匹配成功</span>
+	                <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">casItem</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+      <span class="token comment">// match</span>
+	                    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Node</span> q <span class="token operator">=</span> p<span class="token punctuation">;</span> q <span class="token operator">!=</span> h<span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+	                        <span class="token class-name">Node</span> n <span class="token operator">=</span> q<span class="token punctuation">.</span>next<span class="token punctuation">;</span>  <span class="token comment">// update by 2 unless singleton</span>
+	                        <span class="token comment">// 更新head为匹配节点的next节点</span>
+	                        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> h <span class="token operator">&amp;&amp;</span> <span class="token function">casHead</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> n <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">?</span> q <span class="token operator">:</span> n<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+	                            <span class="token comment">// 将旧节点自连接</span>
+	                            h<span class="token punctuation">.</span><span class="token function">forgetNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	                            <span class="token keyword">break</span><span class="token punctuation">;</span>
+	                        <span class="token punctuation">&#125;</span>                 <span class="token comment">// advance and retry</span>
+	                        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>h <span class="token operator">=</span> head<span class="token punctuation">)</span>   <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span>
+	                            <span class="token punctuation">(</span>q <span class="token operator">=</span> h<span class="token punctuation">.</span>next<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> <span class="token operator">!</span>q<span class="token punctuation">.</span><span class="token function">isMatched</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	                            <span class="token keyword">break</span><span class="token punctuation">;</span>        <span class="token comment">// unless slack &lt; 2</span>
+	                    <span class="token punctuation">&#125;</span>
+	                    <span class="token comment">// 匹配成功，则唤醒阻塞的线程</span>
+	                    <span class="token class-name">LockSupport</span><span class="token punctuation">.</span><span class="token function">unpark</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>waiter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	                    <span class="token comment">// 类型转换，返回匹配节点的元素</span>
+	                    <span class="token keyword">return</span> <span class="token class-name">LinkedTransferQueue</span><span class="token punctuation">.</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">E</span><span class="token punctuation">></span></span><span class="token function">cast</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	                <span class="token punctuation">&#125;</span>
+	            <span class="token punctuation">&#125;</span>
+	            <span class="token comment">// 若节点已经被匹配过了，则向后寻找下一个未被匹配的节点</span>
+	            <span class="token class-name">Node</span> n <span class="token operator">=</span> p<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+	            <span class="token comment">// 如果当前节点已经离队，则从head开始寻找</span>
+	            p <span class="token operator">=</span> <span class="token punctuation">(</span>p <span class="token operator">!=</span> n<span class="token punctuation">)</span> <span class="token operator">?</span> n <span class="token operator">:</span> <span class="token punctuation">(</span>h <span class="token operator">=</span> head<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Use head if p offlist</span>
+	        <span class="token punctuation">&#125;</span>
+	 
+	        <span class="token comment">// 若整个队列都遍历之后，还没有找到匹配的节点，则进行后续处理</span>
+	        <span class="token comment">// 把当前节点加入到队列尾</span>
+	        <span class="token keyword">if</span> <span class="token punctuation">(</span>how <span class="token operator">!=</span> <span class="token constant">NOW</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+                      <span class="token comment">// No matches available</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+	                s <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> haveData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	            <span class="token comment">// 将新节点s添加到队列尾并返回s的前驱节点</span>
+	            <span class="token class-name">Node</span> pred <span class="token operator">=</span> <span class="token function">tryAppend</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> haveData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	            <span class="token comment">// 前驱节点为null，说明有其他线程竞争，并修改了队列，则从retry重新开始</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span>pred <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+	                <span class="token keyword">continue</span> retry<span class="token punctuation">;</span>           <span class="token comment">// lost race vs opposite mode</span>
+	            <span class="token comment">// 不为ASYNC方法，则同步阻塞等待</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span>how <span class="token operator">!=</span> <span class="token constant">ASYNC</span><span class="token punctuation">)</span>
+	                <span class="token keyword">return</span> <span class="token function">awaitMatch</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> pred<span class="token punctuation">,</span> e<span class="token punctuation">,</span> <span class="token punctuation">(</span>how <span class="token operator">==</span> <span class="token constant">TIMED</span><span class="token punctuation">)</span><span class="token punctuation">,</span> nanos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token punctuation">&#125;</span>
+	        <span class="token comment">// how == NOW，则立即返回</span>
+	        <span class="token keyword">return</span> e<span class="token punctuation">;</span> <span class="token comment">// not waiting</span>
+	    <span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>xfer方法的整个操作流程如下所示：</p>
+<ul>
+<li><p>1、寻找和操作匹配的节点</p>
+</li>
+<li><p>从head开始向后遍历寻找未被匹配的节点，找到一个未被匹配并且和本次操作的模式不同的节点，匹配节点成功就通过CAS 操作将匹配节点的item字段设置为e，若修改失败，则继续向后寻找节点。</p>
+</li>
+<li><p>通过CAS操作更新head节点为匹配节点的next节点，旧head节点进行自连接，唤醒匹配节点的等待线程waiter，返回匹配的 item。如果CAS失败，并且松弛度大于等于2，就需要重新获取head重试。</p>
+</li>
+<li><p>2、如果在上述操作中没有找到匹配节点，则根据参数how做不同的处理：</p>
+</li>
+<li><p>NOW：立即返回，也不会插入节点</p>
+</li>
+<li><p>SYNC：插入一个item为e（isData &#x3D; haveData）到队列的尾部，然后自旋或阻塞当前线程直到节点被匹配或者取消。</p>
+</li>
+<li><p>ASYNC：插入一个item为e（isData &#x3D; haveData）到队列的尾部，不阻塞直接返回。</p>
+</li>
+<li><p>TIMED：插入一个item为e（isData &#x3D; haveData）到队列的尾部，然后自旋或阻塞当前线程直到节点被匹配或者取消或者超时。</p>
+</li>
+</ul>
+<p>上面提到了一个松弛度的概念，它是什么作用呢？</p>
+<p>在节点被匹配（被删除）之后，不会立即更新head&#x2F;tail，而是当 head&#x2F;tail 节点和最近一个未匹配的节点之间的距离超过一个“松弛阀值”之后才会更新（在LinkedTransferQueue中，这个值为 2）。这个“松弛阀值”一般为1-3，如果太大会降低缓存命中率，并且会增加遍历链的长度；太小会增加 CAS 的开销。</p>
+<p>更多详细分析推荐博文：</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjkzNTY0L2FydGljbGUvZGV0YWlscy84MDU5MzgyMQ==">Java并发编程之LinkedTransferQueue阻塞队列详解<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="2-3-案例演示"><a href="#2-3-案例演示" class="headerlink" title="2.3 案例演示"></a>2.3 案例演示</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LinkedTransferQueueTest</span> <span class="token punctuation">&#123;</span>
+   
+     
+
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> blockingQueue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">Producer</span> producer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Producer</span><span class="token punctuation">(</span>blockingQueue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">Consumer</span> consumer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Consumer</span><span class="token punctuation">(</span>blockingQueue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>producer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>consumer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Producer</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
+   
+     
+
+	<span class="token keyword">private</span> <span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> linkedTransferQueue<span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> element <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token keyword">public</span> <span class="token class-name">Producer</span><span class="token punctuation">(</span><span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> linkedTransferQueue<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">this</span><span class="token punctuation">.</span>linkedTransferQueue <span class="token operator">=</span> linkedTransferQueue<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token keyword">while</span><span class="token punctuation">(</span>element <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+				<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产元素："</span><span class="token operator">+</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				linkedTransferQueue<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>element<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产者在等待空闲空间的时候发生异常！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产者终止了生产过程！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Consumer</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
+   
+     
+
+	<span class="token keyword">private</span> <span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> linkedTransferQueue<span class="token punctuation">;</span>
+	<span class="token keyword">public</span> <span class="token class-name">Consumer</span><span class="token punctuation">(</span><span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> linkedTransferQueue<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">this</span><span class="token punctuation">.</span>linkedTransferQueue <span class="token operator">=</span> linkedTransferQueue<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+		<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+				<span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000l</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"消费元素："</span><span class="token operator">+</span>linkedTransferQueue<span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+			<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"消费者在等待新产品的时候发生异常！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"消费者终止了消费过程！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>生产者没有阻塞会很快：</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116626328.png"></p>
+<p>把生产者的put改成transfer再次查看：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Producer</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
+   
+     
+
+    <span class="token keyword">private</span>  <span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> linkedTransferQueue<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> element <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Producer</span><span class="token punctuation">(</span><span class="token class-name">LinkedTransferQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> linkedTransferQueue<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">this</span><span class="token punctuation">.</span>linkedTransferQueue <span class="token operator">=</span> linkedTransferQueue<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+   
+     
+            <span class="token keyword">while</span><span class="token punctuation">(</span>element <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产元素："</span><span class="token operator">+</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                linkedTransferQueue<span class="token punctuation">.</span><span class="token function">transfer</span><span class="token punctuation">(</span>element<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产者在等待空闲空间的时候发生异常！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"生产者终止了生产过程！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>看到生产 和 消费变成 交替出现了</p>
+<p><img src="https://ddkk.com/images/2023/9/19/1743/1695116626821.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/7f3bb929/" rel="prev" title="14、JUC阻塞队列（LinkedBlockingQueue、LinkedBlockingDeque）">
+      <i class="fa fa-chevron-left"></i> 14、JUC阻塞队列（LinkedBlockingQueue、LinkedBlockingDeque）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/62d655c8/" rel="next" title="16、JUC同步器工具（Semaphore、CountDownLatch）">
+      16、JUC同步器工具（Semaphore、CountDownLatch） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81SynchronousQueue"><span class="nav-number">1.</span> <span class="nav-text">一、SynchronousQueue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-API%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">1.1 API介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">1.2 源码简析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0Transferer"><span class="nav-number">3.1.</span> <span class="nav-text">底层实现Transferer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%85%AC%E5%B9%B3%E5%AE%9E%E7%8E%B0TransferStack-%E5%8E%9F%E7%90%86%E5%9B%BE%E8%A7%A3"><span class="nav-number">3.2.</span> <span class="nav-text">非公平实现TransferStack 原理图解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%85%AC%E5%B9%B3%E5%AE%9E%E7%8E%B0TransferStack-%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">3.3.</span> <span class="nav-text">非公平实现TransferStack 核心流程代码分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E6%A8%A1%E5%BC%8FTransferQueue-%E5%8E%9F%E7%90%86%E5%9B%BE%E8%A7%A3"><span class="nav-number">3.4.</span> <span class="nav-text">公平模式TransferQueue 原理图解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E6%A8%A1%E5%BC%8FTransferQueue-%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">3.5.</span> <span class="nav-text">公平模式TransferQueue 核心流程代码分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA"><span class="nav-number">4.</span> <span class="nav-text">1.3 案例演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81LinkedTransferQueue"><span class="nav-number">5.</span> <span class="nav-text">二、LinkedTransferQueue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-API%E4%BB%8B%E7%BB%8D"><span class="nav-number">6.</span> <span class="nav-text">2.1 API介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90"><span class="nav-number">7.</span> <span class="nav-text">2.2 源码简析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E9%98%9F%E3%80%81%E5%87%BA%E9%98%9F%E6%96%B9%E6%B3%95"><span class="nav-number">7.1.</span> <span class="nav-text">入队、出队方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8Bxfer%E6%96%B9%E6%B3%95%E6%B5%81%E7%A8%8B%E5%9B%BE%E8%A7%A3"><span class="nav-number">7.2.</span> <span class="nav-text">核心流程xfer方法流程图解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8Bxfer%E6%96%B9%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">7.3.</span> <span class="nav-text">核心流程xfer方法分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA"><span class="nav-number">8.</span> <span class="nav-text">2.3 案例演示</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://seven-navigation.netlify.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">15:55</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- 常量 -->
+<script>
+var ROOT_URL="/"
+</script>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4235380_fazj894cvd.css"/>
+<script src="/js/constant.js"></script>
+
+  <!-- 常量 -->
+<script src="/js/my_utils.js"></script>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"seven-it-work.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="04、并发模型（共享状态，分离状态，并行工作机模型，流水线模型，反应,事件驱动系统，函数式并行）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="04、并发模型（共享状态，分离状态，并行工作机模型，流水线模型，反应,事件驱动系统，函数式并行）">
+<meta property="og:url" content="https://seven-it-work.github.io/c6d63aa3/index.html">
+<meta property="og:site_name" content="技术博客">
+<meta property="og:description" content="04、并发模型（共享状态，分离状态，并行工作机模型，流水线模型，反应,事件驱动系统，函数式并行）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026006903.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026007225.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026007616.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026008047.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026008486.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026008747.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026009094.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026009447.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026009850.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026010196.png">
+<meta property="og:image" content="https://ddkk.com/images/2023/9/18/1633/1695026010571.png">
+<meta property="article:published_time" content="2024-09-08T10:59:06.000Z">
+<meta property="article:modified_time" content="2024-09-08T10:59:06.000Z">
+<meta property="article:author" content="Seven">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="并发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ddkk.com/images/2023/9/18/1633/1695026006903.png">
+
+<link rel="canonical" href="https://seven-it-work.github.io/c6d63aa3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+<!-- 加载宠物看板 -->
+  <script>
+    var live2d_path = `/js/live2d-widge/`;
+  </script>
+  <script src="/js/live2d-widge/autoload.js"></script>
+  <!-- 加载宠物看板 -->
+
+  <title>04、并发模型（共享状态，分离状态，并行工作机模型，流水线模型，反应,事件驱动系统，函数式并行） | 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+<div class="container use-motion">
+<!-- 还不知道有什么用，一长串黑色的 -->
+<!--  <div class="headband"></div>-->
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!-- <img style="width: auto;position: absolute;top: 0;left: 0;z-index: 9999;" src="/images/739924dd0dc8e2a37f14d6403cf72acd_134x24.png"/> -->
+    <!-- 左上角图片 一般节假日什么的 -->
+    <!--   天气组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/wearherWidget.css"/>
+    <div id="ww_4b54bde5f3d24" v='1.3' loc='auto'
+         a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>
+      <a href="https://weatherwidget.org/zh/" id="ww_4b54bde5f3d24_u" target="_blank">天气加载中...</a>
+    </div>
+    <script async src="/js/wearherWidget.js?id=ww_4b54bde5f3d24"></script>
+    <!--   天气组件   -->
+
+    <link type="text/css" rel="stylesheet" href="/css/everyDay.css"/>
+<div id="every-dat-text">
+</div>
+<script src="/js/everyDay.js"></script>
+
+
+    <div class="header-inner">  <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+<!--    <a href="/" class="brand" rel="start">-->
+<!--      <span class="logo-line-before"><i></i></span>-->
+<!--      <h1 class="site-title">技术博客</h1>-->
+<!--      <span class="logo-line-after"><i></i></span>-->
+<!--    </a>-->
+<!--  自定义logo样式1  -->
+    <style>
+.orbit-circle {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  transform-origin: center;
+  animation: orbit 10s infinite linear;
+  animation-delay: 0.25s;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #4bbce7;
+}
+
+.orbit-object {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #54f7f8, 0px 0px 20px #54f7f8, 0px 0px 30px #54f7f8, 0px 0px 50px #54f7f8, 0px 0px 60px #54f7f8;
+  z-index: 1;
+}
+
+.orbit-object span.ripple {
+  position: relative;
+  top: -11px;
+  left: 0px;
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  font-size: 0px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: ripple 1s infinite linear;
+}
+
+.text {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  font-size: 80px;
+  text-shadow: 0 0 15px #4bbce7;
+}
+
+.trace {
+  position: relative;
+  height: 5px;
+  width: 150px;
+  top: 50px;
+  left: -25px;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  background-color: white;
+  z-index: 2;
+}
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+  .text {
+    font-size: 58px;
+    line-height: 1;
+  }
+
+  .orbit-circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 3px solid white;
+  }
+
+  .orbit-object {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 5px #54f7f8, 0px 0px 10px #54f7f8, 0px 0px 15px #54f7f8, 0px 0px 25px #54f7f8, 0px 0px 30px #54f7f8;
+    top: 7px;
+  }
+
+  .orbit-object span.ripple {
+    padding: 1px;
+    top: -12px;
+    left: 2px;
+    animation: rippleSmall 1s infinite linear;
+  }
+
+  .trace {
+    width: 75px;
+    height: 3px;
+    top: 27px;
+    left: -12px;
+    z-index: -1;
+  }
+}
+
+@-webkit-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes rippleSmall {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(84, 247, 248, 0.1), 0 0 0 8px rgba(84, 247, 248, 0.1), 0 0 0 12px rgba(84, 247, 248, 0.1), 0 0 0 16px rgba(84, 247, 248, 0);
+  }
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@-moz-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(84, 247, 248, 0.1), 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(84, 247, 248, 0.1), 0 0 0 10px rgba(84, 247, 248, 0.1), 0 0 0 15px rgba(84, 247, 248, 0.1), 0 0 0 20px rgba(84, 247, 248, 0);
+  }
+}
+
+.levitate {
+  animation: levitate 1s ease-in-out -0.75s infinite alternate;
+}
+
+@keyframes levitate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+#logo{
+  padding: 10px;
+}
+</style>
+<div id="logo">
+<div class="orbit-circle">
+  <div class="orbit-object"><span class="ripple"></span></div>
+</div>
+<a href="/" style="border-bottom: none">
+  <div class="text">技术博客<b class=""></b></div>
+</a>
+</div>
+
+
+<!--  自定义logo样式  -->
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home" id="home">
+      <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" id="archives">
+      <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about" id="about">
+    <!--  由于关于页面存在 js需要重新渲染，所以加入重新刷新脚本-->
+      <a href="/about/" rel="section" refresh onclick="javascript:window.location.href&#x3D;&#39;&#x2F;about&#x2F;&#39;"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" id="tags">
+      <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" id="categories">
+      <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-力扣" id="力扣">
+      <a href="/leetCode/" rel="section"><i class="fa iconfont icon-likou fa-fw"></i>力扣</a>
+
+  </li>
+        <li class="menu-item menu-item-个人简历" id="个人简历">
+      <a href="/resume/" rel="section"><i class="fa iconfont icon-jianli fa-fw"></i>个人简历</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+  
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<meta name="referrer" content="no-referrer">
+
+</div>
+    <!--   波浪组件   -->
+    <link type="text/css" rel="stylesheet" href="/css/waves.css"/>
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+    <!--   波浪组件   -->
+  </header>
+  
+  <div class="reading-progress-bar"></div>
+
+
+  <main class="main">
+    <div class="main-inner">
+      <div class="content-wrap">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://seven-it-work.github.io/c6d63aa3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+      <meta itemprop="name" content="Seven">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          04、并发模型（共享状态，分离状态，并行工作机模型，流水线模型，反应,事件驱动系统，函数式并行）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-08 18:59:06" itemprop="dateCreated datePublished" datetime="2024-09-08T18:59:06+08:00">2024-09-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">面试资料</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+            <div class="post-description">04、并发模型（共享状态，分离状态，并行工作机模型，流水线模型，反应,事件驱动系统，函数式并行）</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>并发系统可以由不同的并发模型来实现。并发模型规定了系统中线程的协作方式，从而能够共同完成指定任务。不同的并发模型会将任务按不同的方式分割，而线程之间也通过不同的方式来通信和协作。本并发教程将更深入一点的讨论时下（2015 - 2019）使用最普遍的并发模型。</p>
+<h2 id="并发模型和分布式系统的相似之处"><a href="#并发模型和分布式系统的相似之处" class="headerlink" title="并发模型和分布式系统的相似之处"></a>并发模型和分布式系统的相似之处</h2><p>本文所描述的并发模型和以不同架构实现的分布式系统很相似。在并发系统中不同线程之间彼此通信。在分布式系统中进程之间彼此通信（进程可能在不同的计算机上）。实际上线程和进程大同小异，这也正是为什么不同的并发模型和不同的分布式系统往往看上去很像。</p>
+<p>当然，分布式系统要面对更多的挑战，比如网络失败，远程计算机或进程故障等。而对于运行在大型服务器上的并发系统来说，存在类似的问题，比如CPU故障，网卡故障，硬盘故障等。故障的几率可能较低，但是理论上仍会发生故障。</p>
+<p>由于并发模型和分布式系统架构很相似，所以它们之间常常可以互相借鉴。例如，工作线程之间分配工作的模型常常类似于分布式系统的负载均衡模型。类似的还有错误处理技术，比如日志记录，故障转移，任务的幂等性等。</p>
+<h2 id="共享状态-VS-分离状态"><a href="#共享状态-VS-分离状态" class="headerlink" title="共享状态 VS 分离状态"></a>共享状态 VS 分离状态</h2><p>并发模型的一个重要方面是，该让组件和线程在线程之间共享状态呢？还是各自拥有独立的状态，从不在线程之间共享呢？</p>
+<p>共享状态表示系统的线程之间会共享一些状态。状态指的是某些数据，通常类似于一个或多个对象。线程间共享状态会导致一些问题，比如竞态条件，死锁等。当然这取决于线程是如何使用和访问共享对象的。<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026006903.png"><br>分离状态表示系统的不同线程之间不会共享任何状态。如果不同线程之间需要通信，它们可以通过交换不可变对象的方式实现，也可以通过发送对象（或数据）的拷贝的方式来实现。所以两个线程写入同一个对象（或数据、状态）的情况就不存在了，也就避免了大多数常见的并发问题。<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026007225.png"><br>采用分离状态的并发设计常常可以让一部分代码更容易实现和分析，因为你清楚的知道只有一个线程会写某个对象，不用担心该对象被同时访问。但是，使用分离状态并发来设计程序时，你可能还要统筹兼顾，考虑的更细致。我觉得这么做是值得的。我个人偏向于使用分离状态并发的设计。</p>
+<h2 id="并行工作机模型（Parallel-Workers）"><a href="#并行工作机模型（Parallel-Workers）" class="headerlink" title="并行工作机模型（Parallel Workers）"></a>并行工作机模型（Parallel Workers）</h2><p>最初的并发模型我把它叫做并行工作机模型，它把接到的工作分配给不同的工作机。下面是并行工作机并发模型的示意图。<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026007616.png"><br>在并行工作机并发模型中，有个委派机负责把接到的任务分发给不同的工作机。每个工作机完成整个工作。工作机在不同的线程（可能在不同的CPU）中并行的工作。</p>
+<p>假如在汽车工厂中实现这个并行工作机模型，每辆车会由某个工人生产。工人会按照汽车的生产规范，从头到尾把这辆车制造出来。</p>
+<p>并行工作机并发模型是java程序中最常用的并发模型，虽然这已经在变化了。在java.util.concurrent包中的很多并发工具类是以此模型而设计的。你也能在企业版java应用服务器中看到该模型的踪迹。</p>
+<h2 id="并行工作机模型的优点"><a href="#并行工作机模型的优点" class="headerlink" title="并行工作机模型的优点"></a>并行工作机模型的优点</h2><p>并行工作机并发模型的优点是容易理解。你只需增加更多的工作机就可以增加应用的并行能力。<br>例如你要实现一个网络爬虫，你可以用不同数量的工作机来爬取一定量的页面，看用多少数量的工作机爬取的时间最短（也就意味着性能最好）。由于网络爬取是IO密集型作业，最终很可能每个CPU或核心只需开几个线程。一个CPU只开一个线程会太少，因为CPU大部分时间在等待下载数据，处于空闲状态。</p>
+<h2 id="并行工作机模型的缺点"><a href="#并行工作机模型的缺点" class="headerlink" title="并行工作机模型的缺点"></a>并行工作机模型的缺点</h2><p>虽然表面上简单，但是并行工作机并发模型也存在一些缺点。我会在下面的章节中阐明最明显的缺点。</p>
+<h4 id="共享状态会变得更复杂"><a href="#共享状态会变得更复杂" class="headerlink" title="共享状态会变得更复杂"></a>共享状态会变得更复杂</h4><p>实际上的并行工作机并发模型要比上面示例中的更复杂一些。共享工作机经常需要访问某些类型的共享数据，这些数据处于内存或者某个共享数据库中。这种情况让并行工作机并发模型变的复杂，如下图所示：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026008047.png"><br>某些共享状态存在于诸如工作队列的通信机制中，而另一些共享状态则是业务数据，缓存数据，数据库连接池等。</p>
+<p>一旦并行工作机并发模型中引入了共享状态，它就开始变得复杂。线程在访问共享数据时，需要确保一个线程所做的修改对其他线程可见（推送到主内存，而不是仅仅停留在执行线程的CPU缓存中）。线程需要避免竞态条件、死锁和许多其他共享状态并发问题。</p>
+<p>此外，当线程因访问共享数据结构而彼此等待时，将会丢失部分并行能力。许多并发数据结构是阻塞的，这意味着一个或有限的线程集可以在任意时间访问它们。这可能导致对这些共享数据结构的争用。激烈的争用本质上将导致访问共享数据结构的部分代码要顺序执行。</p>
+<p>现代非阻塞并发算法可以减少竞争，提高性能，但非阻塞算法很难实现。</p>
+<p>另一种选择是持久化数据结构。持久化数据结构在修改时始终保留其以前的版本。因此，如果多个线程指向同一个持久性数据结构，并且某个线程对其进行了修改，则该线程将获得新结构的引用。所有其他线程都保留对旧结构的引用，该结构仍然保持不变，因此保持一致。Scala编程包含了几个持久化数据结构。</p>
+<p>虽然持久化数据结构很好的解决了并发地修改共享数据结构，但它往往不能很好地执行。</p>
+<p>例如，持久化列表将所有新元素添加到列表的头部，并返回新元素的引用（该元素又指向列表的其余部分）。所有其他线程仍保留列表中前一个元素的引用，所以对于这些线程，列表看上去没有改变。它们看不到新添加的元素。</p>
+<p>这种持久性列表是用链表实现的，但是链表在现代计算机上的性能并不好。列表中的每个元素都是一个单独的对象，这些对象可以分散在计算机内存的各个地方。当今的CPU在顺序访问数据方面要快得多，所以在当代计算机上，列表用数组实现会有更好的性能。数组是按顺序存储数据的，CPU缓存可以一次将更大的数组块加载到缓存中，之后让CPU直接访问缓存中的数据。而对于元素分散在内存中的链表来说，这是不可能的。</p>
+<h4 id="无状态工作机（Stateless-Workers）"><a href="#无状态工作机（Stateless-Workers）" class="headerlink" title="无状态工作机（Stateless Workers）"></a>无状态工作机（Stateless Workers）</h4><p>共享状态可以由系统中的其他线程修改。因此，工作机每次都必须重新读取状态，才能确保在最新的状态上工作。无论共享状态保存在内存中还是外部数据库中，都需要这么做。内部不保留状态（但每次都要重新读取）的工作机称为无状态工作机。<br>. 在每次需要时重新读取数据会变慢。如果状态存储在外部数据库中，会变得更慢。</p>
+<h4 id="任务次序是不确定的"><a href="#任务次序是不确定的" class="headerlink" title="任务次序是不确定的"></a>任务次序是不确定的</h4><p>并行工作机模型的另一个缺点是任务执行顺序不确定。无法保证哪些任务是先执行还是最后执行。任务A可以在任务B之前交给工作机，但任务B可能在任务A之前执行。<br>并行工作机模型天然的不确定性导致很难随时预测系统状态，也更难（如果可行）保证一项任务先于另一项任务。</p>
+<h2 id="流水线模型（Assembly-Line）"><a href="#流水线模型（Assembly-Line）" class="headerlink" title="流水线模型（Assembly Line）"></a>流水线模型（Assembly Line）</h2><p>第二种并发模型我把它称为流水线并发模型。我选择这个名字只是为了配合先前的“并行工作机”的比喻。其他开发者根据平台或者社区使用其他名字（例如反应式系统或事件驱动系统）。下面是流水线并发模型的示意图：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026008486.png"><br>工作机像工厂装配线上的工人一样组织起来，每个工人只完成全部工作的一部分。当该部分完成时，工人将工作转发给下一个工人。</p>
+<p>每个工作机都在自己的线程中运行，并且与其他工作机不共享任何状态。有时这也称为无共享并发模型。</p>
+<p>使用流水线并发模型的系统通常设计为使用非阻塞IO。非阻塞IO意味着当工作进程启动IO操作（例如从网络连接读取文件或数据）时，工作进程不会等待IO调用完成。IO操作很慢，因此等待IO操作完成是在浪费CPU时间。CPU这时可以做别的事情。IO操作完成后，IO操作的结果（例如读到的数据或数据写入的状态）将传递给另一个工作机。</p>
+<p>对于非阻塞IO，IO操作决定了工作机之间的边界。工作机尽其所能的工作，直到不得不启动IO操作，然后它就不再控制任务了。当IO操作完成时，流水线上的下一个工作机继续处理该任务，直到该任务也必须启动IO操作等。<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026008747.png"><br>实际上，这些任务可能不会沿着一条流水线进行。由于大多数系统可以执行多个任务，根据需要完成的任务，任务从一个工作机流向另一个工作机。实际上可能有很多不同的虚拟流水线在同时进行，这就是现实中流水线系统工作流程的样子。<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026009094.png"></p>
+<p>任务甚至可以转发给多个工人进行并发处理。例如，任务可以转发给任务执行器和任务日志。此图说明了所有三个流水线将其任务转发给同一个工作机（中间装配线中的最后一个工作机）来完成任务：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026009447.png"><br>流水线可能会变得更加复杂。</p>
+<h4 id="反应-事件驱动系统（Reactive-Event-Driven-Systems）"><a href="#反应-事件驱动系统（Reactive-Event-Driven-Systems）" class="headerlink" title="反应&#x2F;事件驱动系统（Reactive, Event Driven Systems）"></a>反应&#x2F;事件驱动系统（Reactive, Event Driven Systems）</h4><p>使用流水线并发模型的系统有时也称为反应系统，或事件驱动系统。系统的工作机对系统中发生的事件做出反应，这些事件来自外部世界，或者由其他工作机发出。事件可以是传入的HTTP请求，或者某个文件完成内存加载等。</p>
+<p>在编写本文时，已经有许多有趣的反应&#x2F;事件驱动平台，以后会有更多。下面这些似乎更受欢迎：<br>Vert.x<br>Akka<br>Node.JS (JavaScript)<br>就我个人而言，我觉得Vert.x非常有趣（特别是对于像我这样的Java&#x2F;JVM老油条来说 ——<strong>译者注：原文为especially for a Java &#x2F; JVM dinosaur like me</strong>）。</p>
+<h4 id="参与者与通道（Actors-vs-Channels）"><a href="#参与者与通道（Actors-vs-Channels）" class="headerlink" title="参与者与通道（Actors vs. Channels）"></a>参与者与通道（Actors vs. Channels）</h4><p>参与者和通道是流水线（或反应&#x2F;事件驱动）模型的两个类似示例。在参与者模型中，每个工作机都称为参与者。参与者可以直接相互发送消息，消息是异步发送和处理的。如前所述，参与者可用于实现一个或多个工作流水线。下面是参与者模型的示意图：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026009850.png"><br>在通道模型中，工作机之间不直接沟通。相反，他们在不同的通道上发布消息（或事件）。其他工作机可以在这些通道上监听消息，而发送者不知道谁在监听。下面是通道模型的示意图：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026010196.png"><br>在撰写本文时，通道模式对我来说似乎更加灵活。某个工作机不需要知道哪些工作机后续将在流水线上处理任务。它只需知道向哪个通道转发工作 （或给哪个通道发送消息，等等）。通道上的侦听器在注册和取消时不会影响到写通道的工作机。这使得工作机之间的耦合更加松散。</p>
+<h2 id="流水线模型的优点"><a href="#流水线模型的优点" class="headerlink" title="流水线模型的优点"></a>流水线模型的优点</h2><p>与并行工作机模型相比，流水线并发模型有几个优点。我将在下面的章节中介绍最大的优点。</p>
+<h4 id="不共享状态"><a href="#不共享状态" class="headerlink" title="不共享状态"></a>不共享状态</h4><p>工作机与其他工作机不共享任何状态，这意味着在实现它们时，所有在并发访问共享状态上会出现的问题，我们都不用再考虑了。这使得工作机更容易实现。你在实现一个工作机时，这个工作机就好像是唯一一个执行该任务的线程—本质上是一个单线程实现。</p>
+<h4 id="有状态的工作机"><a href="#有状态的工作机" class="headerlink" title="有状态的工作机"></a>有状态的工作机</h4><p>由于工作机知道其他线程不会修改他们的数据，工作机可以是有状态的。我的意思是，他们可以将需要操作的数据保存在内存中，只需将改动写回最终的外部存储系统。因此，有状态的工作机通常比无状态的工作机更快。</p>
+<h4 id="更好的硬件整合"><a href="#更好的硬件整合" class="headerlink" title="更好的硬件整合"></a>更好的硬件整合</h4><p>单线程代码的优点是，它通常更符合底层硬件的工作方式。首先，当你认为代码会以单线程模式执行时，通常可以创建优化更好的数据结构和算法。</p>
+<p>其次，单线程有状态工作机可以在内存中缓存数据，如上所述。当数据被缓存在内存中时，该数据也更有可能被缓存在执行线程的CPU缓存中。这使得访问缓存数据的速度更快了。</p>
+<p>代码的编写方式天然的受益于底层硬件的工作方式，我称之为硬件一致性。一些开发者称之为机械同情（译者注：原文是mechanical sympathy，直译为机械同情）。我更喜欢硬件一致性这个词，因为计算机很少有机械部件，在这种情况下，“同情”一词隐喻为“更好地匹配”，而我相信“一致”一词传达得相当好。无论如何，这是吹毛求疵。你可以用你喜欢的任何术语。</p>
+<h4 id="可以进行任务排序"><a href="#可以进行任务排序" class="headerlink" title="可以进行任务排序"></a>可以进行任务排序</h4><p>我们可以根据流水线并发模型，以保证任务有序的方式来实现一个并发系统。任务有序使我们更容易推测某个时间点的系统状态。不仅如此，还可以将所有传入的任务写入日志。进而可以使用此日志从头开始重建系统状态，以防系统的某部分出现故障。任务以特定顺序写入日志，此顺序会成为确定的任务顺序。下面是这样一个设计的样子：<br><img src="https://ddkk.com/images/2023/9/18/1633/1695026010571.png"><br>（<strong>译者注：上图看上去有错，应该是原文配图出错了，待原文修正后我再更新</strong>）<br>虽然确定的任务顺序实现起来不一定容易，但往往是可行的。如果可行，它可以大大简化备份、恢复数据、复制数据等任务，因为这些都可以通过日志文件来完成。</p>
+<h2 id="流水线模型的缺点"><a href="#流水线模型的缺点" class="headerlink" title="流水线模型的缺点"></a>流水线模型的缺点</h2><p>流水线并发模型的主要缺点是，一个任务通常分布在多个工作机上执行，从而分布在项目中的多个类上。因此，很难确切地看到某个任务有哪些代码在执行。</p>
+<p>编写代码也可能会更困难。工作机的代码有时编写成回调处理。于是代码中出现层层嵌套的回调处理，一些开发者把这称为回调地狱。回调地狱指的是很难在所有回调中跟踪代码真正在做什么，也很难确保每个回调都能访问所需的数据。</p>
+<p>而使用并行工作机并发模型，这个问题就简单了。你可以打开工作机代码并读取从头到尾的执行代码。当然，并行工作机代码也可以分布在许多不同的类上，但是通常从代码中更容易读到执行顺序。</p>
+<h2 id="函数式并行（Functional-Parallelism）"><a href="#函数式并行（Functional-Parallelism）" class="headerlink" title="函数式并行（Functional Parallelism）"></a>函数式并行（Functional Parallelism）</h2><p>最近（2015）讨论较多的是第三种并发模型：函数式并行。<br>函数式并行的基本思想是使用函数调用来实现程序。函数可以看作是相互发送消息的“代理”或“参与者”，就像在流水线并发模型（也称为反应式或事件驱动系统）中的一样。一个函数调用另一个函数时类似于发送一个消息。</p>
+<p>传递给函数的所有参数都会被复制，因此任何在接收函数之外的实体都不能操作数据。这种复制对于避免共享数据上的竞态条件至关重要。这使得函数的执行类似于原子操作。每个函数调用的执行都可以独立于任何其他函数。</p>
+<p>当函数调用可以独立执行时，每个函数调用就可以在单独的一个cpu上执行。这意味着，一个用函数式实现的算法可以在多个cpu上并行执行。</p>
+<p>在Java7中有了Java.util.concurrent包，其中包含了ForkAndJoinPool，它可以帮助你实现类似于函数式并行的功能。在Java 8中有了并行流，它可以帮助你把大型集合的迭代并行化。要注意的是，有些开发人员对ForkAndJoinPool持批评态度（可以在我的ForkAndJoinPool教程中找到批评的链接）。</p>
+<p>函数式并行的难点在于要弄清楚哪些函数调用要并行化。在CPU之间协调函数调用会带来开销。一个函数完成的工作单元需要达到一定的大小，才值得这样的开销。如果函数调用非常小，那么若把它们并行化实际上可能比单线程、单CPU执行的更慢。</p>
+<p>根据我的理解（虽不完美），你可以使用一个反应式的、事件驱动的模型来实现一个算法，并将工作分解成类似于函数式并行所实现的那样。在我看来，使用事件驱动模型，你可以更准确地控制要并行化的内容和数量。</p>
+<p>另外，只有当某个任务是程序当前执行的唯一任务时，将该任务拆分到多个cpu上所产生的协调开销才有意义。而如果系统同时执行多个其他任务（如web服务器、数据库服务器和许多其他系统），那么尝试并行一个任务是没有意义的。计算机中的其他CPU终将会忙于处理其他任务，因此没有理由试图用一个较慢的、函数式并行的任务来干扰它们。使用流水线（反应式）并发模型很可能更好，因为它具有更少的开销（以单线程模式顺序执行），并且更好地符合底层硬件的工作方式。</p>
+<h2 id="哪种并发模型最好？"><a href="#哪种并发模型最好？" class="headerlink" title="哪种并发模型最好？"></a>哪种并发模型最好？</h2><p>那么，哪种并发模型更好呢？</p>
+<p>通常情况下，答案取决于系统要做什么。如果你的任务本来就是并行的、独立的并且不需要共享状态，那么你可以使用并行工作机模型来实现你的系统。</p>
+<p>然而，许多工作并不是自然而然并行和独立的。对于这些类型的系统，我相信流水线并发模型比并行工作机模型有更多的优点而不是缺点。</p>
+<p>你甚至不必自己编写所有的流水线基础代码。像Vert.x这样的新平台已经为你实现了很多这样的功能。对于我来说，我将试着在Vert.x这样的平台上设计下一个项目。我觉得Java EE已经没有优势了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/d3485ffd/" rel="prev" title="03、多线程的代价（程序设计，上下文切换，资源消耗）">
+      <i class="fa fa-chevron-left"></i> 03、多线程的代价（程序设计，上下文切换，资源消耗）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/94ad1280/" rel="next" title="05、类单线程（单线程扩展，无共享状态，负载分配，线程通信）">
+      05、类单线程（单线程扩展，无共享状态，负载分配，线程通信） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+      
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9B%B8%E4%BC%BC%E4%B9%8B%E5%A4%84"><span class="nav-number">1.</span> <span class="nav-text">并发模型和分布式系统的相似之处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E7%8A%B6%E6%80%81-VS-%E5%88%86%E7%A6%BB%E7%8A%B6%E6%80%81"><span class="nav-number">2.</span> <span class="nav-text">共享状态 VS 分离状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%B7%A5%E4%BD%9C%E6%9C%BA%E6%A8%A1%E5%9E%8B%EF%BC%88Parallel-Workers%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">并行工作机模型（Parallel Workers）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%B7%A5%E4%BD%9C%E6%9C%BA%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">并行工作机模型的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%B7%A5%E4%BD%9C%E6%9C%BA%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">并行工作机模型的缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E7%8A%B6%E6%80%81%E4%BC%9A%E5%8F%98%E5%BE%97%E6%9B%B4%E5%A4%8D%E6%9D%82"><span class="nav-number">5.0.1.</span> <span class="nav-text">共享状态会变得更复杂</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E7%8A%B6%E6%80%81%E5%B7%A5%E4%BD%9C%E6%9C%BA%EF%BC%88Stateless-Workers%EF%BC%89"><span class="nav-number">5.0.2.</span> <span class="nav-text">无状态工作机（Stateless Workers）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E6%AC%A1%E5%BA%8F%E6%98%AF%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%9A%84"><span class="nav-number">5.0.3.</span> <span class="nav-text">任务次序是不确定的</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%A8%A1%E5%9E%8B%EF%BC%88Assembly-Line%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">流水线模型（Assembly Line）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%BA%94-%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%B3%BB%E7%BB%9F%EF%BC%88Reactive-Event-Driven-Systems%EF%BC%89"><span class="nav-number">6.0.1.</span> <span class="nav-text">反应&#x2F;事件驱动系统（Reactive, Event Driven Systems）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E4%B8%8E%E8%80%85%E4%B8%8E%E9%80%9A%E9%81%93%EF%BC%88Actors-vs-Channels%EF%BC%89"><span class="nav-number">6.0.2.</span> <span class="nav-text">参与者与通道（Actors vs. Channels）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">7.</span> <span class="nav-text">流水线模型的优点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%85%B1%E4%BA%AB%E7%8A%B6%E6%80%81"><span class="nav-number">7.0.1.</span> <span class="nav-text">不共享状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E7%8A%B6%E6%80%81%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA"><span class="nav-number">7.0.2.</span> <span class="nav-text">有状态的工作机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E5%A5%BD%E7%9A%84%E7%A1%AC%E4%BB%B6%E6%95%B4%E5%90%88"><span class="nav-number">7.0.3.</span> <span class="nav-text">更好的硬件整合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E4%BB%BB%E5%8A%A1%E6%8E%92%E5%BA%8F"><span class="nav-number">7.0.4.</span> <span class="nav-text">可以进行任务排序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">8.</span> <span class="nav-text">流水线模型的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E5%B9%B6%E8%A1%8C%EF%BC%88Functional-Parallelism%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">函数式并行（Functional Parallelism）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%AA%E7%A7%8D%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E6%9C%80%E5%A5%BD%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">哪种并发模型最好？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Seven"
+      src="https://yjl-img.oss-cn-beijing.aliyuncs.com/%E4%B8%83%E4%BD%B3logo.png">
+  <p class="site-author-name" itemprop="name">Seven</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldmVuLWl0LXdvcmsv" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;seven-it-work&#x2F;"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnNldmVueWpsQGdtYWlsLmNvbQ==" title="E-Mail → mailto:sevenyjl@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vc2V2ZW55amw=" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;sevenyjl"><i class="fab fa-google fa-fw"></i>Google</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMTYwNzEyNDA1OQ==" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;1607124059"><i class="iconfont icon-bilibili fa-fw"></i>哔哩哔哩</span>
+      </span>
+  </div>
+
+
+
+      </div>
+      <!--   时间组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/timeClock.css"/>
+      <div id="timeClockCanvas">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div id="hour1"></div>
+        <div id="hour2"></div>
+        <div class="hourPoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="hourPoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="minute1"></div>
+        <div id="minute2"></div>
+        <div class="minutePoint1">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div class="minutePoint2">
+          <svg t="1695648337150" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4010" width="36" height="36"><path d="M512 624a112 112 0 1 0 0-224 112 112 0 0 0 0 224z" p-id="4011" fill="#2c2c2c"></path></svg>
+        </div>
+        <div id="second1"></div>
+        <div id="second2"></div>
+      </div>
+      <script src="/js/timeClock.js"></script>
+      <!--   时间组件   -->
+      <!--   链接card组件   -->
+      <link type="text/css" rel="stylesheet" href="/css/linkCard.css"/>
+      <div class="wrapper card-line" style="margin-top: 20px;">
+        <div class="card" >
+          <div class="card__year">
+            博<br />客
+          </div>
+          <div class="card__cometOuter">
+            <div class="card__comet"></div>
+            <div class="card__comet card__comet--second">
+            </div>
+          </div>
+          <div class="card__circle"></div>
+          <div class="card__smallCircle"></div>
+          <div class="card__thankyou">
+            thank<br />you!
+          </div>
+          <div class="card__outer-year">
+              <span>
+              <a target="_blank" rel="noopener" href="https://seven-navigation.netlify.app/">
+              个人导航
+              </a>
+              </span>
+              <span>
+              <a target="_blank" rel="noopener" href="http://love.sevenyjl.cn">
+              生活博客
+              </a>
+              </span>
+              <span></span>
+              <span></span>
+          </div>
+        </div>
+      </div>
+      <script src="/js/linkCard.js"></script>
+      <!--   链接card组件   -->
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </div>
+  </main>
+
+  <footer class="footer">
+  <!--  gitHub贡献 日历组件
+    <div id="github_container"></div>
+    <script src="/js/github-calendar/githubcalendar.js"></script>
+  gitHub贡献 日历组件 -->
+
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">蜀ICP备2024094227号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">15:55</span>
+</div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+    <!--   小人组件   -->
+    <div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+      <canvas style="width: 100%;height: 500px;" id="canvasPeopleMove"></canvas>
+      <script src="/js/peopleMove.js"></script>
+    </div>
+    <!--   小人组件   -->
+  </footer>
+</div>
+
+
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pjax">
+  
+
+  
+
+</div>
+</body>
+</html>
